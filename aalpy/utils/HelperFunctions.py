@@ -3,6 +3,10 @@ from collections import defaultdict
 
 from aalpy.automata import Mdp, StochasticMealyMachine, MdpState
 
+class Dict(defaultdict):
+    def __missing__(self, key):
+        return key
+
 
 def extend_set(list_to_extend: list, new_elements: list) -> list:
     """
