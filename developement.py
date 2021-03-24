@@ -17,8 +17,8 @@ eq_oracle = UnseenOutputRandomWalkEqOracle(alphabet, sul, num_steps=5000, reset_
 
 abstraction_mapping = Dict()
 
-abstraction_mapping['0'] = '0'
-abstraction_mapping['O'] = '0'
+abstraction_mapping[0] = 0
+abstraction_mapping['O'] = 0
 
 learned_model = run_abstracted_Lstar_ONFSM(alphabet, sul, eq_oracle=eq_oracle, abstraction_mapping = abstraction_mapping, n_sampling=25)
 

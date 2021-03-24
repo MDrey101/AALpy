@@ -46,7 +46,7 @@ class AbstractedNonDetObservationTable:
 
         """
 
-        self.observation_table.update_obs_table()
+        self.observation_table.update_obs_table(s_set,e_set)
         self.abstract_obs_table()
 
     def abstract_obs_table(self):
@@ -125,6 +125,7 @@ class AbstractedNonDetObservationTable:
         Returns:
             row that needs to be added to the extended S set
         """
+
         s_rows = set()
         for s in self.S:
             s_rows.add(tuple((s,self.row_to_hashable(s))))
@@ -152,12 +153,63 @@ class AbstractedNonDetObservationTable:
 
         return None
     
+    def get_row_to_make_consistent(self):
+        """
+
+        """
+        unified_S = self.S + self.S_dot_A
+        s_rows = set()
+        for s in self.S:
+            s_rows.add(tuple((s,self.row_to_hashable(s))))
+
+        for s_row in s_rows:
+            similar_s_dot_a_rows = []
+            for t in self.S_dot_A:
+                row_t = self.row_to_hashable(t)
+                if row_t == s_row[1]:
+                    similar_s_dot_a_rows.append(t)
+            similar_s_dot_a_rows.sort(key=lambda s: len(s[0]))
+            for a in self.A: # TODO: check if there is a mistake in the paper
+                outputs = self.observation_table.T[s_row[0]][a]
+                for o in outputs:
+                    extended_s_sequence = (s_row[0][0] + a, s_row[0][1] + tuple([o]))
+                    if extended_s_sequence in unified_S:
+                        extended_s_sequence_row = self.row_to_hashable(extended_s_sequence)
+                        for similar_s_dot_a_row in similar_s_dot_a_rows:
+                            extended_s_dot_a_sequence = (similar_s_dot_a_row[0] + a, similar_s_dot_a_row[1] + tuple([o]))
+                            if extended_s_dot_a_sequence in unified_S:
+                                extended_s_dot_a_sequence_row = self.row_to_hashable(extended_s_dot_a_sequence)
+                                if extended_s_sequence_row is not extended_s_dot_a_sequence_row:
+                                    return self.get_distinctive_input_sequence(extended_s_sequence_row, extended_s_dot_a_sequence_row, a)
+
+        return None
+
+
+    
+    def get_distinctive_input_sequence(self, first_row, second_row, input):
+        """
+
+        """
+        for e in self.E:
+            if self.T[first_row][e] is not self.T[second_row][e]:
+                return tuple([input]) + e
+
+        return None
+
+
+
     def complete_extended_S(self, row_prefix):
         """
         """
         extension = [row_prefix]
         self.observation_table.S_dot_A.extend(extension)
         return extension
+    
+    def update_E(self, seq):
+        """
+        """
+        if seq not in self.E:
+            self.E.append(seq)
     
     def row_to_hashable(self, row_prefix):
         """

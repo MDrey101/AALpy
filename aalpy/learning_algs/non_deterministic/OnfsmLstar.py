@@ -183,6 +183,14 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
     print("is complete")
 
+    e_column_for_consistency = abstracted_observation_table.get_row_to_make_consistent()
+    while e_column_for_consistency is not None:
+        print("is not consistent")
+        extended_col = abstracted_observation_table.update_E(e_column_for_consistency)
+        abstracted_observation_table.update_obs_table(e_set=extended_col)
+        row_to_complete = abstracted_observation_table.get_row_to_complete()
+
+    print("is consistent")
 
     print_observation_table(abstracted_observation_table.S, abstracted_observation_table.S_dot_A, abstracted_observation_table.E,abstracted_observation_table.T, False)
 
