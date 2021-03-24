@@ -25,8 +25,12 @@ class AbstractedNonDetObservationTable:
         self.S_dot_A = []
         self.E = []
         self.T = defaultdict(dict)
+        self.A = [tuple([a]) for a in alphabet]
 
         self.abstraction_mapping = abstraction_mapping
+
+        empty_word = tuple()
+        self.S.append((empty_word, empty_word))
 
     def update_obs_table(self, s_set=None, e_set: list = None):
         """
@@ -43,6 +47,7 @@ class AbstractedNonDetObservationTable:
         """
 
         self.observation_table.update_obs_table()
+        self.abstract_obs_table()
 
     def abstract_obs_table(self):
         """
@@ -56,15 +61,12 @@ class AbstractedNonDetObservationTable:
         update_S = self.S + self.S_dot_A
         update_E = self.E
 
-        #for s in update_S:
-            #for e in update_E:
-                #if e not in self.T[s].keys():
-                    #for _ in range(self.n_samples):
-                    #    output = tuple(self.sul.query(s[0] + e))
-                        # Here I basically say... add just the last element of the output if it e is element of alphabet
-                        # else add last len(e) outputs
-                    #    o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
-                    #    self.add_to_T((s[0], output[:len(s[1])]), e, o)
+        for s in update_S:
+            for e in update_E:
+                outputs = self.observation_table.T[s][e]
+                for o in outputs:
+                    abstract_output = self.abstraction_mapping[o]
+                    self.add_to_T(s,e,abstract_output)
     
     def add_to_T(self, s, e, value):
         """
@@ -81,3 +83,98 @@ class AbstractedNonDetObservationTable:
         if e not in self.T[s]:
             self.T[s][e] = set()
         self.T[s][e].add(value)
+
+    def update_extended_S(self, row):
+        """
+        Helper generator function that returns extended S, or S.A set.
+        For all values in the cell, create a new row where inputs is parent input plus element of alphabet, and
+        output is parent output plus value in cell.
+
+        Returns:
+
+            New rows of extended S set.
+        """
+        return self.observation_table.update_extended_S(row)
+    
+    def get_row_to_close(self):
+        """
+        Get row for that need to be closed.
+
+        Returns:
+
+            row that will be moved to S set and closed
+        """
+        s_rows = set()
+        for s in self.S:
+            s_rows.add(self.row_to_hashable(s))
+
+        for t in self.S_dot_A:
+            row_t = self.row_to_hashable(t)
+
+            if row_t not in s_rows:
+                self.S.append(t)
+                self.S_dot_A.remove(t)
+                return t
+
+        return None
+    
+    def get_row_to_complete(self):
+        """
+        Get row for that need to be completed.
+
+        Returns:
+            row that needs to be added to the extended S set
+        """
+        s_rows = set()
+        for s in self.S:
+            s_rows.add(tuple((s,self.row_to_hashable(s))))
+
+        for s_row in s_rows:
+            similar_s_dot_a_rows = []
+            for t in self.S_dot_A:
+                row_t = self.row_to_hashable(t)
+                if row_t == s_row[1]:
+                    similar_s_dot_a_rows.append(t)
+            similar_s_dot_a_rows.sort(key=lambda s: len(s[0]))
+            for a in self.A: # TODO: check if there is a mistake in the paper
+                complete_outputs = self.observation_table.T[s_row[0]][a]
+                for similar_s_dot_a_row in similar_s_dot_a_rows:
+                    t_row_outputs = self.observation_table.T[similar_s_dot_a_row][a]
+                    output_difference = t_row_outputs.difference(complete_outputs)
+                    if len(output_difference) > 0:
+                        extension = None
+                        for o in output_difference:
+                            extension = (similar_s_dot_a_row[0] + a, similar_s_dot_a_row[1] + tuple([o]))
+                            if extension not in self.S and extension not in self.S_dot_A:
+                                return extension
+                            else: 
+                                complete_outputs = complete_outputs.union(output_difference)
+
+        return None
+    
+    def complete_extended_S(self, row_prefix):
+        """
+        """
+        extension = [row_prefix]
+        self.observation_table.S_dot_A.extend(extension)
+        return extension
+    
+    def row_to_hashable(self, row_prefix):
+        """
+        Creates the hashable representation of the row. Frozenset is used as the order of element in each cell does not
+        matter
+
+        Args:
+
+            row_prefix: prefix of the row in the observation table
+
+        Returns:
+
+            hashable representation of the row
+
+        """
+        row_repr = tuple()
+        for e in self.E:
+            #if e in self.T[row_prefix].keys():
+            row_repr += (frozenset(self.T[row_prefix][e]),)
+        return row_repr

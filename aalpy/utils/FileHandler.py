@@ -179,8 +179,8 @@ def load_automaton_from_file(path, automaton_type=None, compute_prefixes=False):
         elif automaton_type == 'onfsm':
             inp = label.split('/')[0]
             out = label.split('/')[1]
-            inp = int(inp) if inp.isdigit() else inp
-            out = int(out) if out.isdigit() else out
+            # inp = int(inp) if inp.isdigit() else inp
+            # out = int(out) if out.isdigit() else out
             source.transitions[inp].append((out, destination))
         elif automaton_type == 'smm':
             inp = label.split('/')[0]
