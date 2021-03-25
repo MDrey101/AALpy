@@ -1,8 +1,10 @@
 from collections import defaultdict
 
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
-from aalpy.base import SUL
+from aalpy.base import Automaton, SUL
 from aalpy.utils.HelperFunctions import Dict
+from aalpy.automata import Onfsm, OnfsmState
+
 
 class AbstractedNonDetObservationTable:
     def __init__(self,alphabet: list, sul: SUL, abstraction_mapping: Dict, n_sampling=100):
@@ -230,3 +232,48 @@ class AbstractedNonDetObservationTable:
             #if e in self.T[row_prefix].keys():
             row_repr += (frozenset(self.T[row_prefix][e]),)
         return row_repr
+    
+    def gen_hypothesis(self) -> Automaton:
+        """
+        Generate automaton based on the values found in the observation table.
+
+        Returns:
+
+            Current hypothesis
+
+        """
+        state_distinguish = dict()
+        states_dict = dict()
+        initial = None
+
+        unified_S = self.S + self.S_dot_A
+
+        stateCounter = 0
+        for prefix in self.S:
+            state_id = f's{stateCounter}'
+            states_dict[prefix] = OnfsmState(state_id)
+
+            states_dict[prefix].prefix = prefix
+            state_distinguish[self.row_to_hashable(prefix)] = states_dict[prefix]
+
+            if prefix == self.S[0]:
+                initial = states_dict[prefix]
+            stateCounter += 1
+
+        for prefix in self.S:
+            similar_rows = []
+            for row in unified_S:
+                if self.row_to_hashable(row) == self.row_to_hashable(prefix):
+                    similar_rows.append(row)
+            for row in similar_rows:
+                for a in self.A:
+                    for t in self.observation_table.T[row][a]:
+                        if (row[0] + a, row[1] + tuple([t])) in unified_S:
+                            state_in_S = state_distinguish[self.row_to_hashable((row[0] + a, row[1] + tuple([t])))]
+                            states_dict[prefix].transitions[a[0]].append((t, state_in_S))
+
+        assert initial
+        automaton = Onfsm(initial, [s for s in states_dict.values()])
+        automaton.characterization_set = self.E
+
+        return automaton

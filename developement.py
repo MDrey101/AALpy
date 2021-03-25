@@ -22,4 +22,4 @@ abstraction_mapping['O'] = 0
 
 learned_model = run_abstracted_Lstar_ONFSM(alphabet, sul, eq_oracle=eq_oracle, abstraction_mapping = abstraction_mapping, n_sampling=25)
 
-#visualize_automaton(learned_model,path="onfsm_2",file_type='dot')
+visualize_automaton(learned_model,path="onfsm_0",file_type='dot')

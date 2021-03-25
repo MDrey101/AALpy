@@ -196,4 +196,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
     print_observation_table(abstracted_observation_table.observation_table.S, abstracted_observation_table.observation_table.S_dot_A, abstracted_observation_table.observation_table.E,abstracted_observation_table.observation_table.T, False)
 
+    hypothesis = abstracted_observation_table.gen_hypothesis()
+    return hypothesis
+
     
