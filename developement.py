@@ -8,7 +8,7 @@ from aalpy.utils import load_automaton_from_file, visualize_automaton, Dict
 
 seed(3)
 
-onfsm_example = load_automaton_from_file('DotModels/onfsm_2.dot', automaton_type='onfsm')
+onfsm_example = load_automaton_from_file('DotModels/onfsm_3.dot', automaton_type='onfsm')
 
 alphabet = onfsm_example.get_input_alphabet()
 
@@ -20,6 +20,8 @@ abstraction_mapping = Dict()
 abstraction_mapping[0] = 0
 abstraction_mapping['O'] = 0
 
+#learned_model = run_Lstar_ONFSM(alphabet, sul, eq_oracle=eq_oracle, n_sampling=25)
+
 learned_model = run_abstracted_Lstar_ONFSM(alphabet, sul, eq_oracle=eq_oracle, abstraction_mapping = abstraction_mapping, n_sampling=25)
 
-visualize_automaton(learned_model,path="onfsm_2",file_type='dot')
+visualize_automaton(learned_model,path="abstracted_onfsm_3",file_type='dot')

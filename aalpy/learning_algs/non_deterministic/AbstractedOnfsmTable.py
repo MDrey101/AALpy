@@ -197,7 +197,7 @@ class AbstractedNonDetObservationTable:
 
         """
         for e in self.E:
-            if self.T[first_row][e] is not self.T[second_row][e]:
+            if len(self.T[first_row][e].difference(self.T[second_row][e])) > 0:
                 return tuple([input]) + e
 
         return None
