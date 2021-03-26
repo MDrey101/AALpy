@@ -66,10 +66,13 @@ class AbstractedNonDetObservationTable:
 
         for s in update_S:
             for e in update_E:
-                outputs = self.observation_table.T[s][e]
-                for o in outputs:
-                    abstract_output = self.abstraction_mapping[o]
-                    self.add_to_T(s,e,abstract_output)
+                observed_outputs = self.observation_table.T[s][e]
+                for o_tup in observed_outputs:
+                    if(len(e) == 1):
+                        o_tup = tuple([o_tup])
+                    for o in o_tup:
+                        abstract_output = self.abstraction_mapping[o]
+                        self.add_to_T(s,e,abstract_output)
     
     def add_to_T(self, s, e, value):
         """
@@ -183,7 +186,7 @@ class AbstractedNonDetObservationTable:
                             if extended_s_dot_a_sequence in unified_S:
                                 extended_s_dot_a_sequence_row = self.row_to_hashable(extended_s_dot_a_sequence)
                                 if extended_s_sequence_row is not extended_s_dot_a_sequence_row:
-                                    return self.get_distinctive_input_sequence(extended_s_sequence_row, extended_s_dot_a_sequence_row, a)
+                                    return self.get_distinctive_input_sequence(extended_s_sequence, extended_s_dot_a_sequence, a)
 
         return None
 
