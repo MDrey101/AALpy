@@ -274,7 +274,9 @@ class AbstractedNonDetObservationTable:
                     for t in self.observation_table.T[row][a]:
                         if (row[0] + a, row[1] + tuple([t])) in unified_S:
                             state_in_S = state_distinguish[self.row_to_hashable((row[0] + a, row[1] + tuple([t])))]
-                            states_dict[prefix].transitions[a[0]].append((t, state_in_S))
+
+                            if (t, state_in_S) not in states_dict[prefix].transitions[a[0]]:
+                                states_dict[prefix].transitions[a[0]].append((t, state_in_S))
 
         assert initial
         automaton = Onfsm(initial, [s for s in states_dict.values()])
