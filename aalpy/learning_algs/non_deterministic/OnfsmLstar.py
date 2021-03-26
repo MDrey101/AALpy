@@ -192,11 +192,33 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
     print("is consistent")
 
+    hypothesis = abstracted_observation_table.gen_hypothesis()
+
+    if print_level == 3:
+            print_observation_table(abstracted_observation_table.observation_table.S, abstracted_observation_table.observation_table.S_dot_A, abstracted_observation_table.observation_table.E,
+                                    abstracted_observation_table.observation_table.T, False)
+            
+            print_observation_table(abstracted_observation_table.S, abstracted_observation_table.S_dot_A, abstracted_observation_table.E,abstracted_observation_table.T, False)
+
+    if print_level > 1:
+        print(f'Hypothesis {learning_rounds} has {len(hypothesis.states)} states.')
+
+    # Find counterexample
+    eq_query_start = time.time()
+    cex = eq_oracle.find_cex(hypothesis)
+    eq_query_time += time.time() - eq_query_start
+    
+    print(cex)
+
+    # Process counterexample -> add cex to S_dot_A or E
+    abstracted_observation_table.cex_processing(cex, hypothesis)
+
+    print_observation_table(abstracted_observation_table.observation_table.S, abstracted_observation_table.observation_table.S_dot_A, abstracted_observation_table.observation_table.E,
+                                    abstracted_observation_table.observation_table.T, False)
+            
     print_observation_table(abstracted_observation_table.S, abstracted_observation_table.S_dot_A, abstracted_observation_table.E,abstracted_observation_table.T, False)
 
-    print_observation_table(abstracted_observation_table.observation_table.S, abstracted_observation_table.observation_table.S_dot_A, abstracted_observation_table.observation_table.E,abstracted_observation_table.observation_table.T, False)
 
-    hypothesis = abstracted_observation_table.gen_hypothesis()
     return hypothesis
 
     

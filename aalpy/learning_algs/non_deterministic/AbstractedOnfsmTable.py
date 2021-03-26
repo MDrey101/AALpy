@@ -1,8 +1,9 @@
+from abc import abstractclassmethod
 from collections import defaultdict
 
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
 from aalpy.base import Automaton, SUL
-from aalpy.utils.HelperFunctions import Dict
+from aalpy.utils.HelperFunctions import Dict, extend_set
 from aalpy.automata import Onfsm, OnfsmState
 
 
@@ -277,3 +278,44 @@ class AbstractedNonDetObservationTable:
         automaton.characterization_set = self.E
 
         return automaton
+    
+    def extend_S_dot_A(self, cex_prefixes: list):
+        prefixes = self.S + self.S_dot_A
+        prefixes_to_extend = []
+        for cex_prefix in cex_prefixes:
+            if cex_prefix not in prefixes:
+                prefixes_to_extend.append(cex_prefix)
+        return prefixes_to_extend
+    
+    def cex_processing(self, cex: tuple, hypothesis: Onfsm):
+        """
+        
+        """
+
+        cex_len = len(cex[0])
+        hypothesis.reset_to_initial()
+
+        for step in range(0,cex_len-1):
+            hypothesis.step_to(cex[0][step],cex[1][step])
+
+        possible_outputs = hypothesis.outputs_on_input(cex[0][cex_len-1])
+
+        equivalent_output = False
+        
+        for out in possible_outputs:
+            if (self.abstraction_mapping[cex[1][cex_len-1]] == self.abstraction_mapping[out]):
+                equivalent_output = True
+                break
+
+        if equivalent_output:
+            # add prefixes of cex to S_dot_A
+            cex_prefixes = [(tuple(cex[0][0:i+1]),tuple(cex[1][0:i+1])) for i in range(0,len(cex[0]))]
+            prefixes_to_extend = self.extend_S_dot_A(cex_prefixes)
+            self.observation_table.S_dot_A.extend(prefixes_to_extend)
+            self.update_obs_table(s_set=prefixes_to_extend)
+        else: 
+            # add distinguishing suffixes of cex to E
+            cex_suffixes = self.observation_table.cex_processing(cex)
+            added_suffixes = extend_set(self.observation_table.E, cex_suffixes)
+            self.update_obs_table(e_set=added_suffixes)
+
