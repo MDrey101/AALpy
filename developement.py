@@ -2,11 +2,11 @@ from random import seed
 from typing import Dict
 
 from aalpy.SULs import OnfsmSUL
-from aalpy.learning_algs import run_Lstar_ONFSM, run_abstracted_Lstar_ONFSM
+from aalpy.learning_algs import run_abstracted_Lstar_ONFSM
 from aalpy.oracles import UnseenOutputRandomWalkEqOracle
 from aalpy.utils import load_automaton_from_file, visualize_automaton, Dict
 
-seed(5)
+seed(1)
 
 onfsm_example = load_automaton_from_file('DotModels/onfsm_3.dot', automaton_type='onfsm')
 
