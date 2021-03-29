@@ -68,11 +68,13 @@ class AbstractedNonDetObservationTable:
             for e in update_E:
                 observed_outputs = self.observation_table.T[s][e]
                 for o_tup in observed_outputs:
+                    abstracted_outputs = []
                     if(len(e) == 1):
                         o_tup = tuple([o_tup])
                     for o in o_tup:
                         abstract_output = self.abstraction_mapping[o]
-                        self.add_to_T(s,e,abstract_output)
+                        abstracted_outputs.append(abstract_output)
+                    self.add_to_T(s,e,tuple(abstracted_outputs))
     
     def add_to_T(self, s, e, value):
         """
