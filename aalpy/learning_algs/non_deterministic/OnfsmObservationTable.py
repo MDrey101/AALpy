@@ -2,7 +2,7 @@ from collections import defaultdict
 
 from aalpy.automata import Onfsm, OnfsmState
 from aalpy.base import Automaton, SUL
-from aalpy.utils.HelperFunctions import _all_suffixes
+from aalpy.utils.HelperFunctions import all_suffixes
 
 
 class NonDetObservationTable:
@@ -94,12 +94,15 @@ class NonDetObservationTable:
         for s in update_S:
             for e in update_E:
                 if e not in self.T[s].keys():
-                    for _ in range(self.n_samples):
+                    num_s_e_sampled = 0
+                    while num_s_e_sampled < self.n_samples:
                         output = tuple(self.sul.query(s[0] + e))
                         # Here I basically say... add just the last element of the output if it e is element of alphabet
                         # else add last len(e) outputs
                         o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
                         self.add_to_T((s[0], output[:len(s[1])]), e, o)
+                        if output[:len(s[1])] == s[1]:
+                            num_s_e_sampled += 1
 
     def gen_hypothesis(self) -> Automaton:
         """
@@ -202,8 +205,8 @@ class NonDetObservationTable:
                 break
 
         if trimmed_suffix:
-            suffixes = _all_suffixes(trimmed_suffix)
+            suffixes = all_suffixes(trimmed_suffix)
         else:
-            suffixes = _all_suffixes(cex)
+            suffixes = all_suffixes(cex)
         suffixes.reverse()
         return suffixes

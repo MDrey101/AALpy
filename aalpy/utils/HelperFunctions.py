@@ -21,7 +21,7 @@ def extend_set(list_to_extend: list, new_elements: list) -> list:
     return added_elements
 
 
-def _all_prefixes(li):
+def all_prefixes(li):
     """
     Returns all prefixes of a list.
 
@@ -35,7 +35,7 @@ def _all_prefixes(li):
     return [tuple(li[:i + 1]) for i in range(len(li))]
 
 
-def _all_suffixes(li):
+def all_suffixes(li):
     """
     Returns all suffixes of a list.
 

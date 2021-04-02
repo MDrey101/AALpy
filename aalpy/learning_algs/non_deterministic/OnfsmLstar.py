@@ -8,11 +8,15 @@ from aalpy.utils.HelperFunctions import extend_set, print_learning_info, print_o
 print_options = [0, 1, 2, 3]
 
 
-def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
+def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50,
                     max_learning_rounds=None, return_data=False, print_level=2):
     """
     Based on ''Learning Finite State Models of Observable Nondeterministic Systems in a Testing Context '' from Fakih
     et al. Relies on the all-weather assumption. (By sampling we will obtain all possible non-deterministic outputs.
+    Learning ONFSM relies on all-weather assumption. If this assumption is not satisfied by sampling,
+    learning might not converge to the minimal model and runtime could increase substantially.
+    Note that this is the inherent flaw of the all-weather assumption. (All outputs will be seen)
+    AALpy v.2.0 will try to solve that problem with a novel approach.
 
     Args:
 
@@ -22,8 +26,8 @@ def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
 
         eq_oracle: equivalence oracle
 
-        n_sampling: number of times that membership/input queries will be asked for each cell in the observation
-            (Default value = 100)
+        n_sampling: number of times that each cell has to be updated. If this number is to low, all-weather condition
+            will not hold and learning will not converge to the correct model. (Default value = 50)
 
         max_learning_rounds: if max_learning_rounds is reached, learning will stop (Default value = None)
 
@@ -37,6 +41,10 @@ def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
         learned ONFSM
 
     """
+    # Print warning
+    print('Running algorithm with all-weather assumption.\n'
+          'Check run_Lstar_ONFSM for more details of possible non-convergence if the.')
+
     start_time = time.time()
     eq_query_time = 0
     learning_rounds = 0
@@ -71,12 +79,12 @@ def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
         # Generate hypothesis
         hypothesis = observation_table.gen_hypothesis()
 
+        if print_level > 1:
+            print(f'Hypothesis {learning_rounds} has {len(hypothesis.states)} states.')
+
         if print_level == 3:
             print_observation_table(observation_table.S, observation_table.S_dot_A, observation_table.E,
                                     observation_table.T, False)
-
-        if print_level > 1:
-            print(f'Hypothesis {learning_rounds} has {len(hypothesis.states)} states.')
 
         # Find counterexample
         eq_query_start = time.time()
@@ -86,6 +94,10 @@ def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
         # If no counterexample is found, return the hypothesis
         if cex is None:
             break
+
+        if print_level == 3:
+            print('Counterexample', cex)
+
         # Process counterexample -> Extract suffix to be added to E set
         cex_suffixes = observation_table.cex_processing(cex)
         # Add all suffixes to the E set and ask membership/input queries.
@@ -115,6 +127,3 @@ def run_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=100,
         return hypothesis, info
 
     return hypothesis
-
-
-    
