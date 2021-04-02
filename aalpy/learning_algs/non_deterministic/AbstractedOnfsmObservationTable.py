@@ -295,6 +295,17 @@ class AbstractedNonDetObservationTable:
         return prefixes_to_extend
 
     def get_abstraction(self, out):
+        """
+        Get an abstraction for a concrete output. If such abstraction is not defined, return output.
+
+        Args:
+
+            out: output to be abstracted if possible
+
+        Returns:
+
+            abstracted output or output itself
+        """
         return self.abstraction_mapping[out] if out in self.abstraction_mapping.keys() else out
 
     def cex_processing(self, cex: tuple, hypothesis: Onfsm):
