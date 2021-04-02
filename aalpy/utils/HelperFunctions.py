@@ -3,10 +3,6 @@ from collections import defaultdict
 
 from aalpy.automata import Mdp, StochasticMealyMachine, MdpState
 
-class Dict(defaultdict):
-    def __missing__(self, key):
-        return key
-
 
 def extend_set(list_to_extend: list, new_elements: list) -> list:
     """
@@ -83,6 +79,7 @@ def random_string_generator(size=10, chars=string.ascii_lowercase + string.digit
     """
     import random
     return ''.join(random.choice(chars) for _ in range(size))
+
 
 def smm_to_mdp_conversion(smm: StochasticMealyMachine):
     """
@@ -192,13 +189,13 @@ def print_observation_table(s_set, extended_s, e_set, table, det_table=True):
 
     row_len = 0
     for row in table:
-        row = "|".join(element.ljust(columns[ind] + 1) for ind,element in enumerate(row))
+        row = "|".join(element.ljust(columns[ind] + 1) for ind, element in enumerate(row))
         print("-" * len(row))
         row_len = len(row)
         print(row)
     print('=' * row_len)
     for row in extended_rows:
-        row = "|".join(element.ljust(columns[ind] + 1) for ind,element in enumerate(row))
+        row = "|".join(element.ljust(columns[ind] + 1) for ind, element in enumerate(row))
         print("-" * len(row))
         print(row)
     print('-' * row_len)

@@ -3,7 +3,7 @@ import time
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
-from aalpy.utils.HelperFunctions import extend_set, print_learning_info, print_observation_table, Dict
+from aalpy.utils.HelperFunctions import extend_set, print_learning_info, print_observation_table
 
 print_options = [0, 1, 2, 3]
 
