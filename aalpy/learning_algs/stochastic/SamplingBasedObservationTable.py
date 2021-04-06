@@ -66,6 +66,7 @@ class SamplingBasedObservationTable:
         else:
             pta_root = Node(None)
 
+        dynamic = 0
         if self.strategy == 'normal':
             to_refine = []
             for s in self.S + list(self.get_extended_s()):
@@ -97,9 +98,11 @@ class SamplingBasedObservationTable:
                                 row_repr += 1
                         # row_repr can be zero for non-closed
                         uncertainty_value = max((row_repr - 1) * 2, 1)
+                        dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        for i in range(n_resample):
+        print(dynamic // 2)
+        for i in range(dynamic // 2):
             self.teacher.refine_query(pta_root)
         return True
 
@@ -577,3 +580,5 @@ class SamplingBasedObservationTable:
             return Mdp(r_state_map[self.get_representative(self.initial_output)], list(r_state_map.values()))
         else:
             return StochasticMealyMachine(r_state_map[tuple()], list(r_state_map.values()))
+
+

@@ -1,11 +1,13 @@
 import time
 
 from aalpy.base import SUL, Oracle
-from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, ChisquareChecker
+from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, \
+    ChisquareChecker
 from aalpy.learning_algs.stochastic.SamplingBasedObservationTable import SamplingBasedObservationTable
 from aalpy.learning_algs.stochastic.StochasticCexProcessing import stochastic_longest_prefix, stochastic_rs
 from aalpy.learning_algs.stochastic.StochasticTeacher import StochasticTeacher
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, get_cex_prefixes
+from aalpy.utils.ModelChecking import stop_based_on_confidence
 
 strategies = ['normal', 'no_cq', 'chi_square']
 cex_sampling_options = [None, 'bfs']
@@ -13,9 +15,10 @@ cex_processing_options = [None, 'longest_prefix', 'rs']
 print_options = [0, 1, 2, 3]
 
 
-def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_resample=100, min_rounds=10,
-                         max_rounds=200, automaton_type='mdp', strategy='normal', cex_processing=None,
-                         samples_cex_strategy=None, return_data=False, print_level=2):
+def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_resample=100, target_unambiguity=0.99,
+                         min_rounds=10, max_rounds=200, automaton_type='mdp', strategy='normal', cex_processing=None,
+                         samples_cex_strategy=None, return_data=False, error_bound=0.02,
+                         property_stop_exp_name=None, print_level=2):
     """
     Learning of Markov Decision Processes based on 'L*-Based Learning of Markov Decision Processes' by Tappler et al.
 
@@ -31,6 +34,8 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
 
         n_resample: resampling size (Default value = 100)
 
+        target_unambiguity: target unambiguity value (default 0.99)
+
         min_rounds: minimum number of learning rounds (Default value = 10)
 
         max_rounds: if learning_rounds >= max_rounds, learning will stop (Default value = 200)
@@ -43,6 +48,10 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
 
         samples_cex_strategy: strategy for finding counterexamples in the trace tree. None, 'bfs' or
             "random:<#traces to check:int>:<stop probability for single trace in [0,1)>" eg. random:200:0.2
+
+        error_bound: allowed error for each property
+
+        property_stop_exp_name: properties to reach withing error bound for early stopping
 
         return_data: if True, map containing all information like number of queries... will be returned
             (Default value = False)
@@ -138,8 +147,13 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
 
+        if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 10 == 0 \
+                and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+            break
+
         if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
-                                  max_rounds=max_rounds, print_unambiguity=print_level > 1):
+                                  max_rounds=max_rounds, print_unambiguity=print_level > 1,
+                                  target_unambiguity=target_unambiguity):
             break
 
         if not refined:
