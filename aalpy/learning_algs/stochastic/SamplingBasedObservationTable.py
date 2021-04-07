@@ -1,4 +1,5 @@
 from collections import defaultdict
+from statistics import mean
 
 from aalpy.automata import Mdp, MdpState, StochasticMealyState, StochasticMealyMachine
 from .DifferenceChecker import DifferenceChecker
@@ -47,6 +48,8 @@ class SamplingBasedObservationTable:
         self.compatibility_classes_representatives = None
         self.compatibility_class = dict()
         self.freq_query_cache = dict()
+
+        self.unambiguity_values = []
 
     def refine_not_completed_cells(self, n_resample, uniform=False):
         """
@@ -97,12 +100,11 @@ class SamplingBasedObservationTable:
                             if self.are_rows_compatible(longest_row_trace_prefix, r):
                                 row_repr += 1
                         # row_repr can be zero for non-closed
-                        uncertainty_value = max((int(row_repr - 1 * 1.5)), 1)
+                        uncertainty_value = max((int(row_repr - 1 * 2)), 1)
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        print(dynamic)
-        for i in range(dynamic):
+        for i in range(max(dynamic // 2, 200)):
             self.teacher.refine_query(pta_root)
         return True
 
@@ -327,7 +329,7 @@ class SamplingBasedObservationTable:
 
         self.trim_columns()
 
-    def stop(self, learning_round, chaos_present, min_rounds=5, max_rounds=None,
+    def stop(self, learning_round, chaos_present, min_rounds=10, max_rounds=None,
              target_unambiguity=0.99, print_unambiguity=False):
         """
         Decide if learning should terminate.
@@ -364,11 +366,37 @@ class SamplingBasedObservationTable:
             numerator += 1 if row_repr == 1 else 0
 
         unambiguous_rows_percentage = numerator / len(self.S + extended_s)
+
+        self.unambiguity_values.append(unambiguous_rows_percentage)
+        if learning_round >= min_rounds and len(self.unambiguity_values) >= 10:
+            last_n_unamb = self.unambiguity_values[-10:]
+
+            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.001):
+                print(last_n_unamb)
+                print("FLATARINOOOOOOO")
+                return True
+
         if print_unambiguity and learning_round % 5 == 0:
             print(f'Unambiguous rows: {round(unambiguous_rows_percentage * 100, 2)}%;'
                   f' {numerator} out of {len(self.S + extended_s)}')
         if learning_round >= min_rounds and unambiguous_rows_percentage >= target_unambiguity:
             return True
+
+        return False
+
+    def get_unamb_percentage(self):
+        extended_s = list(self.get_extended_s())
+        self.update_compatibility_classes()
+        numerator = 0
+        for row in self.S + extended_s:
+            row_repr = 0
+            for r in self.compatibility_classes_representatives:
+                if self.are_rows_compatible(row, r):
+                    row_repr += 1
+            numerator += 1 if row_repr == 1 else 0
+
+        unambiguous_rows_percentage = numerator / len(self.S + extended_s)
+        return round(unambiguous_rows_percentage * 100, 2)
 
     def cell_diff(self, s1, s2, e):
         """
@@ -580,5 +608,3 @@ class SamplingBasedObservationTable:
             return Mdp(r_state_map[self.get_representative(self.initial_output)], list(r_state_map.values()))
         else:
             return StochasticMealyMachine(r_state_map[tuple()], list(r_state_map.values()))
-
-

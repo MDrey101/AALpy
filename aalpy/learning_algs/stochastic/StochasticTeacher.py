@@ -1,5 +1,5 @@
 from collections import defaultdict
-from random import choice, random
+from random import choice, choices, random
 
 from aalpy.base import SUL
 from aalpy.learning_algs.stochastic.DifferenceChecker import DifferenceChecker
@@ -225,13 +225,12 @@ class StochasticTeacher:
         """
         self.sul.pre()
         curr_node = pta_root
-        if self.automaton_type == 'mdp':
-            out = [pta_root.output]
-        else:
-            out = []
-        executed_inputs = []
+
+        inputs = []
+        outputs = []
 
         while True:
+
             if curr_node.children:
                 frequency_sum = sum(curr_node.input_frequencies.values())
                 if frequency_sum == 0:
@@ -248,18 +247,21 @@ class StochasticTeacher:
                             break
                     # curr_node.input_frequencies[inp] -= 1
 
-                executed_inputs.append(inp)
-                out.append(self.sul.step(inp))
-                new_node = curr_node.get_child(inp, out[-1])
-                if frequency_sum != 0:
-                    curr_node.input_frequencies[inp] -= 1
+                inputs.append(inp)
+                out = self.sul.step(inp)
+                new_node = curr_node.get_child(inp, out)
 
                 if new_node:
+                    outputs.append(out)
                     curr_node = new_node
                 else:
                     self.sul.post()
                     return
             else:
+                curr_node = pta_root
+                for i,o in zip(inputs, outputs):
+                    self.curr_node.input_frequencies[i] -= 1
+                    curr_node = curr_node.get_child(i,o)
                 self.sul.post()
                 return
 

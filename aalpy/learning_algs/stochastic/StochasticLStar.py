@@ -1,4 +1,5 @@
 import time
+from statistics import mean
 
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, \
@@ -7,7 +8,7 @@ from aalpy.learning_algs.stochastic.SamplingBasedObservationTable import Samplin
 from aalpy.learning_algs.stochastic.StochasticCexProcessing import stochastic_longest_prefix, stochastic_rs
 from aalpy.learning_algs.stochastic.StochasticTeacher import StochasticTeacher
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, get_cex_prefixes
-from aalpy.utils.ModelChecking import stop_based_on_confidence
+from aalpy.utils.ModelChecking import stop_based_on_confidence, get_error
 
 strategies = ['normal', 'no_cq', 'chi_square']
 cex_sampling_options = [None, 'bfs']
@@ -90,6 +91,10 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
     observation_table.refine_not_completed_cells(n_resample, uniform=True)
     observation_table.update_obs_table_with_freq_obs()
 
+    max_err = []
+    avr_err = []
+    unamb = []
+
     learning_rounds = 0
     while True:
         learning_rounds += 1
@@ -147,11 +152,21 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
 
-        if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 5 == 0 \
-                and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
-            if chaos_cex_present:
-                continue
-            break
+        # error = get_error(hypothesis, property_stop_exp_name)
+        # if error:
+        #     max_err.append(max(error))
+        #     avr_err.append(mean(error))
+        # else:
+        #     max_err.append(100)
+        #     avr_err.append(100)
+        # unamb.append(observation_table.get_unamb_percentage())
+
+        # if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 5 == 0 \
+        #         and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+        #     if chaos_cex_present:
+        #         continue
+        #     continue
+            #break
 
         if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
                                   max_rounds=max_rounds, print_unambiguity=print_level > 1,
@@ -179,6 +194,17 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         'eq_oracle_time': eq_query_time,
         'total_time': total_time
     }
+
+    # import matplotlib.pyplot as plt
+    #
+    # r = list(range(len(max_err)))
+    # plt.plot(r, max_err, label = 'max_error_%')
+    # plt.plot(r, avr_err, label = 'avr_error_%')
+    # plt.plot(r, unamb, label='unamb_%')
+    #
+    # plt.title(property_stop_exp_name)
+    # plt.legend()
+    # plt.show()
 
     if print_level > 0:
         print_learning_info(info)

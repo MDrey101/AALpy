@@ -1,6 +1,7 @@
 import os
 import re
 from collections import defaultdict
+from random import choice, random, randint
 
 from aalpy.automata import Mdp
 
@@ -19,6 +20,7 @@ correct_model_properties = {
              'prob5': 0.7290000000000001},
     'tcp': {'prob1': 0.19, 'prob2': 0.5695327900000001, 'prob3': 0.7712320754503901, 'prob4': 0.8784233454094308}
 }
+
 
 def _target_string(target, orig_id_to_int_id):
     target_state = target[0]
@@ -93,10 +95,6 @@ def mdp_2_prism_format(mdp: Mdp, name: str, output_path=None):
     return module_string
 
 
-def count_properties(properties_content):
-    return len(list(filter(lambda line: len(line.strip()) > 0, properties_content)))
-
-
 def properties_string(properties_sorted, property_data, property_data_original):
     property_string = ""
     for p in properties_sorted:
@@ -155,19 +153,6 @@ def evaluate_all_properties(prism_executable, prism_file_name, properties_file_n
     return results
 
 
-def eval_properties(prism_executable, prism_file_name, properties_file_name):
-    data = dict()
-    with open(properties_file_name, 'r') as properties_file:
-        properties_content = properties_file.readlines()
-        nr_properties = count_properties(properties_content)
-        for property_index in range(1, nr_properties + 1):
-            probability = eval_property(prism_executable, prism_file_name, properties_file_name,
-                                        property_index)
-            data[f"prob{property_index}"] = probability
-
-    return data
-
-
 def model_check_with_prism(path_to_prism: str, model: Mdp, exp_name, properties: str):
     from os import remove
     from aalpy.utils import mdp_2_prism_format
@@ -218,7 +203,7 @@ def stop_based_on_confidence(error_limit, hypothesis, exp_name):
 
     res, diff = model_check_experiment(path_to_prism, exp_name, model)
 
-    print('Error for each property:', [d * 100 for d in diff.values()])
+    print('Error for each property:', [round(d * 100, 2) for d in diff.values()])
     if not diff:
         return False
     for d in diff.values():
@@ -226,3 +211,43 @@ def stop_based_on_confidence(error_limit, hypothesis, exp_name):
             return False
 
     return True
+
+
+def get_error(hypothesis, exp_name):
+    from aalpy.automata import StochasticMealyMachine
+
+    path_to_prism = "C:/Program Files/prism-4.6/bin/prism.bat"
+
+    from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
+
+    model = hypothesis
+    if isinstance(hypothesis, StochasticMealyMachine):
+        model = smm_to_mdp_conversion(hypothesis)
+
+    res, diff = model_check_experiment(path_to_prism, exp_name, model)
+
+    return [round(d * 100, 2) for d in diff.values()]
+
+
+def generate_random_properties(hypothesis: Mdp, n_properties):
+    property_string = ""
+
+    outputs = list({node_prob[0].output for s in hypothesis.states for out in s.transitions.values() for node_prob in out})
+
+    for _ in range(n_properties):
+        output = choice(outputs)
+        output = output.replace('__', '" & "')
+        rand = random()
+        r = randint(2, 10)
+        if rand <= 0.1:
+            prop = f'Pmax=? [ F ("{output}") ]\n\n'
+        elif 0.1 < rand <0.35:
+            prop = f'Pmax=? [ F<{r} !("{output}") ]\n\n'
+        else:
+            prop = f'Pmax=? [ F<{r} ("{output}") ]\n\n'
+
+        property_string += prop
+
+    with open("rand_props.props", "w") as text_file:
+        text_file.write(property_string)
+    return property_string

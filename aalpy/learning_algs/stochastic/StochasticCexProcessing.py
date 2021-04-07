@@ -28,7 +28,7 @@ def stochastic_longest_prefix(cex, prefixes):
     trimmed_cex.pop(0)
     prefixes = [tuple(trimmed_cex[:i + 1]) for i in range(0, len(trimmed_cex), 2)]
 
-    return suffixes
+    return [suffixes[-1]]
 
 
 def stochastic_rs(sul: SUL, cex: tuple, hypothesis, suffix_closedness=True, closedness='suffix'):
