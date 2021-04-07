@@ -246,10 +246,14 @@ class StochasticTeacher:
                         selection_value -= curr_node.input_frequencies[i]
                         if selection_value <= 0:
                             break
+                    # curr_node.input_frequencies[inp] -= 1
 
                 executed_inputs.append(inp)
                 out.append(self.sul.step(inp))
                 new_node = curr_node.get_child(inp, out[-1])
+                if frequency_sum != 0:
+                    curr_node.input_frequencies[inp] -= 1
+
                 if new_node:
                     curr_node = new_node
                 else:

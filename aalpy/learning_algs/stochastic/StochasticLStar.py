@@ -147,8 +147,10 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
 
-        if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 10 == 0 \
+        if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 5 == 0 \
                 and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+            if chaos_cex_present:
+                continue
             break
 
         if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,

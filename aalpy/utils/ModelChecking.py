@@ -218,7 +218,7 @@ def stop_based_on_confidence(error_limit, hypothesis, exp_name):
 
     res, diff = model_check_experiment(path_to_prism, exp_name, model)
 
-    print(diff.values())
+    print('Error for each property:', [d * 100 for d in diff.values()])
     if not diff:
         return False
     for d in diff.values():
