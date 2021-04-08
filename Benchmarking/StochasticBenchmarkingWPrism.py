@@ -8,7 +8,7 @@ from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
 path_to_dir = '../DotModels/MDPs/'
 files = ['first_grid.dot', 'second_grid.dot',
-         'slot_machine.dot', 'shared_coin.dot', 'mqtt.dot', 'tcp.dot']
+         'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'shared_coin.dot'
 
 prop_folder = 'prism_eval_props/'
 

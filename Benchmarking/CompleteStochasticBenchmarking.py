@@ -2,15 +2,14 @@ import random
 
 from aalpy.SULs import MdpSUL
 from aalpy.learning_algs import run_stochastic_Lstar
-from aalpy.oracles.RandomWalkEqOracle import UnseenOutputRandomWalkEqOracle
+from aalpy.oracles.RandomWordEqOracle import UnseenOutputRandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
 seeds = [7412,9754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
 
 path_to_dir = '../DotModels/MDPs/'
-files = ['first_grid.dot', 'second_grid.dot',
-         'slot_machine.dot', 'shared_coin.dot', 'mqtt.dot', 'tcp.dot']
+files = ['first_grid.dot', 'second_grid.dot', 'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'slot_machine.dot' ,'shared_coin.dot'
 
 prop_folder = 'prism_eval_props/'
 
@@ -24,16 +23,16 @@ min_rounds = 10
 max_rounds = 1000
 
 uniform_parameters = False
-strategy = ["no_cq", "normal", "chi_square"]
+strategy = ["normal", "no_cq", "chi_square"]
 cex = [None, 'bfs', 'random:100:0.15']
 
 for strat in strategy:
     for cex_stat in cex:
         print(strat, cex_stat)
-        for seed in range(10):
+        for seed in range(20):
             print(seed)
             random.seed(seeds[seed])
-            benchmark_dir = f"benchmark_complete_no_cq/benchmark_{strat}_{cex_stat}_seed"
+            benchmark_dir = f"benchmark_complete_no_cq/benchmark_{strat}_{cex_stat}_{seed}"
             import os
 
             if not os.path.exists(benchmark_dir):
@@ -41,6 +40,8 @@ for strat in strategy:
             text_file = open(f"{benchmark_dir}/StochasticExperiments.csv", "w")
 
             for file in files:
+                print(file)
+
                 exp_name = file.split('.')[0]
                 if uniform_parameters:
                     if exp_name == 'first_grid':
@@ -61,7 +62,7 @@ for strat in strategy:
                     elif exp_name == 'second_grid':
                         n_c, n_resample = 20, 1500
                     elif exp_name == 'shared_coin':
-                        n_c, n_resample = 25, 3000
+                        n_c, n_resample = 25, 2500
                     elif exp_name == 'slot_machine':
                         n_c, n_resample = 30, 5000
                     elif exp_name == 'mqtt':
@@ -74,24 +75,26 @@ for strat in strategy:
 
                 mdp_sul = MdpSUL(original_mdp)
 
-                eq_oracle = UnseenOutputRandomWalkEqOracle(input_alphabet, mdp_sul, num_steps=n_resample * (1 / 0.25),
-                                                           reset_after_cex=True, reset_prob=0.15)
+                eq_oracle = UnseenOutputRandomWordEqOracle(input_alphabet, mdp_sul, num_walks=150, min_walk_len=5,
+                                                           max_walk_len=15, reset_after_cex=True)
 
                 learned_mdp, data_mdp = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='mdp',
                                                              n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                              max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                             print_level=0)
+                                                             print_level=1)
 
                 del mdp_sul
                 del eq_oracle
+                random.seed(seeds[seed])
                 mdp_sul = MdpSUL(original_mdp)
-                eq_oracle = UnseenOutputRandomWalkEqOracle(input_alphabet, mdp_sul, num_steps=n_resample * (1 / 0.25),
-                                                           reset_after_cex=True, reset_prob=0.15)
+
+                eq_oracle = UnseenOutputRandomWordEqOracle(input_alphabet, mdp_sul, num_walks=150, min_walk_len=5,
+                                                           max_walk_len=15, reset_after_cex=True)
 
                 learned_smm, data_smm = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='smm',
                                                              n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                              max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                             print_level=0)
+                                                             print_level=1)
 
                 smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 
