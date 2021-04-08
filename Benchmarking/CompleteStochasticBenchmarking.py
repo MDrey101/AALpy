@@ -6,7 +6,7 @@ from aalpy.oracles.RandomWordEqOracle import UnseenOutputRandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
-seeds = [412,5754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
+seeds = [412,554,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
 
 path_to_dir = '../DotModels/MDPs/'
 files = ['first_grid.dot', 'second_grid.dot', 'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'slot_machine.dot' ,'shared_coin.dot'
@@ -20,7 +20,7 @@ prism_executable = "C:/Program Files/prism-4.6/bin/prism.bat"
 n_c = 20
 n_resample = 1000
 min_rounds = 10
-max_rounds = 1000
+max_rounds = 700
 experiment_repetition = 10
 
 uniform_parameters = False
@@ -84,7 +84,7 @@ for strat in strategy:
                     learned_mdp, data_mdp = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='mdp',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=1, cex_processing=cex_proc)
+                                                                 print_level=2, cex_processing=cex_proc)
 
                     del mdp_sul
                     del eq_oracle
@@ -97,7 +97,7 @@ for strat in strategy:
                     learned_smm, data_smm = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='smm',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=1, cex_processing=cex_proc)
+                                                                 print_level=2, cex_processing=cex_proc)
 
                     smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 

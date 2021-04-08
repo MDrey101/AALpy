@@ -454,7 +454,7 @@ class SamplingBasedObservationTable:
             class_rank_pair.append((s, rank))
 
         # sort according to frequency
-        # class_rank_pair.sort(key=lambda x: x[1], reverse=True)
+        #class_rank_pair.sort(key=lambda x: x[1], reverse=True)
 
         # sort according to prefix length, and elements of same length sort by value
         class_rank_pair = [(s, -rank) for (s, rank) in class_rank_pair]

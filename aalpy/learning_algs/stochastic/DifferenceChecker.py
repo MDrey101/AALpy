@@ -48,6 +48,7 @@ class HoeffdingChecker(DifferenceChecker):
                 if abs(c1[o] / n1 - c2[o] / n2) > \
                         ((sqrt(1 / n1) + sqrt(1 / n2)) * sqrt(0.5 * log(2 / self.alpha))):
                     return True
+        return False
 
 
 class AdvancedHoeffdingChecker(DifferenceChecker):
@@ -69,7 +70,7 @@ class AdvancedHoeffdingChecker(DifferenceChecker):
 
                 if abs(c1o / n1 - c2o / n2) > epsilon1 + epsilon2:
                     return True
-            return False
+        return False
 
 
 class ChisquareChecker(DifferenceChecker):

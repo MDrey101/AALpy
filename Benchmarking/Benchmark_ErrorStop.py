@@ -1,4 +1,5 @@
 import random
+import os
 
 from aalpy.SULs import MdpSUL
 from aalpy.learning_algs import run_stochastic_Lstar
@@ -33,13 +34,12 @@ for strat in strategy:
         for cex_proc in cex_processing:
             print(strat, cex_stat, cex_proc)
             benchmark_dir = f'FM_mdp_smm_error_based_stop/benchmark_{strat}_{cex_stat}_{cex_proc}/'
+            if not os.path.exists(benchmark_dir):
+                os.makedirs(benchmark_dir)
             for seed in range(experiment_repetition):
                 print(seed)
                 random.seed(seeds[seed])
-                import os
 
-                if not os.path.exists(benchmark_dir):
-                    os.makedirs(benchmark_dir)
                 text_file = open(f"{benchmark_dir}/exp_{seed}.csv", "w")
 
                 for file in files:

@@ -161,24 +161,23 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         #     avr_err.append(100)
         # unamb.append(observation_table.get_unamb_percentage())
 
-        if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 5 == 0 \
-                and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
-            if chaos_cex_present:
-                continue
-            break
+        # if property_stop_exp_name and learning_rounds >= min_rounds and learning_rounds % 5 == 0 \
+        #         and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+        #     if chaos_cex_present:
+        #         continue
+        #     break
 
         if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
                                   max_rounds=max_rounds, print_unambiguity=print_level > 1,
                                   target_unambiguity=target_unambiguity):
-            if property_stop_exp_name:
-                continue # REMOVE AFTER MARTINS BENCHMARK
             break
 
         if not refined:
             # If all cells were refined, but stopping did not happen, increase n_c
             # We could also break here
-            stochastic_teacher.n_c *= 1.5
-            stochastic_teacher.complete_query_cache.clear()
+            break
+            #stochastic_teacher.n_c *= 1.5
+            #stochastic_teacher.complete_query_cache.clear()
 
     total_time = round(time.time() - start_time, 2)
     eq_query_time = round(eq_query_time, 2)
