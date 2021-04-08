@@ -104,7 +104,7 @@ class SamplingBasedObservationTable:
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        resample_value = n_resample if self.strategy == 'normal' else max(dynamic // 2, 200)
+        resample_value = n_resample if self.strategy == 'normal' else max(dynamic // 2, 1000)
 
         for i in range(resample_value):
             self.teacher.refine_query(pta_root)
@@ -376,6 +376,11 @@ class SamplingBasedObservationTable:
             if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
                 return True
 
+            last_n_unamb = self.unambiguity_values[-25:]
+            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.01):
+                print('relaxed flatarino')
+                return True
+
         if print_unambiguity and learning_round % 5 == 0:
             print(f'Unambiguous rows: {round(unambiguous_rows_percentage * 100, 2)}%;'
                   f' {numerator} out of {len(self.S + extended_s)}')
@@ -454,12 +459,13 @@ class SamplingBasedObservationTable:
             class_rank_pair.append((s, rank))
 
         # sort according to frequency
-        #class_rank_pair.sort(key=lambda x: x[1], reverse=True)
+        class_rank_pair.sort(key=lambda x: x[1], reverse=True)
 
+        if self.strategy == 'no_cq':
         # sort according to prefix length, and elements of same length sort by value
-        class_rank_pair = [(s, -rank) for (s, rank) in class_rank_pair]
-        class_rank_pair.sort(key=lambda x: (len(x[0]), x[1]))
-        class_rank_pair = [(s, -rank) for (s, rank) in class_rank_pair]
+            class_rank_pair = [(s, -rank) for (s, rank) in class_rank_pair]
+            class_rank_pair.sort(key=lambda x: (len(x[0]), x[1]))
+            class_rank_pair = [(s, -rank) for (s, rank) in class_rank_pair]
 
         compatibility_classes = [c[0] for c in class_rank_pair]
 

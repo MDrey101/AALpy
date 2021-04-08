@@ -1,4 +1,5 @@
 import random
+import time
 
 from aalpy.SULs import MdpSUL
 from aalpy.learning_algs import run_stochastic_Lstar
@@ -27,7 +28,9 @@ uniform_parameters = False
 strategy = ["normal", "no_cq", "chi_square"] # chi_square
 cex_sampling = [None, 'bfs',] # random:100:0.15
 cex_processing = [None, 'longest_prefix'] # add a single prefix
+start = time.time()
 
+exit()
 for strat in strategy:
     for cex_stat in cex_sampling:
         for cex_proc in cex_processing:
@@ -84,7 +87,7 @@ for strat in strategy:
                     learned_mdp, data_mdp = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='mdp',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=2, cex_processing=cex_proc)
+                                                                 print_level=0, cex_processing=cex_proc)
 
                     del mdp_sul
                     del eq_oracle
@@ -97,7 +100,7 @@ for strat in strategy:
                     learned_smm, data_smm = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='smm',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=2, cex_processing=cex_proc)
+                                                                 print_level=0, cex_processing=cex_proc)
 
                     smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 
@@ -128,3 +131,4 @@ for strat in strategy:
                     text_file.flush()
 
                 text_file.close()
+print('Exp duration', time.time() - start)
