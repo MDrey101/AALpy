@@ -343,8 +343,7 @@ def benchmark_mdp_example(example='first_grid', n_c=20, n_resample=500, min_roun
 
 
 def benchmark_stochastic_example(automaton_type='smm', example='first_grid', n_c=20, n_resample=1000, min_rounds=10, max_rounds=500,
-                                 strategy='normal', cex_processing=None, reset_prob = 0.125, error_bound = 0.02,
-                                 exp_name=None, samples_cex_strategy=None):
+                                 strategy='normal', cex_processing=None, reset_prob = 0.125, error_bound = 0.02, samples_cex_strategy=None):
     """
     Learning the stochastic Mealy Machine(SMM) various benchmarking examples
     found in Chapter 7 of Martin's Tappler PhD thesis.
@@ -372,7 +371,7 @@ def benchmark_stochastic_example(automaton_type='smm', example='first_grid', n_c
                                        n_resample=n_resample, min_rounds=min_rounds, max_rounds=max_rounds,
                                        automaton_type=automaton_type, strategy=strategy, cex_processing=cex_processing,
                                        samples_cex_strategy=samples_cex_strategy,
-                                       error_bound=error_bound, property_stop_exp_name=exp_name)
+                                       error_bound=error_bound, property_stop_exp_name=example)
 
     return learned_mdp
 

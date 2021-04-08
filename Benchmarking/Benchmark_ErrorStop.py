@@ -32,7 +32,7 @@ for strat in strategy:
     for cex_stat in cex_sampling:
         for cex_proc in cex_processing:
             print(strat, cex_stat, cex_proc)
-            benchmark_dir = f'FM_mdp_smm/benchmark_{strat}_{cex_stat}_{cex_proc}/'
+            benchmark_dir = f'FM_mdp_smm_error_based_stop/benchmark_{strat}_{cex_stat}_{cex_proc}/'
             for seed in range(experiment_repetition):
                 print(seed)
                 random.seed(seeds[seed])
@@ -84,7 +84,7 @@ for strat in strategy:
                     learned_mdp, data_mdp = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='mdp',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=1, cex_processing=cex_proc)
+                                                                 print_level=1, cex_processing=cex_proc, error_bound=0.02, property_stop_exp_name=exp_name)
 
                     del mdp_sul
                     del eq_oracle
@@ -97,7 +97,7 @@ for strat in strategy:
                     learned_smm, data_smm = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='smm',
                                                                  n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
                                                                  max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
-                                                                 print_level=1, cex_processing=cex_proc)
+                                                                 print_level=1, cex_processing=cex_proc, error_bound=0.02, property_stop_exp_name=exp_name)
 
                     smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 
