@@ -104,7 +104,7 @@ class SamplingBasedObservationTable:
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        resample_value = max(dynamic // 2, 200) if self.strategy == 'no_cq' else n_resample
+        resample_value = n_resample if self.strategy == 'normal' else max(dynamic // 2, 200)
 
         for i in range(resample_value):
             self.teacher.refine_query(pta_root)
