@@ -6,14 +6,14 @@ from aalpy.oracles.RandomWordEqOracle import UnseenOutputRandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
-seeds = [412,5754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
+seeds = [412,754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
 
 path_to_dir = '../DotModels/MDPs/'
 files = ['first_grid.dot', 'second_grid.dot', 'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'slot_machine.dot' ,'shared_coin.dot'
 
 prop_folder = 'prism_eval_props/'
 
-# TODO Change the path to your PRIMS executable
+# TODO Change the path to your PRIMS executable and change the path_to_prism in the stop_based_on_confidence method in ModelChecking.py.
 prism_executable = "/home/mtappler/Programs/prism-4.4-linux64/bin/prism"
 prism_executable = "C:/Program Files/prism-4.6/bin/prism.bat"
 
@@ -63,7 +63,7 @@ for strat in strategy:
                         if exp_name == 'first_grid':
                             n_c, n_resample = 20, 1000
                         elif exp_name == 'second_grid':
-                            n_c, n_resample = 20, 1500
+                            n_c, n_resample = 20, 2000
                         elif exp_name == 'shared_coin':
                             n_c, n_resample = 25, 2500
                         elif exp_name == 'slot_machine':

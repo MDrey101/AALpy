@@ -167,7 +167,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
                 continue
             break
 
-
         if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
                                   max_rounds=max_rounds, print_unambiguity=print_level > 1,
                                   target_unambiguity=target_unambiguity):

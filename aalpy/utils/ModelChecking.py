@@ -137,7 +137,6 @@ def evaluate_all_properties(prism_executable, prism_file_name, properties_file_n
 
     file_abs_path = path.abspath(prism_file_name)
     properties_als_path = path.abspath(properties_file_name)
-
     results = {}
     proc = subprocess.Popen(
         [prism_executable, file_abs_path, properties_als_path],
@@ -167,7 +166,7 @@ def model_check_with_prism(path_to_prism: str, model: Mdp, exp_name, properties:
     return data
 
 
-def model_check_experiment(path_to_prism, exp_name, mdp, properties_folder='Benchmarking/prism_eval_props/',
+def model_check_experiment(path_to_prism, exp_name, mdp, properties_folder='prism_eval_props/', # TODO FIX PATH... had benchmarking in front
                            precision=4):
     assert exp_name in ['first_grid', 'second_grid', 'shared_coin', 'slot_machine', 'mqtt', 'tcp']
 
@@ -216,6 +215,7 @@ def stop_based_on_confidence(error_limit, hypothesis, exp_name):
 def get_error(hypothesis, exp_name):
     from aalpy.automata import StochasticMealyMachine
 
+    # TODO CHANGE HERE MARTIN
     path_to_prism = "C:/Program Files/prism-4.6/bin/prism.bat"
 
     from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
