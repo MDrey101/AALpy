@@ -104,7 +104,9 @@ class SamplingBasedObservationTable:
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        for i in range(max(dynamic // 2, 200)):
+        resample_value = n_resample if self.strategy == 'normal' else max(dynamic // 2, 200)
+
+        for i in range(resample_value):
             self.teacher.refine_query(pta_root)
         return True
 
@@ -368,10 +370,10 @@ class SamplingBasedObservationTable:
         unambiguous_rows_percentage = numerator / len(self.S + extended_s)
 
         self.unambiguity_values.append(unambiguous_rows_percentage)
-        if learning_round >= min_rounds and len(self.unambiguity_values) >= 10:
-            last_n_unamb = self.unambiguity_values[-10:]
+        if self.strategy == 'no_cq' and learning_round >= min_rounds and len(self.unambiguity_values) >= 10:
+            last_n_unamb = self.unambiguity_values[-15:]
 
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.001):
+            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
                 print(last_n_unamb)
                 print("FLATARINOOOOOOO")
                 return True

@@ -298,7 +298,7 @@ def weird_coffee_machine_mdp_example():
                                                reset_after_cex=True)
 
     learned_mdp = run_stochastic_Lstar(input_alphabet, sul, eq_oracle, n_c=20, n_resample=1000, min_rounds=10,
-                                       max_rounds=500, strategy='normal', cex_processing=None)
+                                       max_rounds=500, strategy='no_cq', cex_processing=None, samples_cex_strategy='bfs', automaton_type='mdp')
 
     return learned_mdp
 
