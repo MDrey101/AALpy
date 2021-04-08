@@ -374,8 +374,8 @@ class SamplingBasedObservationTable:
             last_n_unamb = self.unambiguity_values[-15:]
 
             if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
-                print(last_n_unamb)
-                print("FLATARINOOOOOOO")
+                # print(last_n_unamb)
+                # print("FLATARINOOOOOOO")
                 return True
 
         if print_unambiguity and learning_round % 5 == 0:

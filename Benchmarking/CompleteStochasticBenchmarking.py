@@ -6,6 +6,8 @@ from aalpy.oracles.RandomWalkEqOracle import UnseenOutputRandomWalkEqOracle
 from aalpy.utils import load_automaton_from_file
 from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
+seeds = [7412,9754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
+
 path_to_dir = '../DotModels/MDPs/'
 files = ['first_grid.dot', 'second_grid.dot',
          'slot_machine.dot', 'shared_coin.dot', 'mqtt.dot', 'tcp.dot']
@@ -27,9 +29,11 @@ cex = [None, 'bfs', 'random:100:0.15']
 
 for strat in strategy:
     for cex_stat in cex:
-        for seed in range(1, 21):
-            random.seed(seed)
-            benchmark_dir = f"benchmark_complete_no_cq/benchmark_{strat}_{seed}"
+        print(strat, cex_stat)
+        for seed in range(10):
+            print(seed)
+            random.seed(seeds[seed])
+            benchmark_dir = f"benchmark_complete_no_cq/benchmark_{strat}_{cex_stat}_seed"
             import os
 
             if not os.path.exists(benchmark_dir):
@@ -59,7 +63,7 @@ for strat in strategy:
                     elif exp_name == 'shared_coin':
                         n_c, n_resample = 25, 3000
                     elif exp_name == 'slot_machine':
-                        n_c, n_resample = 40, 5000
+                        n_c, n_resample = 30, 5000
                     elif exp_name == 'mqtt':
                         n_c, n_resample = 20, 1000
                     elif exp_name == 'tcp':
@@ -71,18 +75,23 @@ for strat in strategy:
                 mdp_sul = MdpSUL(original_mdp)
 
                 eq_oracle = UnseenOutputRandomWalkEqOracle(input_alphabet, mdp_sul, num_steps=n_resample * (1 / 0.25),
-                                                           reset_after_cex=True, reset_prob=0.25)
+                                                           reset_after_cex=True, reset_prob=0.15)
 
                 learned_mdp, data_mdp = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='mdp',
-                                                             n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strategy,
-                                                             max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat)
+                                                             n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
+                                                             max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
+                                                             print_level=0)
 
-                mdp_sul.num_steps = 0
-                mdp_sul.num_queries = 0
+                del mdp_sul
+                del eq_oracle
+                mdp_sul = MdpSUL(original_mdp)
+                eq_oracle = UnseenOutputRandomWalkEqOracle(input_alphabet, mdp_sul, num_steps=n_resample * (1 / 0.25),
+                                                           reset_after_cex=True, reset_prob=0.15)
 
                 learned_smm, data_smm = run_stochastic_Lstar(input_alphabet, mdp_sul, eq_oracle, automaton_type='smm',
-                                                             n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strategy,
-                                                             max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat)
+                                                             n_c=n_c, n_resample=n_resample, min_rounds=min_rounds, strategy=strat,
+                                                             max_rounds=max_rounds, return_data=True, samples_cex_strategy=cex_stat,
+                                                             print_level=0)
 
                 smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 

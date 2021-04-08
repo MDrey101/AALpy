@@ -268,19 +268,25 @@ def onfsm_mealy_paper_example():
     return learned_onfsm
 
 
-def faulty_coffee_machine_mdp_example():
+def faulty_coffee_machine_mdp_example(automaton_type = 'mdp'):
     """
     Learning faulty coffee machine that can be found in Chapter 5 and Chapter 7 of Martin's Tappler PhD thesis.
+    :automaton_type either mdp or smm
     :return learned MDP
     """
     mdp = get_faulty_coffee_machine_MDP()
     input_alphabet = mdp.get_input_alphabet()
     sul = MdpSUL(mdp)
+
     eq_oracle = UnseenOutputRandomWalkEqOracle(input_alphabet, sul=sul, num_steps=500, reset_prob=0.11,
                                                reset_after_cex=False)
 
-    learned_mdp = run_stochastic_Lstar(input_alphabet, sul, eq_oracle, n_c=20, n_resample=100, min_rounds=10,
-                                       max_rounds=50, print_level=3, cex_processing=None)
+    stategy = 'normal' if automaton_type == 'mdp' else 'no_cq'
+
+    learned_mdp = run_stochastic_Lstar(input_alphabet, sul, automaton_type=automaton_type, strategy=stategy,
+                                       eq_oracle=eq_oracle, n_c=20, n_resample=100, min_rounds=5,
+                                       max_rounds=50, print_level=3, cex_processing='longest_prefix',
+                                       samples_cex_strategy='bfs')
 
     return learned_mdp
 
