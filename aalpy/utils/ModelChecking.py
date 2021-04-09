@@ -1,11 +1,12 @@
 import os
 import re
+import aalpy.paths
 from collections import defaultdict
-from random import choice, random, randint
 
-from aalpy.automata import Mdp
+from aalpy.automata import Mdp, StochasticMealyMachine
 
 prism_prob_output_regex = re.compile("Result: (\d+\.\d+)")
+
 
 correct_model_properties = {
     'first_grid': {'prob1': 0.96217534, 'prob2': 0.6499274956800001, 'prob3': 0.6911765746880001},
@@ -127,19 +128,19 @@ def eval_property(prism_executable, prism_file_name, properties_file_name, prope
     return 0.0
 
 
-def evaluate_all_properties(prism_executable, prism_file_name, properties_file_name):
+def evaluate_all_properties(prism_file_name, properties_file_name):
     import subprocess
     import io
     from os import path
 
-    prism_file = prism_executable.split('/')[-1]
-    path_to_prism_file = prism_executable[:-len(prism_file)]
+    prism_file = aalpy.paths.path_to_prism.split('/')[-1]
+    path_to_prism_file = aalpy.paths.path_to_prism[:-len(prism_file)]
 
     file_abs_path = path.abspath(prism_file_name)
     properties_als_path = path.abspath(properties_file_name)
     results = {}
     proc = subprocess.Popen(
-        [prism_executable, file_abs_path, properties_als_path],
+        [aalpy.paths.path_to_prism, file_abs_path, properties_als_path],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=path_to_prism_file)
     for line in io.TextIOWrapper(proc.stdout, encoding="utf-8"):
         if not line:
@@ -152,34 +153,33 @@ def evaluate_all_properties(prism_executable, prism_file_name, properties_file_n
     return results
 
 
-def model_check_with_prism(path_to_prism: str, model: Mdp, exp_name, properties: str):
+def model_check_with_prism(model: Mdp, exp_name, properties: str):
     from os import remove
     from aalpy.utils import mdp_2_prism_format
     mdp_2_prism_format(mdp=model, name=exp_name, output_path=f'{exp_name}.prism')
 
     prism_model_path = f'{exp_name}.prism'
 
-    data = evaluate_all_properties(path_to_prism, prism_model_path, properties)
+    data = evaluate_all_properties(prism_model_path, properties)
 
     remove(prism_model_path)
 
     return data
 
 
-def model_check_experiment(path_to_prism, exp_name, mdp, properties_folder='Benchmarking/prism_eval_props/',
-                           precision=4):
+def model_check_experiment(exp_name, mdp, precision=4):
     assert exp_name in ['first_grid', 'second_grid', 'shared_coin', 'slot_machine', 'mqtt', 'tcp']
 
     property_files = {
-        'first_grid': properties_folder + 'first_eval.props',
-        'second_grid': properties_folder + 'second_eval.props',
-        'shared_coin': properties_folder + 'shared_coin_eval.props',
-        'slot_machine': properties_folder + 'slot_machine_eval.props',
-        'mqtt': properties_folder + 'emqtt_two_client.props',
-        'tcp': properties_folder + 'tcp_eval.props'
+        'first_grid': aalpy.paths.path_to_properties + 'first_eval.props',
+        'second_grid': aalpy.paths.path_to_properties + 'second_eval.props',
+        'shared_coin': aalpy.paths.path_to_properties + 'shared_coin_eval.props',
+        'slot_machine': aalpy.paths.path_to_properties + 'slot_machine_eval.props',
+        'mqtt': aalpy.paths.path_to_properties + 'emqtt_two_client.props',
+        'tcp': aalpy.paths.path_to_properties + 'tcp_eval.props'
     }
 
-    model_checking_results = model_check_with_prism(path_to_prism, mdp, exp_name, property_files[exp_name])
+    model_checking_results = model_check_with_prism(mdp, exp_name, property_files[exp_name])
 
     diff_2_correct = dict()
     for prop, val in model_checking_results.items():
@@ -190,17 +190,13 @@ def model_check_experiment(path_to_prism, exp_name, mdp, properties_folder='Benc
 
 
 def stop_based_on_confidence(error_limit, hypothesis, exp_name):
-    from aalpy.automata import StochasticMealyMachine
-
-    path_to_prism = "C:/Program Files/prism-4.6/bin/prism.bat"
-
-    from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
+    from aalpy.utils import smm_to_mdp_conversion
 
     model = hypothesis
     if isinstance(hypothesis, StochasticMealyMachine):
         model = smm_to_mdp_conversion(hypothesis)
 
-    res, diff = model_check_experiment(path_to_prism, exp_name, model)
+    res, diff = model_check_experiment(exp_name, model)
 
     print('Error for each property:', [round(d * 100, 2) for d in diff.values()])
     if not diff:
@@ -211,43 +207,14 @@ def stop_based_on_confidence(error_limit, hypothesis, exp_name):
 
     return True
 
-
 def get_error(hypothesis, exp_name):
-    from aalpy.automata import StochasticMealyMachine
-
-    # TODO CHANGE HERE MARTIN
-    path_to_prism = "C:/Program Files/prism-4.6/bin/prism.bat"
-
-    from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
+    from aalpy.utils import smm_to_mdp_conversion
 
     model = hypothesis
     if isinstance(hypothesis, StochasticMealyMachine):
         model = smm_to_mdp_conversion(hypothesis)
 
-    res, diff = model_check_experiment(path_to_prism, exp_name, model)
+    res, diff = model_check_experiment(exp_name, model)
 
     return [round(d * 100, 2) for d in diff.values()]
 
-
-def generate_random_properties(hypothesis: Mdp, n_properties):
-    property_string = ""
-
-    outputs = list({node_prob[0].output for s in hypothesis.states for out in s.transitions.values() for node_prob in out})
-
-    for _ in range(n_properties):
-        output = choice(outputs)
-        output = output.replace('__', '" & "')
-        rand = random()
-        r = randint(2, 10)
-        if rand <= 0.1:
-            prop = f'Pmax=? [ F ("{output}") ]\n\n'
-        elif 0.1 < rand <0.35:
-            prop = f'Pmax=? [ F<{r} !("{output}") ]\n\n'
-        else:
-            prop = f'Pmax=? [ F<{r} ("{output}") ]\n\n'
-
-        property_string += prop
-
-    with open("rand_props.props", "w") as text_file:
-        text_file.write(property_string)
-    return property_string
