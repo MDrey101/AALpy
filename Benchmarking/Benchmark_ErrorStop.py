@@ -1,33 +1,37 @@
 import random
 import os
 
+import aalpy.paths
+
 from aalpy.SULs import MdpSUL
 from aalpy.learning_algs import run_stochastic_Lstar
 from aalpy.oracles.RandomWordEqOracle import UnseenOutputRandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 from aalpy.utils import smm_to_mdp_conversion, model_check_experiment
 
-seeds = [412,754,9059,9468,5179,5315,7692,3521,8111,8581,7603,7367,1977,6750,5903,3257,4235,3877,1841,8638]
+seeds = [1212,4557,19059,468,43,654,235345,6546,76768,4563,543526,777676,5555,776767,87878787,98989,60967553,3866677,1555841,8638]
 
 path_to_dir = '../DotModels/MDPs/'
-files = ['first_grid.dot', 'second_grid.dot', 'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'slot_machine.dot' ,'shared_coin.dot'
+files = ['first_grid.dot', 'second_grid.dot'] # 'slot_machine.dot' ,'shared_coin.dot'  'mqtt.dot', 'tcp.dot'
 
 prop_folder = 'prism_eval_props/'
 
 # TODO Change the path to your PRIMS executable and change the path_to_prism in the stop_based_on_confidence method in ModelChecking.py.
 prism_executable = "/home/mtappler/Programs/prism-4.4-linux64/bin/prism"
-prism_executable = "C:/Program Files/prism-4.6/bin/prism.bat"
+
+aalpy.paths.path_to_prism =      "C:/Program Files/prism-4.6/bin/prism.bat"
+aalpy.paths.path_to_properties = "prism_eval_props/"
 
 n_c = 20
 n_resample = 1000
 min_rounds = 10
-max_rounds = 1000
-experiment_repetition = 10
+max_rounds = 300
+experiment_repetition = 5
 
 uniform_parameters = False
-strategy = ["normal", "no_cq", "chi_square"] # chi_square
-cex_sampling = [None, 'bfs',] # random:100:0.15
-cex_processing = [None, 'longest_prefix'] # add a single prefix
+strategy = ["normal"] # chi_square
+cex_sampling = [None] # random:100:0.15
+cex_processing = [None] # add a single prefix
 
 for strat in strategy:
     for cex_stat in cex_sampling:
@@ -101,8 +105,8 @@ for strat in strategy:
 
                     smm_2_mdp = smm_to_mdp_conversion(learned_smm)
 
-                    mdp_results, mdp_err = model_check_experiment(prism_executable, exp_name, learned_mdp, prop_folder)
-                    smm_results, smm_err = model_check_experiment(prism_executable, exp_name, smm_2_mdp, prop_folder)
+                    mdp_results, mdp_err = model_check_experiment(exp_name, learned_mdp)
+                    smm_results, smm_err = model_check_experiment(exp_name, smm_2_mdp)
 
                     properties_string_header = ",".join([f'{key}_val,{key}_err' for key in mdp_results.keys()])
 
