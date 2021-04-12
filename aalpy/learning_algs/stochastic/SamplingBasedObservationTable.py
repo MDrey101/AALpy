@@ -373,16 +373,16 @@ class SamplingBasedObservationTable:
         if self.strategy == 'no_cq' and learning_round >= min_rounds and len(self.unambiguity_values) >= 10:
             last_n_unamb = self.unambiguity_values[-15:]
 
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
-                return True
-
-            last_n_unamb = self.unambiguity_values[-10:]
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.001):
-                return True
-
-            last_n_unamb = self.unambiguity_values[-25:]
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.01):
-                return True
+            # if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
+            #     return True
+            #
+            # last_n_unamb = self.unambiguity_values[-10:]
+            # if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.001):
+            #     return True
+            #
+            # last_n_unamb = self.unambiguity_values[-25:]
+            # if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.01):
+            #     return True
 
         if print_unambiguity and learning_round % 5 == 0:
             print(f'Unambiguous rows: {round(unambiguous_rows_percentage * 100, 2)}%;'

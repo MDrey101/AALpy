@@ -152,26 +152,24 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
 
-        # error = get_error(hypothesis, property_stop_exp_name)
-        # if error:
-        #     max_err.append(max(error))
-        #     avr_err.append(mean(error))
-        # else:
-        #     max_err.append(100)
-        #     avr_err.append(100)
-        # unamb.append(observation_table.get_unamb_percentage())
+        error = get_error(hypothesis, property_stop_exp_name)
+        if error:
+            max_err.append(max(error))
+            avr_err.append(mean(error))
+        else:
+            max_err.append(100)
+            avr_err.append(100)
+        unamb.append(observation_table.get_unamb_percentage())
 
-        if property_stop_exp_name and learning_rounds >= min_rounds and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
-            if chaos_cex_present:
-                continue
-            break
-
-        # if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
-        #                           max_rounds=max_rounds, print_unambiguity=print_level > 1,
-        #                           target_unambiguity=target_unambiguity):
-        #     if property_stop_exp_name:
+        # if property_stop_exp_name and learning_rounds >= min_rounds and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+        #     if chaos_cex_present:
         #         continue
         #     break
+
+        if observation_table.stop(learning_rounds, chaos_present=chaos_cex_present, min_rounds=min_rounds,
+                                  max_rounds=max_rounds, print_unambiguity=print_level > 1,
+                                  target_unambiguity=target_unambiguity):
+            break
 
         if not refined:
             # If all cells were refined, but stopping did not happen, increase n_c
@@ -206,6 +204,13 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
     # plt.title(property_stop_exp_name)
     # plt.legend()
     # plt.show()
+
+    import csv
+    with open('stopping_mqtt1.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(max_err)
+        writer.writerow(avr_err)
+        writer.writerow(unamb)
 
     if print_level > 0:
         print_learning_info(info)
