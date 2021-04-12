@@ -1,6 +1,6 @@
 import string
 
-from aalpy.learning_algs import run_Lstar, run_Lstar_ONFSM, run_stochastic_Lstar
+from aalpy.learning_algs import run_Lstar, run_Lstar_ONFSM, run_stochastic_Lstar, run_abstracted_Lstar_ONFSM
 from aalpy.oracles import RandomWalkEqOracle, StatePrefixEqOracle, TransitionFocusOracle, WMethodEqOracle, \
     BreadthFirstExplorationEqOracle, UnseenOutputRandomWalkEqOracle
 from aalpy.oracles.CacheBasedEqOracle import CacheBasedEqOracle
@@ -13,7 +13,7 @@ from aalpy.SULs import MealySUL, MooreSUL, DfaSUL, TomitaSUL, RegexSUL, Function
 from aalpy.utils.AutomatonGenerators import generate_random_mealy_machine, generate_random_moore_machine, \
     generate_random_dfa, generate_random_ONFSM, generate_random_mdp
 from aalpy.utils import MockMqttExample, get_faulty_coffee_machine_MDP, get_benchmark_ONFSM, \
-    get_Angluin_dfa, get_weird_coffee_machine_MDP
+    get_Angluin_dfa, get_weird_coffee_machine_MDP, get_ONFSM
 from aalpy.utils.FileHandler import visualize_automaton, load_automaton_from_file
 
 
@@ -262,6 +262,28 @@ def onfsm_mealy_paper_example():
     eq_oracle = UnseenOutputRandomWalkEqOracle(alph, sul, num_steps=5000, reset_prob=0.09, reset_after_cex=True)
 
     learned_onfsm = run_Lstar_ONFSM(alph, sul, eq_oracle, n_sampling=400, print_level=2)
+
+    return learned_onfsm
+
+def abstracted_onfsm_example():
+    """
+    Learning an abstracted ONFSM. The original ONFSM has 9 states.
+    The learned abstracted ONFSM only has 3 states.
+    :return: learned abstracted ONFSM
+    """
+    onfsm = get_ONFSM()
+
+    alph = onfsm.get_input_alphabet()
+
+
+    sul = OnfsmSUL(onfsm)
+    eq_oracle = UnseenOutputRandomWalkEqOracle(alph, sul, num_steps=5000, reset_prob=0.5, reset_after_cex=True)
+
+    abstraction_mapping = dict()
+    abstraction_mapping[0] = 0
+    abstraction_mapping['O'] = 0
+
+    learned_onfsm = run_abstracted_Lstar_ONFSM(alph, sul, eq_oracle=eq_oracle, abstraction_mapping=abstraction_mapping, n_sampling=50, print_level=2)
 
     return learned_onfsm
 
