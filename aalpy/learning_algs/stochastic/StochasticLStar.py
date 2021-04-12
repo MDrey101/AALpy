@@ -9,7 +9,7 @@ from aalpy.learning_algs.stochastic.StochasticTeacher import StochasticTeacher
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, get_cex_prefixes
 from aalpy.utils.ModelChecking import stop_based_on_confidence
 
-strategies = ['normal', 'no_cq', 'chi_square']
+strategies = ['classic', 'normal', 'chi2']
 cex_sampling_options = [None, 'bfs']
 cex_processing_options = [None, 'longest_prefix', 'rs']
 print_options = [0, 1, 2, 3]
@@ -42,7 +42,8 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
 
         automaton_type: either 'mdp' or 'smm' (Default value = 'mdp')
 
-        strategy: if no_cq, improved version of the algorithm will be used (Default value = 'normal')
+        strategy: one of ['classic', 'normal', 'chi2'], default value is 'normal'. Classic strategy is the one presented
+            in the seed paper, 'normal' is the updated version and chi2 is based on chi squared.
 
         cex_processing: cex processing strategy, None , 'longest_prefix' or 'rs' (rs is experimental)
 
@@ -69,8 +70,8 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
     assert samples_cex_strategy in cex_sampling_options or samples_cex_strategy.startswith('random')
     assert cex_processing in cex_processing_options
 
-    compatibility_checker = ChisquareChecker() if strategy == "chi_square" else \
-        AdvancedHoeffdingChecker() if strategy != "normal" else HoeffdingChecker()
+    compatibility_checker = ChisquareChecker() if strategy == "chi2" else \
+        AdvancedHoeffdingChecker() if strategy != "classic" else HoeffdingChecker()
 
     stochastic_teacher = StochasticTeacher(sul, n_c, eq_oracle, automaton_type, compatibility_checker,
                                            samples_cex_strategy=samples_cex_strategy)
@@ -89,10 +90,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
     # Ask queries for non-completed cells and update the observation table
     observation_table.refine_not_completed_cells(n_resample, uniform=True)
     observation_table.update_obs_table_with_freq_obs()
-
-    # max_err = []
-    # avr_err = []
-    # unamb = []
 
     learning_rounds = 0
     while True:
@@ -149,7 +146,8 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
 
-        if property_stop_exp_name and learning_rounds >= min_rounds and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
+        if property_stop_exp_name and learning_rounds >= min_rounds and \
+                stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name, print_level):
             if chaos_cex_present:
                 continue
             break
@@ -160,11 +158,9 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
             break
 
         if not refined:
-            # If all cells were refined, but stopping did not happen, increase n_c
-            # We could also break here
             break
-            #stochastic_teacher.n_c *= 1.5
-            #stochastic_teacher.complete_query_cache.clear()
+            # stochastic_teacher.n_c *= 1.5
+            # stochastic_teacher.complete_query_cache.clear()
 
     total_time = round(time.time() - start_time, 2)
     eq_query_time = round(eq_query_time, 2)

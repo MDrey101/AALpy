@@ -70,7 +70,7 @@ class SamplingBasedObservationTable:
             pta_root = Node(None)
 
         dynamic = 0
-        if self.strategy == 'normal':
+        if self.strategy == 'classic':
             to_refine = []
             for s in self.S + list(self.get_extended_s()):
                 for e in self.E:
@@ -104,7 +104,7 @@ class SamplingBasedObservationTable:
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        resample_value = n_resample if self.strategy == 'normal' else max(dynamic // 2, 500)
+        resample_value = n_resample if self.strategy == 'classic' else max(dynamic // 2, 500)
 
         for i in range(resample_value):
             self.teacher.refine_query(pta_root)
@@ -393,7 +393,7 @@ class SamplingBasedObservationTable:
         unambiguous_rows_percentage = numerator / len(self.S + extended_s)
 
         self.unambiguity_values.append(unambiguous_rows_percentage)
-        if self.strategy != 'normal' and learning_round >= min_rounds:
+        if self.strategy != 'classic' and learning_round >= min_rounds:
             # keys are number of last unambiguity values and value is maximum differance allowed between them
             stopping_dict = {10: 0.001, 15: 0.002, 25: 0.01, 35: 0.02}
 
@@ -439,7 +439,7 @@ class SamplingBasedObservationTable:
           True if cells are different, false otherwise
 
         """
-        if self.strategy == 'normal':
+        if self.strategy == 'classic':
             if self.teacher.complete_query(s1, e) and self.teacher.complete_query(s2, e):
                 return self.compatibility_checker.check_difference(self.T[s1][e], self.T[s2][e])
         else:
@@ -609,8 +609,8 @@ class SamplingBasedObservationTable:
                 total_sum = sum(freq_dict.values())
 
                 origin_state = s
-                if self.strategy == 'normal' and not self.teacher.complete_query(s, i) \
-                        or self.strategy != 'normal' and i not in self.T[s]:
+                if self.strategy == 'classic' and not self.teacher.complete_query(s, i) \
+                        or self.strategy != 'classic' and i not in self.T[s]:
                     if self.automaton_type == 'mdp':
                         r_state_map[origin_state].transitions[i[0]].append((r_state_map['chaos'], 1.))
                     else:

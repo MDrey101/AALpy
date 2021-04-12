@@ -29,7 +29,7 @@ max_rounds = 500
 experiment_repetition = 10
 
 uniform_parameters = False
-strategy = ["no_cq", "chi_square"] # chi_square
+strategy = ["normal", "chi2"] # chi_square
 cex_sampling = [None, 'bfs',] # random:100:0.15
 cex_processing = ['longest_prefix'] # add a single prefix
 start = time.time()

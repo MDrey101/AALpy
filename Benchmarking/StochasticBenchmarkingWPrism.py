@@ -20,7 +20,7 @@ n_resample = 1000
 min_rounds = 10
 max_rounds = 1000
 
-strategy = "no_cq"
+strategy = "normal"
 
 for seed in range(1, 4):
     random.seed(seed)

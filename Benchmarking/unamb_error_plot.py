@@ -37,7 +37,9 @@ import matplotlib.pyplot as plt
 r = list(range(len(second_grid_max_err_2)))
 plt.plot(r, second_grid_max_err_2, label = 'max_error_%')
 plt.plot(r, second_grid_avr_err_2, label = 'avr_error_%')
-plt.plot(r, [100 - r for r in second_grid_unamb_2], label='unamb_%')
+plt.plot(r, second_grid_unamb_2, label='unamb_%')
+
+#plt.plot(r, [100 - r for r in second_grid_unamb_2], label='unamb_%')
 
 plt.title('second grid')
 plt.legend()

@@ -85,7 +85,7 @@ class StochasticTeacher:
     """
 
     def __init__(self, sul: SUL, n_c, eq_oracle, automaton_type, compatibility_checker: DifferenceChecker,
-                 samples_cex_strategy="none"):
+                 samples_cex_strategy=None):
         self.automaton_type = automaton_type
         if automaton_type == 'mdp':
             self.initial_value = sul.query(tuple())
