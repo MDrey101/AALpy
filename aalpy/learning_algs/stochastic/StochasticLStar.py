@@ -114,7 +114,7 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
             print(f'Hypothesis: {learning_rounds}: {len(hypothesis.states)} states.')
 
         if print_level == 3:
-            print_observation_table(observation_table, 'stoc')
+            print_observation_table(observation_table, 'stochastic')
 
         cex = None
         if not chaos_cex_present:
