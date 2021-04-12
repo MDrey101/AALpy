@@ -16,9 +16,9 @@ print_options = [0, 1, 2, 3]
 
 
 def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_resample=100, target_unambiguity=0.99,
-                         min_rounds=10, max_rounds=200, automaton_type='mdp', strategy='normal', cex_processing=None,
-                         samples_cex_strategy=None, return_data=False, error_bound=0.02,
-                         property_stop_exp_name=None, print_level=2):
+                         min_rounds=10, max_rounds=200, automaton_type='mdp', strategy='normal',
+                         cex_processing='longest_prefix',samples_cex_strategy='bfs', return_data=False,
+                         error_bound=0.02, property_stop_exp_name=None, print_level=2):
     """
     Learning of Markov Decision Processes based on 'L*-Based Learning of Markov Decision Processes' by Tappler et al.
 
@@ -116,7 +116,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         if print_level == 3:
             print_observation_table(observation_table, 'stoc')
 
-        # If there is a prefix leading to chaos state, use that as a counterexample, otherwise preform equivalence query
         cex = None
         if not chaos_cex_present:
             eq_query_start = time.time()
@@ -159,8 +158,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
 
         if not refined:
             break
-            # stochastic_teacher.n_c *= 1.5
-            # stochastic_teacher.complete_query_cache.clear()
 
     total_time = round(time.time() - start_time, 2)
     eq_query_time = round(eq_query_time, 2)
