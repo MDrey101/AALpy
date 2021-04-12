@@ -11,7 +11,11 @@ print_options = [0, 1, 2, 3]
 def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abstraction_mapping: dict, n_sampling=100,
                                max_learning_rounds=None, return_data=False, print_level=2):
     """
-    TODO: add description here
+    Based on ''Learning Abstracted Non-deterministic Finite State Machines'' from Pferscher and Aichernig. The algorithm learns an abstracted onfsm of a non-deterministic system. For the additional abstraction, equivalence classes for outputs are used. 
+    Learning ONFSM relies on all-weather assumption. If this assumption is not satisfied by sampling,
+    learning might not converge to the minimal model and runtime could increase substantially.
+    Note that this is the inherent flaw of the all-weather assumption. (All outputs will be seen)
+    AALpy v.2.0 will try to solve that problem with a novel approach.
 
     Args:
 
@@ -21,7 +25,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
         eq_oracle: equivalence oracle
 
-        abstraction_mapping: dictionary containing mappings from abstracted to concrete values
+        abstraction_mapping: dictionary containing mappings from abstracted to concrete values (equivalence classes)
 
         n_sampling: number of times that membership/input queries will be asked for each cell in the observation
             (Default value = 100)
@@ -35,7 +39,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
             (Default value = 2)
 
     Returns:
-        learned ONFSM
+        learned abstracted ONFSM
 
     """
     start_time = time.time()
@@ -48,7 +52,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
     abstracted_observation_table = AbstractedNonDetObservationTable(alphabet, sul, abstraction_mapping, n_sampling)
 
-    # We fist query the initial row. Then based on output in its cells, we generate new rows in the extended S set,
+    # We fist query the initial row. Then based on output in its cells, we generate new rows in S.A,
     # and then we perform membership/input queries for them.
     abstracted_observation_table.update_obs_table()
     new_rows = abstracted_observation_table.update_extended_S(abstracted_observation_table.S[0])
@@ -65,7 +69,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
             row_to_close = abstracted_observation_table.get_row_to_close()
             while row_to_close is not None:
-                # First we add new rows to the extended S set. They are added based on the values in the cells of the
+                # First we add new rows to the S.A. They are added based on the values in the cells of the
                 # rows that is to be closed. Once those rows are created, they are populated and closedness is checked
                 # once again.
                 closed_complete_consistent = False
@@ -81,18 +85,16 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
                 row_to_complete = abstracted_observation_table.get_row_to_complete()
 
             e_column_for_consistency = abstracted_observation_table.get_row_to_make_consistent()
-
             while e_column_for_consistency is not None:
                 closed_complete_consistent = False
                 extended_col = abstracted_observation_table.update_E(e_column_for_consistency)
                 abstracted_observation_table.update_obs_table(e_set=extended_col)
-                # statement has no effect
-                # row_to_complete = abstracted_observation_table.get_row_to_complete()
+                e_column_for_consistency = abstracted_observation_table.get_row_to_make_consistent()
 
         hypothesis = abstracted_observation_table.gen_hypothesis()
 
         if print_level == 3:
-            print('Concrete Observation Table')
+            print('Observation Table')
             print_observation_table(abstracted_observation_table.observation_table.S,
                                     abstracted_observation_table.observation_table.S_dot_A,
                                     abstracted_observation_table.observation_table.E,
@@ -115,7 +117,7 @@ def run_abstracted_Lstar_ONFSM(alphabet: list, sul: SUL, eq_oracle: Oracle, abst
 
         print(cex)
 
-        # Process counterexample -> add cex to S_dot_A or E
+        # Process counterexample -> add cex to S.A or E
         abstracted_observation_table.cex_processing(cex, hypothesis)
 
     total_time = round(time.time() - start_time, 2)

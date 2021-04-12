@@ -9,14 +9,14 @@ from aalpy.utils.HelperFunctions import extend_set
 class AbstractedNonDetObservationTable:
     def __init__(self, alphabet: list, sul: SUL, abstraction_mapping: dict, n_sampling=100):
         """
-        Construction of the non-deterministic observation table.
+        Construction of the abstracted non-deterministic observation table.
 
         Args:
 
             alphabet: input alphabet
             sul: system under learning
+            abstraction_mapping: map that translates outputs to abstracted outputs
             n_sampling: number of samples to be performed for each cell
-            abstraction_mapping: map for translation of outputs
         """
 
         assert alphabet is not None and sul is not None
@@ -36,7 +36,7 @@ class AbstractedNonDetObservationTable:
 
     def update_obs_table(self, s_set=None, e_set: list = None):
         """
-        Perform the membership queries.
+        Perform the membership queries and abstraction on observation table
         With  the  all-weather  assumption,  each  output  query  is  tried  a  number  of  times  on  the  system,
         and  the  driver  reports  the  set  of  all  possible  outputs.
 
@@ -53,7 +53,7 @@ class AbstractedNonDetObservationTable:
 
     def abstract_obs_table(self):
         """
-        TODO Andrea
+        Creation of abstracted observation table. The provided abstraction mapping is used to replace outputs by abstracted outputs.
         """
 
         self.S = self.observation_table.S
@@ -105,7 +105,7 @@ class AbstractedNonDetObservationTable:
 
     def get_row_to_close(self):
         """
-        Get row for that need to be closed.
+        Get row for that needs to be closed.
 
         Returns:
 
@@ -127,10 +127,11 @@ class AbstractedNonDetObservationTable:
 
     def get_row_to_complete(self):
         """
-        Get row for that need to be completed.
+        Get row for that needs to be completed.
 
         Returns:
-            row that needs to be added to the extended S set
+
+            row that will be added to S.A
         """
 
         s_rows = set()
@@ -177,7 +178,7 @@ class AbstractedNonDetObservationTable:
 
             similar_s_dot_a_rows.sort(key=lambda row: len(row[0]))
 
-            for a in self.A:  # TODO: check if there is a mistake in the paper
+            for a in self.A:  
                 outputs = self.observation_table.T[s_row[0]][a]
                 for o in outputs:
                     extended_s_sequence = (s_row[0][0] + a, s_row[0][1] + tuple([o]))
@@ -196,7 +197,18 @@ class AbstractedNonDetObservationTable:
 
     def get_distinctive_input_sequence(self, first_row, second_row, inp):
         """
-        TODO Andrea
+        get input sequence that leads to a different output sequence for two given input/output sequences
+
+        Args:
+
+            first_row: row to be compared
+            second_row: row to be compared
+            inp: appended input to first_row and second_row that leads to different state 
+
+        Returns:
+
+            input sequence that leads to different outputs
+
         """
         for e in self.E:
             if len(self.T[first_row][e].difference(self.T[second_row][e])) > 0:
@@ -206,7 +218,15 @@ class AbstractedNonDetObservationTable:
 
     def complete_extended_S(self, row_prefix):
         """
-        Extend observation table.
+        Add given row to S.A
+
+        Args:
+
+            row_prefix: row that should be added to S.A
+
+        Returns:
+
+            the row that has been extended
         """
         extension = [row_prefix]
         self.observation_table.S_dot_A.extend(extension)
@@ -238,11 +258,11 @@ class AbstractedNonDetObservationTable:
 
     def gen_hypothesis(self) -> Onfsm:
         """
-        Generate automaton based on the values found in the observation table.
+        Generate automaton based on the values found in the abstracted observation table.
 
         Returns:
 
-            Current hypothesis
+            Current abstracted hypothesis
 
         """
         state_distinguish = dict()
@@ -285,7 +305,15 @@ class AbstractedNonDetObservationTable:
 
     def extend_S_dot_A(self, cex_prefixes: list):
         """
-        Extends S_dot_A based on counterexample prefixes.
+        Extends S.A based on counterexample prefixes.
+
+        Args:
+
+        cex_prefixes: input/output sequences that are added to S.A
+
+        Returns:
+
+        input/output sequences that have been added to the S.A
         """
         prefixes = self.S + self.S_dot_A
         prefixes_to_extend = []
@@ -310,7 +338,13 @@ class AbstractedNonDetObservationTable:
 
     def cex_processing(self, cex: tuple, hypothesis: Onfsm):
         """
-        TODO add
+        Add counterexample to the observation table. If the counterexample leads to a state where an output of the same equivalence class already exists, the prefixes of the counterexample are added to S.A. Otherwise, the postfixes of counterexample are added to E. 
+
+
+        Args:
+
+            cex: counterexample that should be added to the observation table
+            hypothesis: onfsm that implements the counterexample
         """
 
         cex_len = len(cex[0])
