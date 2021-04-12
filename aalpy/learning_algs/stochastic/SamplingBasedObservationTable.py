@@ -1,5 +1,4 @@
 from collections import defaultdict
-from statistics import mean
 
 from aalpy.automata import Mdp, MdpState, StochasticMealyState, StochasticMealyMachine
 from .DifferenceChecker import DifferenceChecker
@@ -57,6 +56,7 @@ class SamplingBasedObservationTable:
         for online testing/sampling.
 
         Args:
+
           uniform: if true, all cells will be uniformly sampled (Default value = False)
           n_resample: Number of resamples
 
@@ -241,14 +241,37 @@ class SamplingBasedObservationTable:
           a representative compatible with the target
 
         """
-        if target in self.S:
+        if self.compatibility_checker.use_diff_value():
+            smallest_diff_value = 2 ** 32
+            best_rep = None
+            if target in self.compatibility_classes_representatives:
+                return target
             for r in self.compatibility_classes_representatives:
-                if target == r or target in self.compatibility_class[r]:
-                    return r
+                if self.automaton_type == "mdp" and r[-1] != target[-1]:
+                    continue
+                if not self.are_rows_compatible(r, target):
+                    continue
+                diff_value = 0
+                row_target = self.T[target]
+                row_r = self.T[r]
+                for e in self.E:
+                    diff_value += self.compatibility_checker.difference_value(row_r.get(e, None),
+                                                                              row_target.get(e, None))
+                if diff_value < smallest_diff_value:
+                    # if smallest_diff_value != 2**32:
+                    #    print("Found a better rep")
+                    smallest_diff_value = diff_value
+                    best_rep = r
+            return best_rep
         else:
-            for r in self.compatibility_classes_representatives:
-                if self.are_rows_compatible(r, target):
-                    return r
+            if target in self.S:
+                for r in self.compatibility_classes_representatives:
+                    if target == r or target in self.compatibility_class[r]:
+                        return r
+            else:
+                for r in self.compatibility_classes_representatives:
+                    if self.are_rows_compatible(r, target):
+                        return r
         assert False
 
     def trim_columns(self):
@@ -370,18 +393,14 @@ class SamplingBasedObservationTable:
         unambiguous_rows_percentage = numerator / len(self.S + extended_s)
 
         self.unambiguity_values.append(unambiguous_rows_percentage)
-        if self.strategy == 'no_cq' and learning_round >= min_rounds and len(self.unambiguity_values) >= 10:
-            last_n_unamb = self.unambiguity_values[-15:]
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.002):
-                return True
+        if self.strategy != 'normal' and learning_round >= min_rounds:
+            # keys are number of last unambiguity values and value is maximum differance allowed between them
+            stopping_dict = {10: 0.001, 15: 0.002, 25: 0.01, 35: 0.02}
 
-            last_n_unamb = self.unambiguity_values[-10:]
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.001):
-                return True
-
-            last_n_unamb = self.unambiguity_values[-25:]
-            if abs(max(last_n_unamb) - min(last_n_unamb) <= 0.01):
-                return True
+            for num_last, diff in stopping_dict.items():
+                last_n_unamb = self.unambiguity_values[-num_last:]
+                if abs(max(last_n_unamb) - min(last_n_unamb) <= diff):
+                    return True
 
         if print_unambiguity and learning_round % 5 == 0:
             print(f'Unambiguous rows: {round(unambiguous_rows_percentage * 100, 2)}%;'
@@ -410,11 +429,13 @@ class SamplingBasedObservationTable:
         Checks if 2 cells are considered different.
 
         Args:
+
           s1: prefix of row s1
           s2: prefix of row s2
           e: element of E
 
         Returns:
+
           True if cells are different, false otherwise
 
         """
@@ -494,15 +515,14 @@ class SamplingBasedObservationTable:
 
         self.compatibility_classes_representatives = representatives
 
-    def chaos_counterexample(self, hypothesis: Mdp):
-        """If chaos state is reachable, return path to chaos
+    def chaos_counterexample(self, hypothesis):
+        """ Check whether the chaos state is reachable.
 
         Args:
           hypothesis: current hypothesis
-          hypothesis: Mdp: 
 
         Returns:
-          prefix leading to a state from which chaos state is reachable
+          True if chaos state is reachable, False otherwise
 
         """
         for state in hypothesis.states:

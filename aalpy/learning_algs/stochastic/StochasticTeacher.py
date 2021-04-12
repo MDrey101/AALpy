@@ -1,5 +1,5 @@
 from collections import defaultdict
-from random import choice, choices, random
+from random import choice, random
 
 from aalpy.base import SUL
 from aalpy.learning_algs.stochastic.DifferenceChecker import DifferenceChecker
@@ -259,9 +259,9 @@ class StochasticTeacher:
                     return
             else:
                 curr_node = pta_root
-                for i,o in zip(inputs, outputs):
+                for i, o in zip(inputs, outputs):
                     self.curr_node.input_frequencies[i] -= 1
-                    curr_node = curr_node.get_child(i,o)
+                    curr_node = curr_node.get_child(i, o)
                 self.sul.post()
                 return
 
@@ -355,9 +355,6 @@ class StochasticTeacher:
             counterexample
 
         """
-        # TODO we could add that the cex is saved and repeated if it still holds, or search for shorter one
-        # if self.last_tree_cex and len(hypothesis.states) == self.last_hyp_size:
-        #     return self.last_tree_cex
 
         if self.samples_cex_strategy:
             cex = None
@@ -377,7 +374,6 @@ class StochasticTeacher:
 
         # Repeat same cex if it did not lead to state size increase
         if self.last_cex and len(hypothesis.states) == self.last_hyp_size:
-            # TODO:IDEA we can define some other requirement aside from length, such as reachability of cex
             if random() <= 0.33:
                 cex = self.eq_oracle.find_cex(hypothesis)
                 if cex and len(cex) < len(self.last_cex):

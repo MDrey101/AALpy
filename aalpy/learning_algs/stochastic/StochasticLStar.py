@@ -1,5 +1,4 @@
 import time
-from statistics import mean
 
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, \
@@ -8,7 +7,7 @@ from aalpy.learning_algs.stochastic.SamplingBasedObservationTable import Samplin
 from aalpy.learning_algs.stochastic.StochasticCexProcessing import stochastic_longest_prefix, stochastic_rs
 from aalpy.learning_algs.stochastic.StochasticTeacher import StochasticTeacher
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, get_cex_prefixes
-from aalpy.utils.ModelChecking import stop_based_on_confidence, get_error
+from aalpy.utils.ModelChecking import stop_based_on_confidence
 
 strategies = ['normal', 'no_cq', 'chi_square']
 cex_sampling_options = [None, 'bfs']
@@ -106,7 +105,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         observation_table.trim(hypothesis)
 
         # If there is no chaos state is not reachable, remove it from state set
-        # cex = observation_table.chaos_counterexample(hypothesis)
         chaos_cex_present = observation_table.chaos_counterexample(hypothesis)
 
         if not chaos_cex_present:
@@ -147,19 +145,9 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
                     if suf not in observation_table.E:
                         observation_table.E.append(suf)
 
-        # print('Size of E:', len(observation_table.E))
         # Ask queries for non-completed cells and update the observation table
         refined = observation_table.refine_not_completed_cells(n_resample)
         observation_table.update_obs_table_with_freq_obs()
-
-        # error = get_error(hypothesis, property_stop_exp_name)
-        # if error:
-        #     max_err.append(max(error))
-        #     avr_err.append(mean(error))
-        # else:
-        #     max_err.append(100)
-        #     avr_err.append(100)
-        # unamb.append(observation_table.get_unamb_percentage())
 
         if property_stop_exp_name and learning_rounds >= min_rounds and stop_based_on_confidence(error_bound, hypothesis, property_stop_exp_name):
             if chaos_cex_present:
@@ -193,24 +181,6 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         'eq_oracle_time': eq_query_time,
         'total_time': total_time
     }
-
-    # import matplotlib.pyplot as plt
-    #
-    # r = list(range(len(max_err)))
-    # plt.plot(r, max_err, label = 'max_error_%')
-    # plt.plot(r, avr_err, label = 'avr_error_%')
-    # plt.plot(r, unamb, label='unamb_%')
-    #
-    # plt.title(property_stop_exp_name)
-    # plt.legend()
-    # plt.show()
-
-    # import csv
-    # with open('stopping_mqtt1.csv', 'w', newline='') as file:
-    #     writer = csv.writer(file)
-    #     writer.writerow(max_err)
-    #     writer.writerow(avr_err)
-    #     writer.writerow(unamb)
 
     if print_level > 0:
         print_learning_info(info)
