@@ -1,4 +1,5 @@
 import string
+import random
 
 from aalpy.learning_algs import run_Lstar, run_Lstar_ONFSM, run_stochastic_Lstar, run_abstracted_Lstar_ONFSM
 from aalpy.oracles import RandomWalkEqOracle, StatePrefixEqOracle, TransitionFocusOracle, WMethodEqOracle, \
@@ -246,6 +247,54 @@ def mqtt_example():
                       print_level=3)
 
     visualize_automaton(mealy)
+
+def multi_client_mqtt_example():
+
+    from aalpy.base import SUL
+
+    class Multi_Client_MQTT_Mapper(SUL):
+        def __init__(self):
+            super().__init__()
+            five_clients_mqtt_mealy = load_automaton_from_file('DotModels/mqtt_multi_client_solution.dot', automaton_type='mealy')
+            self.five_client_mqtt = MealySUL(five_clients_mqtt_mealy)
+
+            self.clients = ('c0', 'c1', 'c2', 'c3', 'c4')
+
+        def get_input_alphabet(self):
+            return ('connect', 'disconnect', 'subscribe', 'unsubscribe', 'publish')
+
+        def pre(self):
+             self.five_client_mqtt.pre()
+
+        def post(self):
+             self.five_client_mqtt.post()
+
+        def step(self, letter):
+                input = random.choice(self.clients) + '_' + letter
+                concrete_output = self.five_client_mqtt.step(input)
+                concrete_outputs = concrete_output.split('__')
+                abstract_outputs = set([e[3:] for e in concrete_outputs])
+                if 'Empty' in abstract_outputs:
+                    abstract_outputs.remove('Empty')
+                if abstract_outputs == {'CONCLOSED'}:
+                    return 'CONCLOSED'
+                else:
+                    if 'CONCLOSED' in abstract_outputs:
+                        abstract_outputs.remove('CONCLOSED')
+                    abstract_outputs = sorted(list(abstract_outputs))
+                    return '_'.join(abstract_outputs)
+
+    sul = Multi_Client_MQTT_Mapper()
+    alph = sul.get_input_alphabet()
+
+    eq_oracle = UnseenOutputRandomWalkEqOracle(alph, sul, num_steps=5000, reset_prob=0.09, reset_after_cex=True)
+
+    learned_onfsm = run_Lstar_ONFSM(alph, sul, eq_oracle, n_sampling=400, print_level=3)
+
+    return learned_onfsm
+
+
+
 
 
 def onfsm_mealy_paper_example():
