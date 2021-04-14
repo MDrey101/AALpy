@@ -257,6 +257,8 @@ def multi_client_mqtt_example():
             super().__init__()
             five_clients_mqtt_mealy = load_automaton_from_file('DotModels/mqtt_multi_client_solution.dot', automaton_type='mealy')
             self.five_client_mqtt = MealySUL(five_clients_mqtt_mealy)
+            self.connected_clients = set()
+            self.subscribed_clients = set()
 
             self.clients = ('c0', 'c1', 'c2', 'c3', 'c4')
 
@@ -268,28 +270,68 @@ def multi_client_mqtt_example():
 
         def post(self):
              self.five_client_mqtt.post()
+             self.connected_clients = set()
+             self.subscribed_clients = set()
+
 
         def step(self, letter):
-                input = random.choice(self.clients) + '_' + letter
+                client = random.choice(self.clients)
+                input = client + '_' + letter
                 concrete_output = self.five_client_mqtt.step(input)
+                all = ''
+
+                if letter == 'connect':
+                    if client not in self.connected_clients:
+                        self.connected_clients.add(client)
+                    elif client in self.connected_clients:
+                        self.connected_clients.remove(client)
+                        if client in self.subscribed_clients:
+                            self.subscribed_clients.remove(client)
+                        if len(self.subscribed_clients) == 0:
+                            all = '_UNSUB_ALL'
+
+                elif letter == 'subscribe' and client in self.connected_clients:
+                        self.subscribed_clients.add(client)
+                elif letter == 'disconnect' and client in self.connected_clients:
+                    self.connected_clients.remove(client)
+                    if client in self.subscribed_clients:
+                            self.subscribed_clients.remove(client)
+                    if len(self.subscribed_clients) == 0:
+                            all = '_UNSUB_ALL'
+                elif letter == 'unsubscribe' and client in self.connected_clients:
+                        if client in self.subscribed_clients:
+                            self.subscribed_clients.remove(client)
+                        if len(self.subscribed_clients) == 0:
+                            all = '_ALL'
+
                 concrete_outputs = concrete_output.split('__')
                 abstract_outputs = set([e[3:] for e in concrete_outputs])
                 if 'Empty' in abstract_outputs:
                     abstract_outputs.remove('Empty')
                 if abstract_outputs == {'CONCLOSED'}:
-                    return 'CONCLOSED'
+                    if len(self.connected_clients) == 0:
+                        all = '_ALL'
+                    return 'CONCLOSED' + all
                 else:
                     if 'CONCLOSED' in abstract_outputs:
                         abstract_outputs.remove('CONCLOSED')
                     abstract_outputs = sorted(list(abstract_outputs))
-                    return '_'.join(abstract_outputs)
+                    output = '_'.join(abstract_outputs)
+                    return '_'.join(set(output.split('_'))) + all
 
     sul = Multi_Client_MQTT_Mapper()
     alph = sul.get_input_alphabet()
 
     eq_oracle = UnseenOutputRandomWalkEqOracle(alph, sul, num_steps=5000, reset_prob=0.09, reset_after_cex=True)
 
-    learned_onfsm = run_Lstar_ONFSM(alph, sul, eq_oracle, n_sampling=400, print_level=3)
+    abstraction_mapping = dict()
+    abstraction_mapping['CONCLOSED'] = 'CONCLOSED'
+    abstraction_mapping['CONCLOSED_UNSUB_ALL'] = 'CONCLOSED'
+    abstraction_mapping['CONCLOSED_ALL'] = 'CONCLOSED'
+    abstraction_mapping['UNSUBACK'] = 'UNSUBACK'
+    abstraction_mapping['UNSUBACK_ALL'] = 'UNSUBACK'
+
+    learned_onfsm = run_abstracted_Lstar_ONFSM(alph, sul, eq_oracle, abstraction_mapping=abstraction_mapping, n_sampling=400, print_level=3)
 
     return learned_onfsm
 

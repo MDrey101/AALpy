@@ -60,4 +60,4 @@ abstraction_mapping['O'] = 0
 
 learned_onfsm = multi_client_mqtt_example()
 
-visualize_automaton(learned_onfsm, path="five_clients_mqtt_onfsm", file_type='dot')
+visualize_automaton(learned_onfsm, path="five_clients_mqtt_abstracted_onfsm", file_type='dot')
