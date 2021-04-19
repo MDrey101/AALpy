@@ -100,7 +100,7 @@ class SamplingBasedObservationTable:
                             if self.are_rows_compatible(longest_row_trace_prefix, r):
                                 row_repr += 1
                         # row_repr can be zero for non-closed
-                        uncertainty_value = max((int(row_repr - 1 * 2)), 1)
+                        uncertainty_value = max((int(row_repr - 1) * 2), 1)
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 

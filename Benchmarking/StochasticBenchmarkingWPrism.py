@@ -12,7 +12,8 @@ path_to_dir = '../DotModels/MDPs/'
 files = ['first_grid.dot', 'second_grid.dot',
          'slot_machine.dot', 'mqtt.dot', 'tcp.dot'] # 'shared_coin.dot'
 
-aalpy.paths.path_to_prism =      "C:/Program Files/prism-4.6/bin/prism.bat"
+#aalpy.paths.path_to_prism =      "C:/Program Files/prism-4.6/bin/prism.bat"
+aalpy.paths.path_to_prism =      "/home/mtappler/Programs/prism-4.4-linux64/bin/prism"
 aalpy.paths.path_to_properties = "prism_eval_props/"
 
 n_c = 20
@@ -22,9 +23,9 @@ max_rounds = 1000
 
 strategy = "normal"
 
-for seed in range(1, 4):
+for seed in range(1, 11):
     random.seed(seed)
-    benchmark_dir = f"benchmark_complete_no_cq/benchmark_data_{seed}"
+    benchmark_dir = f"benchmark_early_stopping_normal_betterrep/benchmark_data_{seed}"
     import os
 
     if not os.path.exists(benchmark_dir):
