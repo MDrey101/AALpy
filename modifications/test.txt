@@ -1,0 +1,19 @@
+mdp
+module test2
+loc : [0..3] init 0;
+[but] loc=0 -> 
+ 1 : (loc'=0);
+[coin] loc=0 -> 
+ 1 : (loc'=1);
+[but] loc=1 -> 
+ 0.1 : (loc'=0) + 0.9 : (loc'=2);
+[coin] loc=1 -> 
+ 1 : (loc'=1);
+[but] loc=2 -> 
+ 1 : (loc'=0);
+[coin] loc=2 -> 
+ 1 : (loc'=1);
+endmodule
+label "initial" = loc=0;
+label "beep" = loc=1;
+label "coffee" = loc=2;
