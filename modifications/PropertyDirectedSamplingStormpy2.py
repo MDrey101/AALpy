@@ -36,7 +36,7 @@ class PDS:
         prism_program = None
 
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        path = dir_path + "/coffee_machine_prism.txt"
+        path = dir_path + "/prism_files/coffee_machine_prism.txt"
 
         if type(mdp) == str:
             # TODO: read and transform prism file

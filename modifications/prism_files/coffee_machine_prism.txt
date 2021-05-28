@@ -30,5 +30,3 @@ label "beep" = q=1;
 
 label "coffee" = q=2;
 
-
-

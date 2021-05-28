@@ -1,106 +1,203 @@
 import os
+import StringBuilder
+import numpy as numpy
 import stormpy
 import random
+from collections import defaultdict
+
+from numpy.lib import math
+
 from aalpy.automata import Mdp
 from aalpy.base import Oracle, SUL
-
-
-# TODO: create function to add lines to prism file
-# TODO: Maybe check for fixing the quickfix in the formula?
-# TODO: revisit the implementation of the algorithm and implementing feedback
-# TODO: Advance further on the path of heaven and earth checking!
+from aalpy.utils.ModelChecking import _target_string, _sanitize_for_prism
 
 
 class PDS(Oracle):
-    # TODO: Check for n_batch
     def __init__(self, alphabet: list,
                  sul: SUL,
                  target: str,
                  k: int,
                  p_rand: float = 0.0,
                  c_change: float = 0.9,
-                 s_all: list = None,
-                 formula_str: str = "",
-                 n_batch: int = 0,
+                 n_batch: int = 10,
                  quit_prob: float = 0.3,
-                 stop_on_cex=False):
+                 stop_on_cex=False,
+                 epsilon=0.01,
+                 delta=0.95):
         super().__init__(alphabet, sul)
         self.target = target
         self.k = k
         self.p_rand = p_rand
         self.c_change = c_change
-        self.s_all = s_all if s_all is not None else []
-        self.formula_str = formula_str
-        self.n_batch = n_batch              # TODO: n_batch = BOUND?
+        self.s_all = []
+        self.formula_str = ""
+        self.n_batch = n_batch
         self.quit_prob = quit_prob
         self.stop_on_cex = stop_on_cex
+        self.epsilon = epsilon
+        self.delta = delta
+        self.accuracy = 0.0
 
     def find_cex(self, hypothesis):
+        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis, self.sul.sul)
+        if stormpy_hypothesis is not None and scheduler is not None:
+            cex = self.sample(self.p_rand, scheduler, stormpy_hypothesis, self.k, self.sul.sul)
+            self.num_steps += (len(cex) - 1) // 2
+            self.num_queries += 1
+            # self.evaluate_scheduler(scheduler, stormpy_hypothesis, self.sul.sul)
+            return cex
+        else:
+            print("Converting hypothesis to stormpy went wrong!")
+
+    def _setup_pds(self, hypothesis, sul):
         prism_program = None
 
         if type(hypothesis) == str:
             prism_program = self.parse_prism_file(hypothesis)
         elif type(hypothesis) == Mdp:
-            prism_program = self.parse_aalpy_mdp(hypothesis)
+            prism_program = self.parse_aalpy_mdp(hypothesis, "mdp_test", self.n_batch + 1)
 
-        self.formula_str = self.build_formula(self.formula_str,
-                                              [state.output for state in self.sul.mdp.states],
+        self.formula_str = self.build_formula([state.output for state in sul.mdp.states],
                                               self.target,
                                               self.k)
 
         if prism_program is not None:
             formulas = stormpy.parse_properties(self.formula_str, prism_program)
-            hypothesis = stormpy.build_model(prism_program, formulas)
-            result = stormpy.model_checking(hypothesis, formulas[0], extract_scheduler=True)
+            stormpy_hypothesis = stormpy.build_model(prism_program, formulas)
+            result = stormpy.model_checking(stormpy_hypothesis, formulas[0], extract_scheduler=True)
+            return stormpy_hypothesis, result.scheduler
+        return None, None
 
-            return self.pds(self.p_rand, hypothesis, result.scheduler, self.k+1, self.k, self.s_all, self.c_change)
+    def execute_pds(self, hypothesis):
+        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis=hypothesis, sul=self.sul)
 
-    def pds(self, p_rand, hypothesis, scheduler, n_batch, k, s_all, c_change):
+        if stormpy_hypothesis is not None and scheduler is not None:
+            p_rand_new, s_new, s_all_new = self.pds(p_rand=self.p_rand,
+                                                    hypothesis=stormpy_hypothesis,
+                                                    scheduler=scheduler,
+                                                    n_batch=self.n_batch,
+                                                    k=self.k,
+                                                    s_all=self.s_all,
+                                                    c_change=self.c_change,
+                                                    sul=self.sul)
+
+            # self.evaluate_scheduler(scheduler, stormpy_hypothesis, self.sul)
+
+            return p_rand_new, s_new, s_all_new
+        else:
+            print("Converting hypothesis to stormpy went wrong!")
+
+    def pds(self, p_rand, hypothesis, scheduler, n_batch, k, s_all, c_change, sul):
         s_next = []
         while len(s_next) < n_batch:
-            s_next.append(self.sample(p_rand, scheduler, hypothesis, k))
+            s_next.append(self.sample(p_rand, scheduler, hypothesis, k, sul))
 
         p_rand *= c_change
         s_all.append(s_next)
         return p_rand, s_next, s_all
 
-    def sample(self, p_rand, scheduler, hypothesis, k):
-        # TODO: include stop_on_cex
-        trace = [self.sul.mdp.initial_state.output]
-        self.sul.mdp.reset_to_initial()
+    def sample(self, p_rand, scheduler, hypothesis, k, sul):
+        trace = [sul.mdp.initial_state.output]
+        sul.mdp.reset_to_initial()
         q_curr = hypothesis.initial_states[0]
 
         while len(trace) - 1 < k or not self._coin_flip(self.quit_prob):
-            if self._coin_flip(p_rand) or q_curr is None or not self.sul.mdp.get_input_alphabet()[
+            if self._coin_flip(p_rand) or q_curr is None or not sul.mdp.get_input_alphabet()[
                     scheduler.get_choice(q_curr).get_deterministic_choice()]:
-                input = self._rand_sel(self.sul.mdp.get_input_alphabet())
+                input = self._rand_sel(sul.mdp.get_input_alphabet())
             else:
-                input = self.sul.mdp.get_input_alphabet()[scheduler.get_choice(q_curr).get_deterministic_choice()]
+                input = sul.mdp.get_input_alphabet()[scheduler.get_choice(q_curr).get_deterministic_choice()]
 
-            out_sut = self.sul.step(input)
+            out_sut = sul.step(input)
             trace.append(input)
             trace.append(out_sut)
-            dist_q = self._transition_function(q_curr, input, self.sul.mdp.get_input_alphabet(), hypothesis)
+            dist_q = self._transition_function(q_curr, input, sul.mdp.get_input_alphabet(), hypothesis)
 
             for entry in dist_q:
                 if out_sut in hypothesis.states[entry.column].labels:
                     q_curr = entry.column
                     break
             else:
-                # TODO: return and handle counterexample(trace) here
+                if self.stop_on_cex:
+                    break
                 q_curr = None
 
         return trace
 
     @staticmethod
-    def parse_aalpy_mdp(mdp):
-        # TODO: How to create stormpy-mdp here? Maybe create prism parsed output and hand it to stormpy?
-        # TODO: Question: What happened to the prism dump method?
-
+    def parse_aalpy_mdp(mdp, name, n_batch):
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        path = dir_path + "/coffee_machine_prism.txt"
-        prism_program = stormpy.parse_prism_program(path, simplify=False)
-        return prism_program
+        path = dir_path + f"/prism_files/{name}.txt"
+
+        prism_program_string = PDS.create_prism_program(mdp, "mdp_test", n_batch)
+        with open(path, "w+") as outfile:
+            outfile.write(prism_program_string)
+
+        return stormpy.parse_prism_program(path, simplify=False)
+
+    @staticmethod
+    def create_prism_program(mdp, name, n_batch):
+        builder = StringBuilder.StringBuilder()
+
+        builder.append("mdp")
+        builder.append(os.linesep * 2)
+        builder.append(f"const int BOUND = {n_batch};")
+        builder.append(os.linesep * 2)
+        builder.append(f"module {name}")
+        builder.append(os.linesep)
+
+        nr_states = len(mdp.states)
+        orig_id_to_int_id = dict()
+        for index, state in enumerate(mdp.states):
+            orig_id_to_int_id[state.state_id] = index
+        builder.append("\tloc : [0..{}] init {};".format(nr_states, orig_id_to_int_id[mdp.initial_state.state_id]))
+        builder.append(os.linesep)
+
+        # print transitions
+        for source in mdp.states:
+            source_id = orig_id_to_int_id[source.state_id]
+            for inp in source.transitions.keys():
+                if source.transitions[inp]:
+                    target_strings = \
+                        map(lambda target: _target_string(target, orig_id_to_int_id), source.transitions[inp])
+                    target_joined = " + ".join(target_strings)
+                    builder.append(f"\t[{_sanitize_for_prism(inp)}] loc={source_id} -> {target_joined};")
+                    builder.append(os.linesep)
+        builder.append("endmodule")
+        builder.append(os.linesep * 2)
+
+        builder.append("module StepCounter")
+        builder.append(os.linesep)
+        builder.append(f"\tsteps: [0..{n_batch}] init {orig_id_to_int_id[mdp.initial_state.state_id]};")
+        builder.append(os.linesep)
+        transition_checklist = []
+        for source in mdp.states:
+            for inp in source.transitions.keys():
+                if source.transitions[inp]:
+                    if inp not in transition_checklist:
+                        transition_checklist.append(inp)
+                        builder.append(f"\t[{_sanitize_for_prism(inp)}] true -> 1: (steps'=min(BOUND,steps + 1));")
+                        builder.append(os.linesep)
+        builder.append("endmodule")
+        builder.append(os.linesep * 2)
+
+        # labelling function
+        output_to_state_id = defaultdict(list)
+        for s in mdp.states:
+            joined_output = s.output
+            outputs = joined_output.split("__")
+            for o in outputs:
+                if o:
+                    output_to_state_id[o].append(orig_id_to_int_id[s.state_id])
+
+        for output, states in output_to_state_id.items():
+            state_propositions = map(lambda s_id: "loc={}".format(s_id), states)
+            state_disjunction = "|".join(state_propositions)
+            output_string = _sanitize_for_prism(output)
+            builder.append(f"label \"{output_string}\" = {state_disjunction};")
+            builder.append(os.linesep * 2)
+
+        return builder.to_string()
 
     @staticmethod
     def parse_prism_file(hypothesis):
@@ -122,35 +219,49 @@ class PDS(Oracle):
         elif type(input) == int:
             return alphabet[input]
 
-    def _transition_function(self, q_curr, input, alphabet, hypothesis):
+    @staticmethod
+    def _transition_function(q_curr, input, alphabet, hypothesis):
         dist_q = []
         if q_curr is not None:
             for action in hypothesis.states[q_curr].actions[
-                    self._get_corresponding_input(input, alphabet)].transitions:
+                    PDS._get_corresponding_input(input, alphabet)].transitions:
                 dist_q.append(action)
         return dist_q
 
     @staticmethod
-    def build_formula(formula_str, states, target, k):
+    def build_formula(states, target, k):
         # TODO: Find a better solution for this problem
-        formula_str += "Pmax=? ["
+        formula_str = "Pmax=? ["
+        states_checklist = []
         for input in states:
-            formula_str += f"\"{input}\" | "
-        formula_str = formula_str[0:len(formula_str)-2]
+            if input not in states_checklist:
+                states_checklist.append(input)
+                formula_str += f"\"{input}\" | "
+        formula_str = formula_str[0:len(formula_str) - 2]
         formula_str += f"U \"{target}\" & steps < {k}]"
 
         return formula_str
 
-    #---------------------------------------------------------------------------
+    # ---------------------------------------------------------------------------
 
-    def evaluate_step(self):
-        return
+    def evaluate_scheduler(self, scheduler, hypothesis, sul):
+        sampled_traces = self.get_samples(scheduler, hypothesis, sul)
+        num_satisfied_traces = 0
+        for trace in sampled_traces:
+            if self.target in trace:
+                num_satisfied_traces += 1
 
-    def get_new_trace(self):
-        return
+        self.accuracy = num_satisfied_traces / len(sampled_traces)
 
-    def evaluate_trace(self, trace):
-        return
+        return self.accuracy
 
-    def get_trace_bound(self):
-        return
+    def get_samples(self, scheduler, hypothesis, sul):
+        sample_traces = []
+        for trace_count in range(PDS.get_chernoff_bound(epsilon=self.epsilon, delta=self.delta)):
+            sample_traces.append(self.sample(0.0, scheduler, hypothesis, self.k, sul))
+
+        return sample_traces
+
+    @staticmethod
+    def get_chernoff_bound(epsilon, delta):
+        return math.ceil((numpy.log(2) - numpy.log(delta)) / (2 * epsilon ** 2))
