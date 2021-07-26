@@ -1,0 +1,1784 @@
+/home/manuel/.local/share/virtualenvs/AALpy-mqZZZELl/bin/python3.9 /home/manuel/TUGraz/SPST/AALpy/modifications/compare_test.py
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 13 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 75.0%; 48 out of 64
+Hypothesis: 6: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 26 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 86.03%; 117 out of 136
+Hypothesis: 11: 28 states.
+0.3859790491539081
+Hypothesis: 12: 30 states.
+0.526457158205748
+Hypothesis: 13: 35 states.
+0.5804458769809293
+Hypothesis: 14: 35 states.
+0.3021756647864625
+Hypothesis: 15: 35 states.
+0.6137523502551706
+Unambiguous rows: 87.5%; 175 out of 200
+Hypothesis: 16: 36 states.
+0.59709911361805
+Hypothesis: 17: 35 states.
+0.6035455278001611
+Hypothesis: 18: 35 states.
+0.6199301638463605
+Hypothesis: 19: 35 states.
+0.6083803384367445
+Hypothesis: 20: 35 states.
+0.5949503088906796
+Unambiguous rows: 95.59%; 195 out of 204
+Hypothesis: 21: 35 states.
+0.6167069567553048
+Hypothesis: 22: 35 states.
+0.5911899006177813
+Hypothesis: 23: 35 states.
+0.6116035455278002
+Hypothesis: 24: 35 states.
+0.613215149073328
+Hypothesis: 25: 35 states.
+0.6333601933924254
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 26: 35 states.
+0.6164383561643836
+Hypothesis: 27: 35 states.
+0.5941445071179157
+Hypothesis: 28: 35 states.
+0.6164383561643836
+Hypothesis: 29: 35 states.
+0.6089175396185872
+Hypothesis: 30: 36 states.
+0.6086489390276658
+Unambiguous rows: 94.17%; 210 out of 223
+Hypothesis: 31: 35 states.
+0.6073059360730594
+Hypothesis: 32: 35 states.
+0.59092130002686
+Hypothesis: 33: 35 states.
+0.6102605425731936
+Hypothesis: 34: 35 states.
+0.6116035455278002
+-----------------------------------
+Learning Finished.
+Learning Rounds:  34
+Number of states: 35
+Time (in seconds)
+  Total                : 139.16
+  Learning algorithm   : 131.13
+  Conformance checking : 8.03
+Learning Algorithm
+ # Membership Queries  : 185534
+ # Steps               : 5723008
+Equivalence Query
+ # Membership Queries  : 6015
+ # Steps               : 301361
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 14 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 77.42%; 48 out of 62
+Hypothesis: 6: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 25 states.
+0.42062852538275586
+Hypothesis: 9: 28 states.
+0.41874832124630673
+Hypothesis: 10: 30 states.
+0.3553585817888799
+Unambiguous rows: 81.82%; 135 out of 165
+Hypothesis: 11: 32 states.
+0.5965619124362074
+Hypothesis: 12: 34 states.
+0.38920225624496374
+Hypothesis: 13: 36 states.
+0.6048885307547677
+Hypothesis: 14: 37 states.
+0.6083803384367445
+Hypothesis: 15: 36 states.
+0.6244963738920226
+Unambiguous rows: 92.31%; 192 out of 208
+Hypothesis: 16: 36 states.
+0.615095353209777
+Hypothesis: 17: 36 states.
+0.6140209508460919
+Hypothesis: 18: 36 states.
+0.607037335482138
+Hypothesis: 19: 37 states.
+0.6027397260273972
+Hypothesis: 20: 36 states.
+0.6075745366639806
+Unambiguous rows: 97.16%; 205 out of 211
+Hypothesis: 21: 35 states.
+0.6164383561643836
+Hypothesis: 22: 35 states.
+0.607037335482138
+Hypothesis: 23: 35 states.
+0.6121407467096428
+Hypothesis: 24: 35 states.
+0.6218103679828095
+-----------------------------------
+Learning Finished.
+Learning Rounds:  24
+Number of states: 35
+Time (in seconds)
+  Total                : 138.12
+  Learning algorithm   : 132.7
+  Conformance checking : 5.42
+Learning Algorithm
+ # Membership Queries  : 120255
+ # Steps               : 3942069
+Equivalence Query
+ # Membership Queries  : 4265
+ # Steps               : 208251
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 11 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 73.08%; 38 out of 52
+Hypothesis: 6: 14 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 19 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 25 states.
+0.20977706150953532
+Hypothesis: 10: 28 states.
+0.4840182648401826
+Unambiguous rows: 83.45%; 121 out of 145
+Hypothesis: 11: 33 states.
+0.5063121138866505
+Hypothesis: 12: 34 states.
+0.38168143969916735
+Hypothesis: 13: 34 states.
+0.2817620198764437
+Hypothesis: 14: 35 states.
+0.534515175933387
+Hypothesis: 15: 35 states.
+0.5855492882084341
+Unambiguous rows: 92.0%; 184 out of 200
+Hypothesis: 16: 35 states.
+0.599785119527263
+Hypothesis: 17: 35 states.
+0.59092130002686
+Hypothesis: 18: 35 states.
+0.6118721461187214
+Hypothesis: 19: 35 states.
+0.6016653236637121
+Hypothesis: 20: 35 states.
+0.6255707762557078
+Unambiguous rows: 97.52%; 197 out of 202
+Hypothesis: 21: 35 states.
+0.6172441579371475
+Hypothesis: 22: 35 states.
+0.6228847703464948
+Hypothesis: 23: 35 states.
+0.6363147998925598
+Hypothesis: 24: 35 states.
+0.6282567821649208
+Hypothesis: 25: 35 states.
+0.6137523502551706
+Unambiguous rows: 96.17%; 201 out of 209
+Hypothesis: 26: 35 states.
+0.6086489390276658
+Hypothesis: 27: 35 states.
+0.610529143164115
+Hypothesis: 28: 35 states.
+0.6226161697555734
+Hypothesis: 29: 35 states.
+0.6156325543916197
+Hypothesis: 30: 35 states.
+0.6215417673918883
+Unambiguous rows: 97.64%; 207 out of 212
+Hypothesis: 31: 35 states.
+0.6250335750738651
+Hypothesis: 32: 35 states.
+0.6234219715283373
+Hypothesis: 33: 35 states.
+0.6148267526188558
+Hypothesis: 34: 35 states.
+0.6164383561643836
+Hypothesis: 35: 35 states.
+0.6287939833467634
+Unambiguous rows: 98.58%; 209 out of 212
+Hypothesis: 36: 35 states.
+0.6089175396185872
+-----------------------------------
+Learning Finished.
+Learning Rounds:  36
+Number of states: 35
+Time (in seconds)
+  Total                : 674.12
+  Learning algorithm   : 656.13
+  Conformance checking : 17.99
+Learning Algorithm
+ # Membership Queries  : 204679
+ # Steps               : 6645724
+Equivalence Query
+ # Membership Queries  : 13032
+ # Steps               : 654086
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 12 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 86.27%; 44 out of 51
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 18 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 23 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 75.97%; 98 out of 129
+Hypothesis: 11: 28 states.
+0.5060435132957293
+Hypothesis: 12: 33 states.
+0.37013161428955144
+Hypothesis: 13: 35 states.
+0.38409884501745906
+Hypothesis: 14: 36 states.
+0.5377383830244427
+Hypothesis: 15: 36 states.
+0.5331721729787805
+Unambiguous rows: 89.27%; 183 out of 205
+Hypothesis: 16: 36 states.
+0.5506312113886651
+Hypothesis: 17: 36 states.
+0.5474080042976095
+Hypothesis: 18: 36 states.
+0.5737308622078968
+Hypothesis: 19: 37 states.
+0.5895782970722535
+Hypothesis: 20: 36 states.
+0.602471125436476
+Unambiguous rows: 94.71%; 197 out of 208
+Hypothesis: 21: 36 states.
+0.6089175396185872
+Hypothesis: 22: 36 states.
+0.5995165189363416
+Hypothesis: 23: 36 states.
+0.5879666935267257
+Hypothesis: 24: 36 states.
+0.6191243620735966
+Hypothesis: 25: 36 states.
+0.5954875100725222
+Unambiguous rows: 98.09%; 205 out of 209
+Hypothesis: 26: 36 states.
+0.5992479183454203
+Hypothesis: 27: 36 states.
+0.5965619124362074
+Hypothesis: 28: 37 states.
+0.6140209508460919
+Hypothesis: 29: 36 states.
+0.610529143164115
+-----------------------------------
+Learning Finished.
+Learning Rounds:  29
+Number of states: 36
+Time (in seconds)
+  Total                : 659.74
+  Learning algorithm   : 618.3
+  Conformance checking : 41.44
+Learning Algorithm
+ # Membership Queries  : 142016
+ # Steps               : 4497006
+Equivalence Query
+ # Membership Queries  : 9030
+ # Steps               : 446219
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 14 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 82.76%; 48 out of 58
+Hypothesis: 6: 14 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 23 states.
+0.23959172710179963
+Hypothesis: 10: 27 states.
+0.39484286865431106
+Unambiguous rows: 80.58%; 112 out of 139
+Hypothesis: 11: 30 states.
+0.3996776792908944
+Hypothesis: 12: 33 states.
+0.5189363416599516
+Hypothesis: 13: 34 states.
+0.5286059629331185
+Hypothesis: 14: 34 states.
+0.5812516787536932
+Hypothesis: 15: 35 states.
+0.5484824066612947
+Unambiguous rows: 88.21%; 172 out of 195
+Hypothesis: 16: 35 states.
+0.5318291700241741
+Hypothesis: 17: 35 states.
+0.5256513564329841
+Hypothesis: 18: 35 states.
+0.580177276390008
+Hypothesis: 19: 35 states.
+0.5941445071179157
+Hypothesis: 20: 35 states.
+0.580177276390008
+Unambiguous rows: 90.48%; 190 out of 210
+Hypothesis: 21: 35 states.
+0.6016653236637121
+Hypothesis: 22: 35 states.
+0.6129465484824067
+Hypothesis: 23: 35 states.
+0.5699704539349987
+Hypothesis: 24: 35 states.
+0.5750738651625034
+Hypothesis: 25: 35 states.
+0.5836690840719849
+Unambiguous rows: 95.71%; 201 out of 210
+Hypothesis: 26: 35 states.
+0.5984421165726564
+Hypothesis: 27: 35 states.
+0.5925329035723879
+Hypothesis: 28: 35 states.
+0.5989793177544991
+Hypothesis: 29: 35 states.
+0.613215149073328
+Hypothesis: 30: 35 states.
+0.607037335482138
+Unambiguous rows: 95.71%; 201 out of 210
+Hypothesis: 31: 35 states.
+0.6013967230727908
+Hypothesis: 32: 35 states.
+0.6167069567553048
+Hypothesis: 33: 36 states.
+0.6030083266183186
+Hypothesis: 34: 35 states.
+0.6167069567553048
+Hypothesis: 35: 35 states.
+0.6118721461187214
+Unambiguous rows: 96.23%; 204 out of 212
+Hypothesis: 36: 35 states.
+0.6304055868922912
+Hypothesis: 37: 35 states.
+0.6094547408004297
+Hypothesis: 38: 35 states.
+0.613215149073328
+Hypothesis: 39: 35 states.
+0.6223475691646522
+Hypothesis: 40: 35 states.
+0.61778135911899
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 41: 35 states.
+0.6191243620735966
+Hypothesis: 42: 35 states.
+0.6293311845286059
+Hypothesis: 43: 35 states.
+0.607037335482138
+Hypothesis: 44: 35 states.
+0.6183185603008327
+Hypothesis: 45: 35 states.
+0.6022025248455547
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 46: 35 states.
+0.6169755573462261
+Hypothesis: 47: 35 states.
+0.6191243620735966
+Hypothesis: 48: 35 states.
+0.6159011549825409
+Hypothesis: 49: 35 states.
+0.6148267526188558
+Hypothesis: 50: 35 states.
+0.6159011549825409
+Unambiguous rows: 98.58%; 209 out of 212
+Hypothesis: 51: 35 states.
+0.6180499597099114
+Hypothesis: 52: 35 states.
+0.6193929626645178
+Hypothesis: 53: 35 states.
+0.6086489390276658
+-----------------------------------
+Learning Finished.
+Learning Rounds:  53
+Number of states: 35
+Time (in seconds)
+  Total                : 4530.02
+  Learning algorithm   : 4509.97
+  Conformance checking : 20.05
+Learning Algorithm
+ # Membership Queries  : 359529
+ # Steps               : 10884413
+Equivalence Query
+ # Membership Queries  : 24292
+ # Steps               : 1209585
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 4 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 10 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 71.79%; 28 out of 39
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 19 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 23 states.
+0.0666129465484824
+Hypothesis: 10: 27 states.
+0.15551974214343273
+Unambiguous rows: 81.75%; 112 out of 137
+Hypothesis: 11: 29 states.
+0.49261348374966424
+Hypothesis: 12: 31 states.
+0.5226967499328499
+Hypothesis: 13: 34 states.
+0.37040021488047276
+Hypothesis: 14: 35 states.
+0.5608380338436745
+Hypothesis: 15: 35 states.
+0.561375235025517
+Unambiguous rows: 91.67%; 187 out of 204
+Hypothesis: 16: 37 states.
+0.5715820574805265
+Hypothesis: 17: 36 states.
+0.5697018533440773
+Hypothesis: 18: 37 states.
+0.5621810367982809
+Hypothesis: 19: 37 states.
+0.5734622616169756
+Hypothesis: 20: 35 states.
+0.6062315337093742
+Unambiguous rows: 97.63%; 206 out of 211
+Hypothesis: 21: 35 states.
+0.5866236905721193
+Hypothesis: 22: 35 states.
+0.5777598710717163
+Hypothesis: 23: 35 states.
+0.6003223207091055
+Hypothesis: 24: 35 states.
+0.6040827289820038
+Hypothesis: 25: 35 states.
+0.6204673650282031
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 26: 35 states.
+0.6204673650282031
+Hypothesis: 27: 35 states.
+0.6172441579371475
+Hypothesis: 28: 35 states.
+0.6218103679828095
+Hypothesis: 29: 35 states.
+0.6167069567553048
+-----------------------------------
+Learning Finished.
+Learning Rounds:  29
+Number of states: 35
+Time (in seconds)
+  Total                : 2012.71
+  Learning algorithm   : 1578.14
+  Conformance checking : 434.57
+Learning Algorithm
+ # Membership Queries  : 142564
+ # Steps               : 4902405
+Equivalence Query
+ # Membership Queries  : 14293
+ # Steps               : 708979
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 12 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 82.35%; 42 out of 51
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 23 states.
+0.18103679828095623
+Hypothesis: 9: 27 states.
+0.28203062046736505
+Hypothesis: 10: 33 states.
+0.38866505506312116
+Unambiguous rows: 76.76%; 142 out of 185
+Hypothesis: 11: 34 states.
+0.42788074133763093
+Hypothesis: 12: 34 states.
+0.5573462261616976
+Hypothesis: 13: 35 states.
+0.5928015041633091
+Hypothesis: 14: 34 states.
+0.6086489390276658
+Hypothesis: 15: 35 states.
+0.6038141283910825
+Unambiguous rows: 87.26%; 185 out of 212
+Hypothesis: 16: 35 states.
+0.6016653236637121
+Hypothesis: 17: 35 states.
+0.5984421165726564
+Hypothesis: 18: 35 states.
+0.6142895514370131
+Hypothesis: 19: 35 states.
+0.625839376846629
+Hypothesis: 20: 35 states.
+0.6193929626645178
+Unambiguous rows: 95.75%; 203 out of 212
+Hypothesis: 21: 35 states.
+0.6129465484824067
+Hypothesis: 22: 35 states.
+0.6129465484824067
+Hypothesis: 23: 35 states.
+0.6172441579371475
+Hypothesis: 24: 35 states.
+0.615095353209777
+Hypothesis: 25: 35 states.
+0.6220789685737309
+Unambiguous rows: 97.64%; 207 out of 212
+Hypothesis: 26: 35 states.
+0.6156325543916197
+Hypothesis: 27: 35 states.
+0.6269137792103142
+Hypothesis: 28: 35 states.
+0.6159011549825409
+Hypothesis: 29: 35 states.
+0.6164383561643836
+Hypothesis: 30: 35 states.
+0.6293311845286059
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 31: 36 states.
+0.6250335750738651
+Hypothesis: 32: 35 states.
+0.6199301638463605
+-----------------------------------
+Learning Finished.
+Learning Rounds:  32
+Number of states: 35
+Time (in seconds)
+  Total                : 1316.53
+  Learning algorithm   : 1305.9
+  Conformance checking : 10.63
+Learning Algorithm
+ # Membership Queries  : 155400
+ # Steps               : 5815074
+Equivalence Query
+ # Membership Queries  : 30550
+ # Steps               : 1523537
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 4 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 11 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 71.43%; 30 out of 42
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 14 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 21 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 83.17%; 84 out of 101
+Hypothesis: 11: 24 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 12: 29 states.
+0.27504700510341124
+Hypothesis: 13: 31 states.
+0.12436207359656191
+Hypothesis: 14: 33 states.
+0.37657802847166266
+Hypothesis: 15: 34 states.
+0.41579371474617244
+Unambiguous rows: 83.68%; 159 out of 190
+Hypothesis: 16: 34 states.
+0.41821112006446415
+Hypothesis: 17: 35 states.
+0.3951114692452323
+Hypothesis: 18: 34 states.
+0.40988450174590385
+Hypothesis: 19: 34 states.
+0.40397528874563526
+Hypothesis: 20: 35 states.
+0.43352135374697826
+Unambiguous rows: 88.63%; 187 out of 211
+Hypothesis: 21: 35 states.
+0.43593875906526997
+Hypothesis: 22: 35 states.
+0.43674456083803387
+Hypothesis: 23: 35 states.
+0.4155251141552511
+Hypothesis: 24: 35 states.
+0.4284179425194735
+Hypothesis: 25: 35 states.
+0.42116572656459844
+Unambiguous rows: 94.31%; 199 out of 211
+Hypothesis: 26: 35 states.
+0.4254633360193392
+Hypothesis: 27: 35 states.
+0.41740531829170024
+Hypothesis: 28: 35 states.
+0.42358313188289015
+Hypothesis: 29: 35 states.
+0.41740531829170024
+Hypothesis: 30: 35 states.
+0.3889336556540424
+Unambiguous rows: 96.23%; 204 out of 212
+Hypothesis: 31: 35 states.
+0.41901692183722805
+Hypothesis: 32: 35 states.
+0.6099919419822724
+Hypothesis: 33: 35 states.
+0.6167069567553048
+Hypothesis: 34: 35 states.
+0.6110663443459575
+Hypothesis: 35: 35 states.
+0.613215149073328
+Unambiguous rows: 97.17%; 206 out of 212
+Hypothesis: 36: 35 states.
+0.6118721461187214
+Hypothesis: 37: 35 states.
+0.6121407467096428
+Hypothesis: 38: 35 states.
+0.6051571313456889
+Hypothesis: 39: 35 states.
+0.6030083266183186
+Hypothesis: 40: 35 states.
+0.6250335750738651
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 41: 35 states.
+0.6094547408004297
+Hypothesis: 42: 35 states.
+0.599785119527263
+Hypothesis: 43: 35 states.
+0.6005909213000269
+Hypothesis: 44: 35 states.
+0.6140209508460919
+Hypothesis: 45: 35 states.
+0.6027397260273972
+Unambiguous rows: 97.64%; 207 out of 212
+Hypothesis: 46: 37 states.
+0.6129465484824067
+Hypothesis: 47: 35 states.
+0.5981735159817352
+-----------------------------------
+Learning Finished.
+Learning Rounds:  47
+Number of states: 35
+Time (in seconds)
+  Total                : 4098.79
+  Learning algorithm   : 4084.45
+  Conformance checking : 14.34
+Learning Algorithm
+ # Membership Queries  : 291782
+ # Steps               : 8766193
+Equivalence Query
+ # Membership Queries  : 23311
+ # Steps               : 1150779
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 12 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 82.0%; 41 out of 50
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 19 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 26 states.
+0.07869997313994091
+Hypothesis: 10: 27 states.
+0.19795863550899812
+Unambiguous rows: 81.94%; 118 out of 144
+Hypothesis: 11: 32 states.
+0.2245500940102068
+Hypothesis: 12: 35 states.
+0.40075208165457965
+Hypothesis: 13: 36 states.
+0.5428417942519473
+Hypothesis: 14: 36 states.
+0.526457158205748
+Hypothesis: 15: 36 states.
+0.5374697824335214
+Unambiguous rows: 89.86%; 186 out of 207
+Hypothesis: 16: 36 states.
+0.5382755842062853
+Hypothesis: 17: 36 states.
+0.5414987912973409
+Hypothesis: 18: 36 states.
+0.5619124362073596
+Hypothesis: 19: 36 states.
+0.5640612409347301
+Hypothesis: 20: 36 states.
+0.5608380338436745
+Unambiguous rows: 92.82%; 194 out of 209
+Hypothesis: 21: 36 states.
+0.5517056137523503
+Hypothesis: 22: 36 states.
+0.5484824066612947
+Hypothesis: 23: 36 states.
+0.5514370131614289
+Hypothesis: 24: 36 states.
+0.5603008326618318
+Hypothesis: 25: 36 states.
+0.5533172172978781
+Unambiguous rows: 95.73%; 202 out of 211
+Hypothesis: 26: 35 states.
+0.6035455278001611
+Hypothesis: 27: 35 states.
+0.5901154982540961
+Hypothesis: 28: 35 states.
+0.5944131077088369
+Hypothesis: 29: 35 states.
+0.6032769272092399
+Hypothesis: 30: 35 states.
+0.6255707762557078
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 31: 35 states.
+0.6204673650282031
+Hypothesis: 32: 35 states.
+0.6253021756647864
+Hypothesis: 33: 35 states.
+0.6129465484824067
+Hypothesis: 34: 35 states.
+0.6228847703464948
+Hypothesis: 35: 35 states.
+0.6220789685737309
+Unambiguous rows: 98.58%; 209 out of 212
+Hypothesis: 36: 36 states.
+0.6277195809830781
+Hypothesis: 37: 35 states.
+0.6223475691646522
+-----------------------------------
+Learning Finished.
+Learning Rounds:  37
+Number of states: 35
+Time (in seconds)
+  Total                : 3886.28
+  Learning algorithm   : 3873.11
+  Conformance checking : 13.17
+Learning Algorithm
+ # Membership Queries  : 191777
+ # Steps               : 6872532
+Equivalence Query
+ # Membership Queries  : 37811
+ # Steps               : 1886109
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 13 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 81.03%; 47 out of 58
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 27 states.
+0.15928015041633092
+Unambiguous rows: 77.46%; 110 out of 142
+Hypothesis: 11: 31 states.
+0.14101531023368252
+Hypothesis: 12: 34 states.
+0.5229653505237711
+Hypothesis: 13: 35 states.
+0.5315605694332528
+Hypothesis: 14: 36 states.
+0.5557346226161698
+Hypothesis: 15: 36 states.
+0.5500940102068225
+Unambiguous rows: 91.71%; 188 out of 205
+Hypothesis: 16: 36 states.
+0.5654042438893365
+Hypothesis: 17: 36 states.
+0.45474080042976095
+Hypothesis: 18: 37 states.
+0.43513295729250606
+Hypothesis: 19: 35 states.
+0.5186677410690304
+Hypothesis: 20: 35 states.
+0.5968305130271286
+Unambiguous rows: 97.14%; 204 out of 210
+Hypothesis: 21: 35 states.
+0.591727101799624
+Hypothesis: 22: 35 states.
+0.6008595218909482
+Hypothesis: 23: 35 states.
+0.6000537201181843
+Hypothesis: 24: 35 states.
+0.59092130002686
+Hypothesis: 25: 35 states.
+0.586355089981198
+Unambiguous rows: 97.64%; 207 out of 212
+Hypothesis: 26: 35 states.
+0.5885038947085683
+Hypothesis: 27: 35 states.
+0.6075745366639806
+Hypothesis: 28: 35 states.
+0.6062315337093742
+Hypothesis: 29: 35 states.
+0.6073059360730594
+Hypothesis: 30: 35 states.
+0.5976363147998925
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 31: 35 states.
+0.6145581520279345
+Hypothesis: 32: 35 states.
+0.6336287939833468
+-----------------------------------
+Learning Finished.
+Learning Rounds:  32
+Number of states: 35
+Time (in seconds)
+  Total                : 2609.48
+  Learning algorithm   : 2598.13
+  Conformance checking : 11.35
+Learning Algorithm
+ # Membership Queries  : 149764
+ # Steps               : 5409361
+Equivalence Query
+ # Membership Queries  : 29075
+ # Steps               : 1438996
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 11 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 77.27%; 34 out of 44
+Hypothesis: 6: 14 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 18 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+0.2868654311039484
+Hypothesis: 10: 27 states.
+0.26886919151222133
+Unambiguous rows: 73.61%; 106 out of 144
+Hypothesis: 11: 32 states.
+0.5122213268869191
+Hypothesis: 12: 34 states.
+0.5208165457964008
+Hypothesis: 13: 35 states.
+0.5817888799355359
+Hypothesis: 14: 34 states.
+0.6207359656191244
+Hypothesis: 15: 34 states.
+0.5764168681171099
+Unambiguous rows: 89.71%; 183 out of 204
+Hypothesis: 16: 34 states.
+0.5858178887993554
+Hypothesis: 17: 34 states.
+0.5981735159817352
+Hypothesis: 18: 34 states.
+0.626645178619393
+Hypothesis: 19: 34 states.
+0.6204673650282031
+Hypothesis: 20: 34 states.
+0.6180499597099114
+Unambiguous rows: 93.63%; 191 out of 204
+Hypothesis: 21: 34 states.
+0.6075745366639806
+Hypothesis: 22: 34 states.
+0.6180499597099114
+Hypothesis: 23: 34 states.
+0.6075745366639806
+Hypothesis: 24: 35 states.
+0.6161697555734622
+Hypothesis: 25: 35 states.
+0.6129465484824067
+Unambiguous rows: 93.87%; 199 out of 212
+Hypothesis: 26: 35 states.
+0.6102605425731936
+Hypothesis: 27: 35 states.
+0.6116035455278002
+Hypothesis: 28: 35 states.
+0.6191243620735966
+Hypothesis: 29: 35 states.
+0.6032769272092399
+Hypothesis: 30: 35 states.
+0.6309427880741337
+Unambiguous rows: 96.23%; 204 out of 212
+Hypothesis: 31: 35 states.
+0.6169755573462261
+Hypothesis: 32: 35 states.
+0.6201987644372817
+Hypothesis: 33: 35 states.
+0.6153639538006984
+Hypothesis: 34: 35 states.
+0.6228847703464948
+Hypothesis: 35: 35 states.
+0.6201987644372817
+Unambiguous rows: 99.06%; 210 out of 212
+-----------------------------------
+Learning Finished.
+Learning Rounds:  35
+Number of states: 35
+Time (in seconds)
+  Total                : 2326.47
+  Learning algorithm   : 2314.88
+  Conformance checking : 11.59
+Learning Algorithm
+ # Membership Queries  : 165261
+ # Steps               : 6365587
+Equivalence Query
+ # Membership Queries  : 44571
+ # Steps               : 2222860
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 13 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 85.96%; 49 out of 57
+Hypothesis: 6: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 17 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 19 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+0.11281224818694602
+Hypothesis: 10: 27 states.
+0.48643567015847433
+Unambiguous rows: 78.81%; 119 out of 151
+Hypothesis: 11: 31 states.
+0.5245769540692989
+Hypothesis: 12: 33 states.
+0.5659414450711792
+Hypothesis: 13: 35 states.
+0.5962933118452861
+Hypothesis: 14: 35 states.
+0.6065001343002955
+Hypothesis: 15: 35 states.
+0.5941445071179157
+Unambiguous rows: 89.15%; 189 out of 212
+Hypothesis: 16: 35 states.
+0.5847434864356702
+Hypothesis: 17: 35 states.
+0.5987107171635777
+Hypothesis: 18: 35 states.
+0.5957561106634435
+Hypothesis: 19: 35 states.
+0.6204673650282031
+Hypothesis: 20: 35 states.
+0.6129465484824067
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 21: 35 states.
+0.6261079774375503
+Hypothesis: 22: 35 states.
+0.6274509803921569
+Hypothesis: 23: 35 states.
+0.6164383561643836
+-----------------------------------
+Learning Finished.
+Learning Rounds:  23
+Number of states: 35
+Time (in seconds)
+  Total                : 662.94
+  Learning algorithm   : 531.54
+  Conformance checking : 131.4
+Learning Algorithm
+ # Membership Queries  : 80005
+ # Steps               : 3477287
+Equivalence Query
+ # Membership Queries  : 32837
+ # Steps               : 1624335
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 4 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 10 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 65.79%; 25 out of 38
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 17 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 23 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 75.21%; 88 out of 117
+Hypothesis: 11: 27 states.
+0.18426000537201181
+Hypothesis: 12: 29 states.
+0.5132957292506044
+Hypothesis: 13: 31 states.
+0.5087295192049422
+Hypothesis: 14: 33 states.
+0.5366639806607575
+Hypothesis: 15: 34 states.
+0.532634971796938
+Unambiguous rows: 82.98%; 156 out of 188
+Hypothesis: 16: 35 states.
+0.5288745635240397
+Hypothesis: 17: 36 states.
+0.5208165457964008
+Hypothesis: 18: 36 states.
+0.467365028203062
+Hypothesis: 19: 36 states.
+0.44641418211120065
+Hypothesis: 20: 36 states.
+0.5667472468439431
+Unambiguous rows: 92.38%; 194 out of 210
+Hypothesis: 21: 36 states.
+0.5594950308890679
+Hypothesis: 22: 36 states.
+0.5823260811173785
+Hypothesis: 23: 36 states.
+0.5844748858447488
+Hypothesis: 24: 36 states.
+0.6022025248455547
+Hypothesis: 25: 36 states.
+0.59092130002686
+Unambiguous rows: 98.57%; 207 out of 210
+Hypothesis: 26: 36 states.
+0.5922643029814666
+Hypothesis: 27: 36 states.
+0.5984421165726564
+-----------------------------------
+Learning Finished.
+Learning Rounds:  27
+Number of states: 36
+Time (in seconds)
+  Total                : 483.62
+  Learning algorithm   : 475.34
+  Conformance checking : 8.28
+Learning Algorithm
+ # Membership Queries  : 83906
+ # Steps               : 3956426
+Equivalence Query
+ # Membership Queries  : 48837
+ # Steps               : 2433705
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 12 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 84.48%; 49 out of 58
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+0.0999194198227236
+Hypothesis: 10: 27 states.
+0.17002417405318293
+Unambiguous rows: 75.54%; 105 out of 139
+Hypothesis: 11: 30 states.
+0.17405318291700242
+Hypothesis: 12: 33 states.
+0.46924523233951115
+Hypothesis: 13: 34 states.
+0.46306741874832125
+Hypothesis: 14: 35 states.
+0.35186677410690304
+Hypothesis: 15: 35 states.
+0.37093741606231534
+Unambiguous rows: 84.18%; 165 out of 196
+Hypothesis: 16: 35 states.
+0.47005103411227506
+Hypothesis: 17: 35 states.
+0.5425731936610261
+Hypothesis: 18: 35 states.
+0.545259199570239
+Hypothesis: 19: 35 states.
+0.5726564598442117
+Hypothesis: 20: 35 states.
+0.5543916196615633
+Unambiguous rows: 92.93%; 184 out of 198
+Hypothesis: 21: 35 states.
+0.5611066344345957
+Hypothesis: 22: 35 states.
+0.5605694332527531
+Hypothesis: 23: 35 states.
+0.5645984421165726
+Hypothesis: 24: 35 states.
+0.5570776255707762
+Hypothesis: 25: 35 states.
+0.5761482675261885
+Unambiguous rows: 95.48%; 190 out of 199
+Hypothesis: 26: 35 states.
+0.556809024979855
+Hypothesis: 27: 35 states.
+0.564867042707494
+Hypothesis: 28: 35 states.
+0.5592264302981467
+Hypothesis: 29: 35 states.
+0.5557346226161698
+Hypothesis: 30: 35 states.
+0.5616438356164384
+Unambiguous rows: 96.02%; 193 out of 201
+Hypothesis: 31: 35 states.
+0.5705076551168412
+Hypothesis: 32: 35 states.
+0.5538544184797206
+Hypothesis: 33: 35 states.
+0.5581520279344615
+Hypothesis: 34: 35 states.
+0.561375235025517
+Hypothesis: 35: 35 states.
+0.5608380338436745
+Unambiguous rows: 97.52%; 197 out of 202
+Hypothesis: 36: 35 states.
+0.5723878592532904
+Hypothesis: 37: 35 states.
+0.5600322320709106
+Hypothesis: 38: 35 states.
+0.5699704539349987
+Hypothesis: 39: 35 states.
+0.5546602202524845
+Hypothesis: 40: 35 states.
+0.5957561106634435
+Unambiguous rows: 96.65%; 202 out of 209
+Hypothesis: 41: 35 states.
+0.5949503088906796
+Hypothesis: 42: 35 states.
+0.5766854687080312
+Hypothesis: 43: 35 states.
+0.6040827289820038
+Hypothesis: 44: 35 states.
+0.6040827289820038
+Hypothesis: 45: 35 states.
+0.5919957023905452
+Unambiguous rows: 98.1%; 207 out of 211
+Hypothesis: 46: 35 states.
+0.5844748858447488
+Hypothesis: 47: 35 states.
+0.6083803384367445
+Hypothesis: 48: 35 states.
+0.6142895514370131
+Hypothesis: 49: 35 states.
+0.6075745366639806
+Hypothesis: 50: 35 states.
+0.6116035455278002
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 51: 35 states.
+0.6129465484824067
+Hypothesis: 52: 35 states.
+0.6134837496642492
+Hypothesis: 53: 35 states.
+0.6116035455278002
+Hypothesis: 54: 35 states.
+0.6054257319366103
+Hypothesis: 55: 35 states.
+0.604351329572925
+Unambiguous rows: 98.58%; 209 out of 212
+Hypothesis: 56: 35 states.
+0.6142895514370131
+Hypothesis: 57: 35 states.
+0.6124093473005641
+Hypothesis: 58: 35 states.
+0.5928015041633091
+-----------------------------------
+Learning Finished.
+Learning Rounds:  58
+Number of states: 35
+Time (in seconds)
+  Total                : 6951.54
+  Learning algorithm   : 6927.76
+  Conformance checking : 23.78
+Learning Algorithm
+ # Membership Queries  : 390372
+ # Steps               : 12166523
+Equivalence Query
+ # Membership Queries  : 45350
+ # Steps               : 2248710
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 11 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 12 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 76.0%; 38 out of 50
+Hypothesis: 6: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+0.1587429492344883
+Hypothesis: 9: 26 states.
+0.0453934998656997
+Hypothesis: 10: 32 states.
+0.49825409615901156
+Unambiguous rows: 77.01%; 134 out of 174
+Hypothesis: 11: 33 states.
+0.49986569970453937
+Hypothesis: 12: 34 states.
+0.5791028740263229
+Hypothesis: 13: 35 states.
+0.5283373623421972
+Hypothesis: 14: 35 states.
+0.5229653505237711
+Hypothesis: 15: 36 states.
+0.6220789685737309
+Unambiguous rows: 89.9%; 187 out of 208
+Hypothesis: 16: 36 states.
+0.6062315337093742
+Hypothesis: 17: 36 states.
+0.621273166800967
+Hypothesis: 18: 36 states.
+0.6153639538006984
+Hypothesis: 19: 36 states.
+0.6172441579371475
+Hypothesis: 20: 36 states.
+0.6011281224818694
+Unambiguous rows: 95.69%; 200 out of 209
+Hypothesis: 21: 36 states.
+0.6279881815739995
+Hypothesis: 22: 36 states.
+0.6078431372549019
+Hypothesis: 23: 35 states.
+0.6156325543916197
+Hypothesis: 24: 35 states.
+0.6290625839376847
+Hypothesis: 25: 35 states.
+0.6250335750738651
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 26: 35 states.
+0.6167069567553048
+Hypothesis: 27: 35 states.
+0.6062315337093742
+Hypothesis: 28: 35 states.
+0.6223475691646522
+Hypothesis: 29: 35 states.
+0.6051571313456889
+Hypothesis: 30: 35 states.
+0.6220789685737309
+Unambiguous rows: 96.7%; 205 out of 212
+Hypothesis: 31: 35 states.
+0.6344345957561106
+Hypothesis: 32: 35 states.
+0.6164383561643836
+Hypothesis: 33: 35 states.
+0.6113349449368789
+Hypothesis: 34: 35 states.
+0.6156325543916197
+Hypothesis: 35: 36 states.
+0.6156325543916197
+Unambiguous rows: 95.95%; 213 out of 222
+Hypothesis: 36: 35 states.
+0.6274509803921569
+Hypothesis: 37: 35 states.
+0.6137523502551706
+Hypothesis: 38: 35 states.
+0.6231533709374161
+-----------------------------------
+Learning Finished.
+Learning Rounds:  38
+Number of states: 35
+Time (in seconds)
+  Total                : 5677.26
+  Learning algorithm   : 4923.06
+  Conformance checking : 754.2
+Learning Algorithm
+ # Membership Queries  : 181794
+ # Steps               : 7312611
+Equivalence Query
+ # Membership Queries  : 56597
+ # Steps               : 2816117
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 14 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 75.81%; 47 out of 62
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 17 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 24 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 27 states.
+0.18318560300832662
+Unambiguous rows: 78.72%; 111 out of 141
+Hypothesis: 11: 29 states.
+0.48374966424926136
+Hypothesis: 12: 31 states.
+0.5409615901154983
+Hypothesis: 13: 32 states.
+0.5737308622078968
+Hypothesis: 14: 34 states.
+0.5847434864356702
+Hypothesis: 15: 35 states.
+0.5954875100725222
+Unambiguous rows: 86.5%; 173 out of 200
+Hypothesis: 16: 36 states.
+0.5804458769809293
+Hypothesis: 17: 36 states.
+0.6008595218909482
+Hypothesis: 18: 36 states.
+0.602471125436476
+Hypothesis: 19: 36 states.
+0.5979049153908138
+Hypothesis: 20: 36 states.
+0.5788342734354015
+Unambiguous rows: 95.67%; 199 out of 208
+Hypothesis: 21: 36 states.
+0.6019339242546333
+Hypothesis: 22: 36 states.
+0.5895782970722535
+Hypothesis: 23: 36 states.
+0.5944131077088369
+Hypothesis: 24: 36 states.
+0.5887724952994896
+Hypothesis: 25: 36 states.
+0.5968305130271286
+Unambiguous rows: 98.56%; 206 out of 209
+Hypothesis: 26: 36 states.
+0.5812516787536932
+-----------------------------------
+Learning Finished.
+Learning Rounds:  26
+Number of states: 36
+Time (in seconds)
+  Total                : 2253.03
+  Learning algorithm   : 2246.96
+  Conformance checking : 6.07
+Learning Algorithm
+ # Membership Queries  : 78979
+ # Steps               : 3917235
+Equivalence Query
+ # Membership Queries  : 49625
+ # Steps               : 2462824
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 13 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 89.47%; 51 out of 57
+Hypothesis: 6: 15 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 18 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 27 states.
+0.0212194466827827
+Unambiguous rows: 79.26%; 107 out of 135
+Hypothesis: 11: 28 states.
+0.0561375235025517
+Hypothesis: 12: 33 states.
+0.33011012624227776
+Hypothesis: 13: 34 states.
+0.35482138060703733
+Hypothesis: 14: 34 states.
+0.5576148267526189
+Hypothesis: 15: 35 states.
+0.5742680633897395
+Unambiguous rows: 83.92%; 167 out of 199
+Hypothesis: 16: 37 states.
+0.5949503088906796
+Hypothesis: 17: 37 states.
+0.5858178887993554
+Hypothesis: 18: 38 states.
+0.5879666935267257
+Hypothesis: 19: 37 states.
+0.6062315337093742
+Hypothesis: 20: 36 states.
+0.6169755573462261
+Unambiguous rows: 94.69%; 196 out of 207
+Hypothesis: 21: 36 states.
+0.5879666935267257
+Hypothesis: 22: 36 states.
+0.607037335482138
+Hypothesis: 23: 36 states.
+0.6051571313456889
+Hypothesis: 24: 36 states.
+0.6175127585280688
+Hypothesis: 25: 36 states.
+0.6089175396185872
+Unambiguous rows: 97.12%; 202 out of 208
+Hypothesis: 26: 37 states.
+0.62395917271018
+Hypothesis: 27: 36 states.
+0.6301369863013698
+-----------------------------------
+Learning Finished.
+Learning Rounds:  27
+Number of states: 36
+Time (in seconds)
+  Total                : 628.09
+  Learning algorithm   : 619.38
+  Conformance checking : 8.71
+Learning Algorithm
+ # Membership Queries  : 82630
+ # Steps               : 4233938
+Equivalence Query
+ # Membership Queries  : 61113
+ # Steps               : 3039892
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 11 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 90.7%; 39 out of 43
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 25 states.
+0.12731668009669622
+Unambiguous rows: 72.66%; 93 out of 128
+Hypothesis: 11: 29 states.
+0.2860596293311845
+Hypothesis: 12: 32 states.
+0.5449905989793178
+Hypothesis: 13: 33 states.
+0.5342465753424658
+Hypothesis: 14: 35 states.
+0.572119258662369
+Hypothesis: 15: 36 states.
+0.5944131077088369
+Unambiguous rows: 88.24%; 180 out of 204
+Hypothesis: 16: 36 states.
+0.5562718237980123
+Hypothesis: 17: 36 states.
+0.5901154982540961
+Hypothesis: 18: 36 states.
+0.5952189094816008
+Hypothesis: 19: 36 states.
+0.5791028740263229
+Hypothesis: 20: 36 states.
+0.569433252753156
+Unambiguous rows: 95.71%; 201 out of 210
+Hypothesis: 21: 36 states.
+0.5731936610260543
+Hypothesis: 22: 35 states.
+0.572119258662369
+Hypothesis: 23: 35 states.
+0.578297072253559
+Hypothesis: 24: 35 states.
+0.5922643029814666
+-----------------------------------
+Learning Finished.
+Learning Rounds:  24
+Number of states: 35
+Time (in seconds)
+  Total                : 326.38
+  Learning algorithm   : 319.86
+  Conformance checking : 6.52
+Learning Algorithm
+ # Membership Queries  : 58838
+ # Steps               : 3518983
+Equivalence Query
+ # Membership Queries  : 53390
+ # Steps               : 2644864
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 7 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 10 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 13 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 81.82%; 45 out of 55
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 23 states.
+0.27209239860327694
+Hypothesis: 10: 27 states.
+0.4977168949771689
+Unambiguous rows: 73.38%; 102 out of 139
+Hypothesis: 11: 32 states.
+0.523771152296535
+Hypothesis: 12: 34 states.
+0.5651356432984153
+Hypothesis: 13: 35 states.
+0.5882352941176471
+Hypothesis: 14: 36 states.
+0.5769540692989524
+Hypothesis: 15: 36 states.
+0.5823260811173785
+Unambiguous rows: 90.78%; 187 out of 206
+Hypothesis: 16: 36 states.
+0.5858178887993554
+Hypothesis: 17: 36 states.
+0.6000537201181843
+Hypothesis: 18: 36 states.
+0.59092130002686
+Hypothesis: 19: 36 states.
+0.6145581520279345
+Hypothesis: 20: 36 states.
+0.6062315337093742
+Unambiguous rows: 95.71%; 201 out of 210
+Hypothesis: 21: 36 states.
+0.6140209508460919
+Hypothesis: 22: 36 states.
+0.6231533709374161
+Hypothesis: 23: 36 states.
+0.6140209508460919
+Hypothesis: 24: 35 states.
+0.6333601933924254
+-----------------------------------
+Learning Finished.
+Learning Rounds:  24
+Number of states: 35
+Time (in seconds)
+  Total                : 369.31
+  Learning algorithm   : 352.79
+  Conformance checking : 16.52
+Learning Algorithm
+ # Membership Queries  : 54420
+ # Steps               : 3683059
+Equivalence Query
+ # Membership Queries  : 65121
+ # Steps               : 3234878
+-----------------------------------
+Hypothesis: 1: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 3 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 4 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 8 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 10 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 80.0%; 32 out of 40
+Hypothesis: 6: 13 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 16 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 19 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 23 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 84.96%; 96 out of 113
+Hypothesis: 11: 26 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 12: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 13: 32 states.
+0.19473542841794253
+Hypothesis: 14: 35 states.
+0.5347837765243083
+Hypothesis: 15: 36 states.
+0.5474080042976095
+Unambiguous rows: 86.93%; 173 out of 199
+Hypothesis: 16: 36 states.
+0.5812516787536932
+Hypothesis: 17: 36 states.
+0.5922643029814666
+Hypothesis: 18: 36 states.
+0.5879666935267257
+Hypothesis: 19: 36 states.
+0.5654042438893365
+Hypothesis: 20: 36 states.
+0.5619124362073596
+Unambiguous rows: 92.68%; 190 out of 205
+Hypothesis: 21: 36 states.
+0.5922643029814666
+Hypothesis: 22: 36 states.
+0.5922643029814666
+Hypothesis: 23: 36 states.
+0.6038141283910825
+Hypothesis: 24: 36 states.
+0.6032769272092399
+Hypothesis: 25: 36 states.
+0.5879666935267257
+Unambiguous rows: 93.3%; 195 out of 209
+Hypothesis: 26: 36 states.
+0.5981735159817352
+Hypothesis: 27: 36 states.
+0.5922643029814666
+Hypothesis: 28: 36 states.
+0.5868922911630405
+Hypothesis: 29: 35 states.
+0.5871608917539619
+Hypothesis: 30: 35 states.
+0.5885038947085683
+Unambiguous rows: 95.28%; 202 out of 212
+Hypothesis: 31: 35 states.
+0.5748052645715821
+Hypothesis: 32: 35 states.
+0.6210045662100456
+Hypothesis: 33: 35 states.
+0.6107977437550363
+Hypothesis: 34: 35 states.
+0.6067687348912167
+Hypothesis: 35: 36 states.
+0.6164383561643836
+Unambiguous rows: 94.64%; 212 out of 224
+Hypothesis: 36: 36 states.
+0.6121407467096428
+Hypothesis: 37: 35 states.
+0.6091861402095085
+Hypothesis: 38: 35 states.
+0.6263765780284717
+Hypothesis: 39: 35 states.
+0.6244963738920226
+Hypothesis: 40: 35 states.
+0.6148267526188558
+Unambiguous rows: 98.11%; 208 out of 212
+Hypothesis: 41: 35 states.
+0.6277195809830781
+Hypothesis: 42: 36 states.
+0.6161697555734622
+Hypothesis: 43: 35 states.
+0.6234219715283373
+-----------------------------------
+Learning Finished.
+Learning Rounds:  43
+Number of states: 35
+Time (in seconds)
+  Total                : 2112.9
+  Learning algorithm   : 1962.36
+  Conformance checking : 150.54
+Learning Algorithm
+ # Membership Queries  : 209097
+ # Steps               : 7489527
+Equivalence Query
+ # Membership Queries  : 61158
+ # Steps               : 3035895
+-----------------------------------
+
+Process finished with exit code 0

@@ -1,10 +1,12 @@
 from aalpy.SULs import MdpSUL
 from aalpy.learning_algs import run_stochastic_Lstar
 import PropertyDirectedSamplingStormpy as PDSS
-from aalpy.utils import get_faulty_coffee_machine_MDP
+from aalpy.utils import load_automaton_from_file
 
-input_alphabet = get_faulty_coffee_machine_MDP().get_input_alphabet()
-mdp_sul = MdpSUL(get_faulty_coffee_machine_MDP())
-oracle = PDSS.PDS(target="coffee", sul=mdp_sul, alphabet=input_alphabet, k=5, quit_prob=0.3, p_rand=1.0, stop_on_cex=True)
+original_mdp = load_automaton_from_file("/home/manuel/TUGraz/SPST/AALpy/DotModels/MDPs/first_grid.dot", automaton_type='mdp')
+input_alphabet = original_mdp.get_input_alphabet()
+mdp_sul = MdpSUL(original_mdp)
+
+oracle = PDSS.PDS(target="goal", sul=mdp_sul, alphabet=input_alphabet, k=12, quit_prob=0.3, p_rand=0.5, stop_on_cex=True)
 
 run_stochastic_Lstar(input_alphabet=input_alphabet, sul=mdp_sul, eq_oracle=oracle, samples_cex_strategy=None)

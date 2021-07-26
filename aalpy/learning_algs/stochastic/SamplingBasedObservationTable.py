@@ -105,7 +105,8 @@ class SamplingBasedObservationTable:
                         dynamic += uncertainty_value
                         self.add_to_PTA(pta_root, s + e, uncertainty_value)
 
-        resample_value = n_resample if self.strategy == 'classic' else max(dynamic // 2, 500)
+        # resample_value = n_resample if self.strategy == 'classic' else max(dynamic // 2, 500)
+        resample_value = n_resample if n_resample > 0 else max(dynamic // 2, 500)
 
         for i in range(resample_value):
             self.teacher.tree_query(pta_root)

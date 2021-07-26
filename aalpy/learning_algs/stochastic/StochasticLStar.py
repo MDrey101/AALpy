@@ -18,7 +18,7 @@ print_options = [0, 1, 2, 3]
 def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_resample=100, target_unambiguity=0.99,
                          min_rounds=10, max_rounds=200, automaton_type='mdp', strategy='normal',
                          cex_processing='longest_prefix', samples_cex_strategy='bfs', return_data=False,
-                         property_based_stopping=None, print_level=2):
+                         property_based_stopping=None, print_level=2, evaluation=False):
     """
     Learning of Markov Decision Processes based on 'L*-Based Learning of Markov Decision Processes' by Tappler et al.
 
@@ -118,10 +118,10 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
             print_observation_table(observation_table, 'stochastic')
 
         cex = None
-        if not chaos_cex_present:
-            eq_query_start = time.time()
-            cex = stochastic_teacher.equivalence_query(hypothesis)
-            eq_query_time += time.time() - eq_query_start
+        # if not chaos_cex_present:
+        eq_query_start = time.time()
+        cex = stochastic_teacher.equivalence_query(hypothesis)
+        eq_query_time += time.time() - eq_query_start
 
         if cex:
             if print_level == 3:
@@ -147,8 +147,11 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, n_c=20, n_
         observation_table.update_obs_table_with_freq_obs()
 
         # If chaos state is still present, continue learning
-        if chaos_cex_present:
-            continue
+        # if chaos_cex_present:
+        #     continue
+
+        if evaluation:
+            eq_oracle.execute_pds(hypothesis, evaluation=evaluation)
 
         if property_based_stopping and learning_rounds >= min_rounds:
             # stop based on maximum allowed error

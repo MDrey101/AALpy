@@ -9,6 +9,7 @@ from numpy.lib import math
 
 from aalpy.automata import Mdp
 from aalpy.base import Oracle, SUL
+from aalpy.oracles.RandomWalkEqOracle import UnseenOutputRandomWalkEqOracle
 from aalpy.utils.ModelChecking import _target_string, _sanitize_for_prism
 
 
@@ -37,39 +38,62 @@ class PDS(Oracle):
         self.epsilon = epsilon
         self.delta = delta
         self.accuracy = 0.0
+        self.accuracy_list = []
+        self.counterexample_list = []
 
     def find_cex(self, hypothesis):
-        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis, self.sul.sul)
+        found_target = False
+        for state in hypothesis.states:
+            if self.target in state.output.split("__"):
+                found_target = True
+
+        if not found_target:
+            new_oracle = UnseenOutputRandomWalkEqOracle(self.alphabet, self.sul, self.n_batch / self.quit_prob,
+                                                        reset_prob=self.quit_prob)
+            cex = new_oracle.find_cex(hypothesis)
+            self.num_queries += new_oracle.num_queries
+            self.num_steps += new_oracle.num_steps
+            return cex
+
+        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis)
         if stormpy_hypothesis is not None and scheduler is not None:
-            cex = self.sample(self.p_rand, scheduler, stormpy_hypothesis, self.k, self.sul.sul)
-            self.num_steps += (len(cex) - 1) // 2
-            self.num_queries += 1
-            # self.evaluate_scheduler(scheduler, stormpy_hypothesis, self.sul.sul)
+            p_rand, s_new, s_all = self.pds(self.p_rand, stormpy_hypothesis, scheduler, self.n_batch, self.k,
+                                            self.s_all, self.c_change, self.sul)
+
+            self.num_steps += sum([(len(entry[0]) - 1) // 2 for entry in s_new])
+            self.num_queries += len(s_new)
+            cex = [trace[0] for trace in s_new if trace[1]]
+            cex = cex[0] if len(cex) != 0 else None
             return cex
         else:
             print("Converting hypothesis to stormpy went wrong!")
 
-    def _setup_pds(self, hypothesis, sul):
+    def _setup_pds(self, hypothesis):
         prism_program = None
+        found_target = False
+        for state in hypothesis.states:
+            if self.target in state.output.split("__"):
+                found_target = True
 
-        if type(hypothesis) == str:
-            prism_program = self.parse_prism_file(hypothesis)
-        elif type(hypothesis) == Mdp:
-            prism_program = self.parse_aalpy_mdp(hypothesis, "mdp_test", self.n_batch + 1)
+        if found_target:
+            if type(hypothesis) == str:
+                prism_program = self.parse_prism_file(hypothesis)
+            elif type(hypothesis) == Mdp:
+                prism_program = self.parse_aalpy_mdp(hypothesis, "mdp_test", self.k)
 
-        self.formula_str = self.build_formula([state.output for state in sul.mdp.states],
-                                              self.target,
-                                              self.k)
+            self.formula_str = self.build_formula([state.output for state in hypothesis.states],
+                                                  self.target,
+                                                  self.k)
 
-        if prism_program is not None:
-            formulas = stormpy.parse_properties(self.formula_str, prism_program)
-            stormpy_hypothesis = stormpy.build_model(prism_program, formulas)
-            result = stormpy.model_checking(stormpy_hypothesis, formulas[0], extract_scheduler=True)
-            return stormpy_hypothesis, result.scheduler
+            if prism_program is not None:
+                formulas = stormpy.parse_properties(self.formula_str, prism_program)
+                stormpy_hypothesis = stormpy.build_model(prism_program, formulas)
+                result = stormpy.model_checking(stormpy_hypothesis, formulas[0], extract_scheduler=True)
+                return stormpy_hypothesis, result.scheduler
         return None, None
 
-    def execute_pds(self, hypothesis):
-        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis=hypothesis, sul=self.sul)
+    def execute_pds(self, hypothesis, evaluation=False):
+        stormpy_hypothesis, scheduler = self._setup_pds(hypothesis=hypothesis)
 
         if stormpy_hypothesis is not None and scheduler is not None:
             p_rand_new, s_new, s_all_new = self.pds(p_rand=self.p_rand,
@@ -81,7 +105,11 @@ class PDS(Oracle):
                                                     c_change=self.c_change,
                                                     sul=self.sul)
 
-            # self.evaluate_scheduler(scheduler, stormpy_hypothesis, self.sul)
+            if evaluation:
+                saved_prand = self.p_rand
+                self.p_rand = 0
+                self.accuracy_list.append(self.evaluate_scheduler(scheduler, stormpy_hypothesis, self.sul))
+                self.p_rand = saved_prand
 
             return p_rand_new, s_new, s_all_new
         else:
@@ -90,58 +118,65 @@ class PDS(Oracle):
     def pds(self, p_rand, hypothesis, scheduler, n_batch, k, s_all, c_change, sul):
         s_next = []
         while len(s_next) < n_batch:
-            s_next.append(self.sample(p_rand, scheduler, hypothesis, k, sul))
+            trace, counterexample = self.sample(p_rand, scheduler, hypothesis, k, sul)
+            s_next.append((trace, counterexample))
+            if self.stop_on_cex and counterexample:
+                self.counterexample_list.append(trace)
+                break
 
         p_rand *= c_change
         s_all.append(s_next)
         return p_rand, s_next, s_all
 
     def sample(self, p_rand, scheduler, hypothesis, k, sul):
-        trace = [sul.mdp.initial_state.output]
-        sul.mdp.reset_to_initial()
+        sul.post()
+        trace = [sul.pre()]
         q_curr = hypothesis.initial_states[0]
+        found_counterexample = False
 
-        while len(trace) - 1 < k or not self._coin_flip(self.quit_prob):
-            if self._coin_flip(p_rand) or q_curr is None or not sul.mdp.get_input_alphabet()[
+        while ((len(trace) - 1) / 2) - 1 < k or not self._coin_flip(self.quit_prob):
+            if self._coin_flip(p_rand) or q_curr is None or not self.alphabet[
                     scheduler.get_choice(q_curr).get_deterministic_choice()]:
-                input = self._rand_sel(sul.mdp.get_input_alphabet())
+                input = self._rand_sel(self.alphabet)
             else:
-                input = sul.mdp.get_input_alphabet()[scheduler.get_choice(q_curr).get_deterministic_choice()]
+                input = self.alphabet[scheduler.get_choice(q_curr).get_deterministic_choice()]
 
             out_sut = sul.step(input)
             trace.append(input)
             trace.append(out_sut)
-            dist_q = self._transition_function(q_curr, input, sul.mdp.get_input_alphabet(), hypothesis)
+            dist_q = self._transition_function(q_curr, input, self.alphabet, hypothesis)
 
             for entry in dist_q:
                 if out_sut in hypothesis.states[entry.column].labels:
                     q_curr = entry.column
                     break
             else:
-                if self.stop_on_cex:
-                    break
+                found_counterexample = True
                 q_curr = None
 
-        return trace
+        return trace, found_counterexample
 
     @staticmethod
-    def parse_aalpy_mdp(mdp, name, n_batch):
+    def parse_aalpy_mdp(mdp, name, k):
         dir_path = os.path.dirname(os.path.realpath(__file__))
         path = dir_path + f"/prism_files/{name}.txt"
 
-        prism_program_string = PDS.create_prism_program(mdp, "mdp_test", n_batch)
-        with open(path, "w+") as outfile:
-            outfile.write(prism_program_string)
+        prism_program_string = PDS.create_prism_program(mdp, "pds_" + name, k)
+        try:
+            with open(path, "w+") as outfile:
+                outfile.write(prism_program_string)
+        except Exception:
+            return None
 
         return stormpy.parse_prism_program(path, simplify=False)
 
     @staticmethod
-    def create_prism_program(mdp, name, n_batch):
+    def create_prism_program(mdp, name, k):
         builder = StringBuilder.StringBuilder()
 
         builder.append("mdp")
         builder.append(os.linesep * 2)
-        builder.append(f"const int BOUND = {n_batch};")
+        builder.append(f"const int BOUND = {k + 1};")
         builder.append(os.linesep * 2)
         builder.append(f"module {name}")
         builder.append(os.linesep)
@@ -168,7 +203,7 @@ class PDS(Oracle):
 
         builder.append("module StepCounter")
         builder.append(os.linesep)
-        builder.append(f"\tsteps: [0..{n_batch}] init {orig_id_to_int_id[mdp.initial_state.state_id]};")
+        builder.append(f"\tsteps: [0..{k + 1}] init 0;")
         builder.append(os.linesep)
         transition_checklist = []
         for source in mdp.states:
@@ -233,10 +268,11 @@ class PDS(Oracle):
         # TODO: Find a better solution for this problem
         formula_str = "Pmax=? ["
         states_checklist = []
-        for input in states:
-            if input not in states_checklist:
-                states_checklist.append(input)
-                formula_str += f"\"{input}\" | "
+        for output in states:
+            for out in output.split("__"):
+                if out not in states_checklist:
+                    states_checklist.append(out)
+                    formula_str += f"\"{out}\" | "
         formula_str = formula_str[0:len(formula_str) - 2]
         formula_str += f"U \"{target}\" & steps < {k}]"
 
@@ -248,10 +284,14 @@ class PDS(Oracle):
         sampled_traces = self.get_samples(scheduler, hypothesis, sul)
         num_satisfied_traces = 0
         for trace in sampled_traces:
-            if self.target in trace:
-                num_satisfied_traces += 1
+            for t1 in trace[0][0:2 * self.k:2]:
+                if self.target in t1.split("__"):
+                    num_satisfied_traces += 1
+                    break
 
-        self.accuracy = num_satisfied_traces / len(sampled_traces)
+        self.accuracy = float(num_satisfied_traces) / float(len(sampled_traces))
+
+        print(self.accuracy)
 
         return self.accuracy
 
