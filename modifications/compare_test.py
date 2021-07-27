@@ -33,13 +33,20 @@ for x in range(10):
 
 # ----------------------------------------------------------------------------------------------------------------------
 
-max_len_entry = max(max(rand_acc))
+max_len_entry = 0
+for entry in rand_acc:
+    if len(entry) > max_len_entry:
+        max_len_entry = len(entry)
+
 for entry in rand_acc:
     for e in range(max_len_entry - len(entry) + 1):
         entry.append(entry[-1])
 
+max_len_entry = 0
+for entry in pds_acc:
+    if len(entry) > max_len_entry:
+        max_len_entry = len(entry)
 
-max_len_entry = max(max(pds_acc))
 for entry in pds_acc:
     for e in range(max_len_entry - len(entry) + 1):
         entry.append(entry[-1])
@@ -70,7 +77,7 @@ plt.ylabel("F<10 goal")
 plt.title("random, first_grid, k=10")
 plt.show()
 # plt.savefig("random.png")
-tikzplotlib.save("test1_3.tex")
+# tikzplotlib.save("test1_3.tex")
 
 plt.plot(list(range(len(avg_pds_acc))), avg_pds_acc, "b")
 plt.plot(list(range(len(min_pds_acc))), min_pds_acc, "g")
@@ -82,4 +89,4 @@ plt.ylabel("F<10 goal")
 plt.title("pds, first_grid, k=10")
 plt.show()
 # plt.savefig("pds.png")
-tikzplotlib.save("test2_3.tex")
+# tikzplotlib.save("test2_3.tex")
