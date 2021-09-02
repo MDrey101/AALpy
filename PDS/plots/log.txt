@@ -1946,12 +1946,6 @@ Equivalence Query
  # Membership Queries  : 65384
  # Steps               : 3278645
 -----------------------------------
-Traceback (most recent call last):
-  File "/home/manuel/TUGraz/SPST/AALpy/modifications/compare_test.py", line 73, in <module>
-    plt.savefig()
-  File "/home/manuel/.local/share/virtualenvs/AALpy-mqZZZELl/lib/python3.9/site-packages/matplotlib/pyplot.py", line 937, in savefig
-    res = fig.savefig(*args, **kwargs)
-TypeError: savefig() missing 1 required positional argument: 'fname'
 
-Process finished with exit code 1
+Process finished with exit code 0
  

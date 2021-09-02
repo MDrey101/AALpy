@@ -1,0 +1,4192 @@
+[[0.07198495836690841, 0.08595218909481601, 0.0762825678216492, 0.07547676604888531, 0.07520816545796401, 0.09562181036798281, 0.12167606768734891, 0.10475423045930701, 0.13940370668815472, 0.20789685737308622, 0.20870265914585012, 0.20252484555466022, 0.21058286328229922, 0.20037604082728983, 0.20950846091861403, 0.19392962664517863, 0.2073596561912436, 0.2009132420091324, 0.19151222132688692, 0.16465216223475693, 0.17566478646253023, 0.20306204673650283, 0.20655385441847973, 0.20386784850926673, 0.14477571850658072, 0.1514907332796132, 0.1590115498254096, 0.147730325006715, 0.1608917539618587, 0.15471394037066882, 0.1743217835079237, 0.17915659414450713, 0.1743217835079237, 0.19016921837228043, 0.22428149341928552, 0.2154176739188826, 0.1952726295997851, 0.1990330378726833, 0.228310502283105, 0.21783507923717432, 0.1743217835079237, 0.19016921837228043, 0.19392962664517863, 0.18882621541767391, 0.1982272360999194, 0.19580983078162773, 0.20198764437281763, 0.22508729519204942, 0.21434327155519742, 0.24174053182917002, 0.23878592532903573, 0.23878592532903573, 0.21138866505506312, 0.20950846091861403, 0.21488047273704003, 0.22562449637389204, 0.21622347569164652, 0.21890948160085952, 0.22562449637389204, 0.23260811173784582, 0.14934192855224282, 0.1407467096427612, 0.1517593338705345, 0.22589309696481333, 0.22884770346494762, 0.2245500940102068, 0.23395111469245233, 0.2519473542841794, 0.23126510878323933, 0.22052108514638732, 0.22320709105560033, 0.20413644910018802, 0.27450980392156865, 0.28122481869460114, 0.29170024174053183, 0.26081117378458235, 0.25221595487510073, 0.32527531560569434, 0.27424120333064733, 0.2769272092398603, 0.30110126242277735, 0.3217835079237174, 0.30701047542304594, 0.33199033037872683, 0.33011012624227776, 0.3134568896051571, 0.32070910556003224, 0.335750738651625, 0.31694869728713404, 0.3225893096964813, 0.2557077625570776, 0.26457158205748055, 0.23609991941982272, 0.17673918882621542, 0.31641149610529146, 0.3021756647864625, 0.3005640612409347]]
+[[0.0762825678216492, 0.08111737845823261, 0.07332796132151491, 0.07735697018533441, 0.08138597904915391, 0.08460918614020951, 0.07520816545796401, 0.0945474080042976, 0.09051839914047811, 0.0735965619124362, 0.09186140209508462, 0.1294654848240666, 0.1351060972334139, 0.1168412570507655, 0.13483749664249262, 0.1359118990061778, 0.04619930163846361, 0.05345151759333871, 0.12087026591458501, 0.1286596830513027, 0.13000268600590922, 0.13430029546065, 0.0316948697287134, 0.031426269137792104, 0.1533709374160623, 0.16411496105291432, 0.15766854687080312, 0.16277195809830783, 0.16599516518936341, 0.15471394037066882, 0.15578834273435402, 0.15041633091592801, 0.16760676873489122, 0.15820574805264573, 0.15310233682514102, 0.1479989255976363, 0.1606231533709374, 0.1681439699167338, 0.1552511415525114, 0.16304055868922912, 0.1681439699167338, 0.1525651356432984, 0.16492076282567822, 0.1552511415525114, 0.16116035455278002, 0.14665592264302982, 0.16196615632554393, 0.14396991673381682, 0.13456889605157132, 0.1498791297340854, 0.13913510609723342, 0.14101531023368252, 0.14370131614289552, 0.1469245232339511, 0.14182111200644643, 0.13456889605157132, 0.14289551437013162, 0.14558152027934462, 0.15310233682514102, 0.1517593338705345, 0.14396991673381682, 0.1442385173247381, 0.136986301369863, 0.13107708836959442, 0.13027128659683052, 0.1270480795057749, 0.13456889605157132, 0.1332258930969648, 0.12436207359656191, 0.1313456889605157, 0.13215149073327961, 0.1340316948697287, 0.13671770077894171, 0.12248186946011282, 0.1308084877786731, 0.12033306473274241, 0.1259736771420897, 0.1359118990061778, 0.1278538812785388, 0.12570507655116842, 0.1313456889605157, 0.12489927477840451, 0.139672307279076, 0.128928283642224, 0.1377921031426269, 0.1278538812785388, 0.11710985764168681, 0.1246306741874832, 0.1332258930969648, 0.1270480795057749, 0.1286596830513027, 0.13725490196078433, 0.12543647596024712, 0.136986301369863, 0.1324200913242009, 0.1385979049153908]]
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 99.29%; 139 out of 140
+Hypothesis: 6: 32 states.
+0.0808487778673113
+Hypothesis: 7: 33 states.
+0.0762825678216492
+Hypothesis: 8: 41 states.
+0.07413376309427881
+Hypothesis: 9: 47 states.
+0.0711791565941445
+Hypothesis: 10: 50 states.
+0.0808487778673113
+Unambiguous rows: 80.97%; 234 out of 289
+Hypothesis: 11: 52 states.
+0.08138597904915391
+Hypothesis: 12: 57 states.
+0.07789417136717701
+Hypothesis: 13: 60 states.
+0.10072522159548751
+Hypothesis: 14: 59 states.
+0.09347300564061241
+Hypothesis: 15: 63 states.
+0.094010206822455
+Unambiguous rows: 77.54%; 290 out of 374
+Hypothesis: 16: 65 states.
+0.09239860327692721
+Hypothesis: 17: 66 states.
+0.11334944936878862
+Hypothesis: 18: 66 states.
+0.10448562986838571
+Hypothesis: 19: 66 states.
+0.10663443459575611
+Hypothesis: 20: 66 states.
+0.1141552511415525
+Unambiguous rows: 78.35%; 322 out of 411
+Hypothesis: 21: 66 states.
+0.10905183991404781
+Hypothesis: 22: 67 states.
+0.12543647596024712
+Hypothesis: 23: 67 states.
+0.13671770077894171
+Hypothesis: 24: 69 states.
+0.12839108246038142
+Hypothesis: 25: 71 states.
+0.10126242277733011
+Unambiguous rows: 76.25%; 350 out of 459
+Hypothesis: 26: 71 states.
+0.10797743755036261
+Hypothesis: 27: 72 states.
+0.12812248186946013
+Hypothesis: 28: 73 states.
+0.1259736771420897
+Hypothesis: 29: 72 states.
+0.1324200913242009
+Hypothesis: 30: 73 states.
+0.13564329841525652
+Unambiguous rows: 76.41%; 366 out of 479
+Hypothesis: 31: 74 states.
+0.13107708836959442
+Hypothesis: 32: 74 states.
+0.1377921031426269
+Hypothesis: 33: 75 states.
+0.1388665055063121
+Hypothesis: 34: 75 states.
+0.1294654848240666
+Hypothesis: 35: 75 states.
+0.13564329841525652
+Unambiguous rows: 76.11%; 376 out of 494
+Hypothesis: 36: 76 states.
+0.1275852806876175
+Hypothesis: 37: 78 states.
+0.1377921031426269
+Hypothesis: 38: 78 states.
+0.13027128659683052
+Hypothesis: 39: 78 states.
+0.12087026591458501
+Hypothesis: 40: 78 states.
+0.13752350255170562
+Unambiguous rows: 74.85%; 387 out of 517
+Hypothesis: 41: 78 states.
+0.14020950846091862
+Hypothesis: 42: 78 states.
+0.12167606768734891
+Hypothesis: 43: 79 states.
+0.1278538812785388
+Hypothesis: 44: 80 states.
+0.04297609454740801
+Hypothesis: 45: 80 states.
+0.0518399140478109
+Unambiguous rows: 74.91%; 400 out of 534
+Hypothesis: 46: 79 states.
+0.037604082728982004
+Hypothesis: 47: 79 states.
+0.04002148804727371
+Hypothesis: 48: 80 states.
+0.03840988450174591
+Hypothesis: 49: 80 states.
+0.12301907064195541
+Hypothesis: 50: 81 states.
+0.051302712865968304
+Unambiguous rows: 75.18%; 409 out of 544
+Hypothesis: 51: 81 states.
+0.044856298683857106
+Hypothesis: 52: 82 states.
+0.037066881547139406
+Hypothesis: 53: 81 states.
+0.0424388933655654
+Hypothesis: 54: 81 states.
+0.0397528874563524
+Hypothesis: 55: 82 states.
+0.05506312113886651
+Unambiguous rows: 73.87%; 407 out of 551
+Hypothesis: 56: 82 states.
+0.16196615632554393
+Hypothesis: 57: 83 states.
+0.1587429492344883
+Hypothesis: 58: 86 states.
+0.17861939296266452
+Hypothesis: 59: 86 states.
+0.17297878055331722
+Hypothesis: 60: 86 states.
+0.17056137523502551
+Unambiguous rows: 73.82%; 423 out of 573
+Hypothesis: 61: 87 states.
+0.10905183991404781
+Hypothesis: 62: 86 states.
+0.17136717700778942
+Hypothesis: 63: 86 states.
+0.17029277464410422
+Hypothesis: 64: 86 states.
+0.1708299758259468
+Hypothesis: 65: 87 states.
+0.147730325006715
+Unambiguous rows: 72.29%; 420 out of 581
+Hypothesis: 66: 87 states.
+0.1469245232339511
+Hypothesis: 67: 87 states.
+0.1643835616438356
+Hypothesis: 68: 87 states.
+0.1568627450980392
+Hypothesis: 69: 87 states.
+0.1544453397797475
+Hypothesis: 70: 87 states.
+0.14638732205210853
+Unambiguous rows: 73.37%; 427 out of 582
+Hypothesis: 71: 87 states.
+0.1571313456889605
+Hypothesis: 72: 88 states.
+0.1579371474617244
+Hypothesis: 73: 88 states.
+0.1635777598710717
+Hypothesis: 74: 88 states.
+0.1563255439161966
+Hypothesis: 75: 88 states.
+0.1633091592801504
+Unambiguous rows: 74.53%; 436 out of 585
+Hypothesis: 76: 88 states.
+0.20145044319097502
+Hypothesis: 77: 88 states.
+0.1522965350523771
+Hypothesis: 78: 88 states.
+0.16116035455278002
+Hypothesis: 79: 88 states.
+0.15498254096159012
+Hypothesis: 80: 88 states.
+0.15551974214343273
+Unambiguous rows: 74.74%; 438 out of 586
+Hypothesis: 81: 90 states.
+0.142358313188289
+Hypothesis: 82: 90 states.
+0.1479989255976363
+Hypothesis: 83: 91 states.
+0.14665592264302982
+Hypothesis: 84: 91 states.
+0.17029277464410422
+Hypothesis: 85: 92 states.
+0.13027128659683052
+Unambiguous rows: 71.84%; 444 out of 618
+Hypothesis: 86: 92 states.
+0.1200644641418211
+Hypothesis: 87: 92 states.
+0.12812248186946013
+Hypothesis: 88: 92 states.
+0.1385979049153908
+Hypothesis: 89: 92 states.
+0.12436207359656191
+Hypothesis: 90: 93 states.
+0.15766854687080312
+Unambiguous rows: 71.09%; 445 out of 626
+Hypothesis: 91: 93 states.
+0.1670695675530486
+Hypothesis: 92: 93 states.
+0.1635777598710717
+Hypothesis: 93: 93 states.
+0.19204942250872953
+Hypothesis: 94: 93 states.
+0.18479720655385443
+Hypothesis: 95: 93 states.
+0.19312382487241472
+Unambiguous rows: 71.86%; 452 out of 629
+Hypothesis: 96: 93 states.
+0.1560569433252753
+Hypothesis: 97: 93 states.
+0.16465216223475693
+Hypothesis: 98: 94 states.
+0.17512758528068761
+Hypothesis: 99: 94 states.
+0.16868117109857642
+Hypothesis: 100: 94 states.
+0.16653236637120603
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 94
+Time (in seconds)
+  Total                : 809.65
+  Learning algorithm   : 793.85
+  Conformance checking : 15.8
+Learning Algorithm
+ # Membership Queries  : 390060
+ # Steps               : 7257199
+Equivalence Query
+ # Membership Queries  : 23766
+ # Steps               : 427550
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 26 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 28 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 98.44%; 126 out of 128
+Hypothesis: 6: 30 states.
+0.08380338436744561
+Hypothesis: 7: 34 states.
+0.07467096427612141
+Hypothesis: 8: 42 states.
+0.08299758259468171
+Hypothesis: 9: 50 states.
+0.0781627719580983
+Hypothesis: 10: 56 states.
+0.08434058554928821
+Unambiguous rows: 74.46%; 242 out of 325
+Hypothesis: 11: 56 states.
+0.08111737845823261
+Hypothesis: 12: 57 states.
+0.08568358850389471
+Hypothesis: 13: 59 states.
+0.07467096427612141
+Hypothesis: 14: 59 states.
+0.0848777867311308
+Hypothesis: 15: 59 states.
+0.0867579908675799
+Unambiguous rows: 80.85%; 287 out of 355
+Hypothesis: 16: 59 states.
+0.1036798280956218
+Hypothesis: 17: 59 states.
+0.09481600859521891
+Hypothesis: 18: 60 states.
+0.1109320440504969
+Hypothesis: 19: 60 states.
+0.10099382218640882
+Hypothesis: 20: 62 states.
+0.1036798280956218
+Unambiguous rows: 82.86%; 319 out of 385
+Hypothesis: 21: 63 states.
+0.1095890410958904
+Hypothesis: 22: 63 states.
+0.11899006177813591
+Hypothesis: 23: 63 states.
+0.10905183991404781
+Hypothesis: 24: 68 states.
+0.0472737040021488
+Hypothesis: 25: 68 states.
+0.10341122750470051
+Unambiguous rows: 78.09%; 335 out of 429
+Hypothesis: 26: 68 states.
+0.20950846091861403
+Hypothesis: 27: 68 states.
+0.23019070641955414
+Hypothesis: 28: 69 states.
+0.21971528337362342
+Hypothesis: 29: 69 states.
+0.22159548751007252
+Hypothesis: 30: 75 states.
+0.31909750201450443
+Unambiguous rows: 75.37%; 361 out of 479
+Hypothesis: 31: 75 states.
+0.33977974751544454
+Hypothesis: 32: 75 states.
+0.3000268600590921
+Hypothesis: 33: 76 states.
+0.32849852269674995
+Hypothesis: 34: 76 states.
+0.34354015578834274
+Hypothesis: 35: 77 states.
+0.34273435401557883
+Unambiguous rows: 76.4%; 382 out of 500
+Hypothesis: 36: 76 states.
+0.33682514101531025
+Hypothesis: 37: 78 states.
+0.33467633628793986
+Hypothesis: 38: 78 states.
+0.34112275047005103
+Hypothesis: 39: 79 states.
+0.34380875637926406
+Hypothesis: 40: 79 states.
+0.3362879398334676
+Unambiguous rows: 72.83%; 378 out of 519
+Hypothesis: 41: 79 states.
+0.319634703196347
+Hypothesis: 42: 79 states.
+0.33897394574268064
+Hypothesis: 43: 79 states.
+0.3274241203330647
+Hypothesis: 44: 80 states.
+0.3233951114692452
+Hypothesis: 45: 80 states.
+0.31023368251410155
+Unambiguous rows: 74.95%; 395 out of 527
+Hypothesis: 46: 79 states.
+0.32393231265108785
+Hypothesis: 47: 79 states.
+0.34058554928820844
+Hypothesis: 48: 79 states.
+0.32070910556003224
+Hypothesis: 49: 79 states.
+0.32930432446951385
+Hypothesis: 50: 79 states.
+0.3287671232876712
+Unambiguous rows: 76.78%; 400 out of 521
+Hypothesis: 51: 79 states.
+0.3000268600590921
+Hypothesis: 52: 79 states.
+0.3217835079237174
+Hypothesis: 53: 81 states.
+0.31023368251410155
+Hypothesis: 54: 81 states.
+0.2868654311039484
+Hypothesis: 55: 81 states.
+0.30647327424120335
+Unambiguous rows: 75.33%; 403 out of 535
+Hypothesis: 56: 82 states.
+0.2908944399677679
+Hypothesis: 57: 82 states.
+0.2976094547408004
+Hypothesis: 58: 83 states.
+0.2968036529680365
+Hypothesis: 59: 83 states.
+0.26000537201181845
+Hypothesis: 60: 83 states.
+0.3005640612409347
+Unambiguous rows: 73.18%; 401 out of 548
+Hypothesis: 61: 85 states.
+0.31614289551437014
+Hypothesis: 62: 84 states.
+0.3000268600590921
+Hypothesis: 63: 85 states.
+0.30566747246843945
+Hypothesis: 64: 85 states.
+0.29814665592264306
+Hypothesis: 65: 85 states.
+0.3043244695138329
+Unambiguous rows: 73.3%; 409 out of 558
+Hypothesis: 66: 85 states.
+0.3096964813322589
+Hypothesis: 67: 85 states.
+0.3043244695138329
+Hypothesis: 68: 85 states.
+0.3080848777867311
+Hypothesis: 69: 85 states.
+0.3220521085146387
+Hypothesis: 70: 85 states.
+0.31157668546870804
+Unambiguous rows: 74.37%; 415 out of 558
+Hypothesis: 71: 85 states.
+0.30566747246843945
+Hypothesis: 72: 85 states.
+0.30083266183185603
+Hypothesis: 73: 85 states.
+0.30110126242277735
+Hypothesis: 74: 86 states.
+0.29546065001343
+Hypothesis: 75: 86 states.
+0.3005640612409347
+Unambiguous rows: 74.6%; 420 out of 563
+Hypothesis: 76: 86 states.
+0.30566747246843945
+Hypothesis: 77: 86 states.
+0.2959978511952726
+Hypothesis: 78: 86 states.
+0.30781627719580984
+Hypothesis: 79: 86 states.
+0.3134568896051571
+Hypothesis: 80: 86 states.
+0.31560569433252755
+Unambiguous rows: 74.87%; 423 out of 565
+Hypothesis: 81: 86 states.
+0.30942788074133765
+Hypothesis: 82: 86 states.
+0.31479989255976365
+Hypothesis: 83: 85 states.
+0.31694869728713404
+Hypothesis: 84: 85 states.
+0.31856030083266185
+Hypothesis: 85: 85 states.
+0.31479989255976365
+Unambiguous rows: 75.8%; 429 out of 566
+Hypothesis: 86: 85 states.
+0.3242009132420091
+Hypothesis: 87: 86 states.
+0.30244426537738384
+Hypothesis: 88: 86 states.
+0.3096964813322589
+Hypothesis: 89: 87 states.
+0.30271286596830516
+Hypothesis: 90: 87 states.
+0.30781627719580984
+Unambiguous rows: 72.56%; 423 out of 583
+Hypothesis: 91: 87 states.
+0.30781627719580984
+Hypothesis: 92: 87 states.
+0.30727907601396726
+Hypothesis: 93: 87 states.
+0.32017190437818965
+Hypothesis: 94: 88 states.
+0.31909750201450443
+Hypothesis: 95: 88 states.
+0.31103948428686545
+Unambiguous rows: 72.97%; 432 out of 592
+Hypothesis: 96: 87 states.
+0.31318828901423584
+Hypothesis: 97: 87 states.
+0.30163846360461993
+Hypothesis: 98: 87 states.
+0.32849852269674995
+Hypothesis: 99: 88 states.
+0.3217835079237174
+Hypothesis: 100: 88 states.
+0.30163846360461993
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 88
+Time (in seconds)
+  Total                : 1055.0
+  Learning algorithm   : 1039.64
+  Conformance checking : 15.36
+Learning Algorithm
+ # Membership Queries  : 390060
+ # Steps               : 7256784
+Equivalence Query
+ # Membership Queries  : 23760
+ # Steps               : 427709
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 30 states.
+0.07467096427612141
+Hypothesis: 5: 32 states.
+0.0789685737308622
+Unambiguous rows: 97.22%; 175 out of 180
+Hypothesis: 6: 39 states.
+0.07467096427612141
+Hypothesis: 7: 42 states.
+0.067150147730325
+Hypothesis: 8: 46 states.
+0.0744023636852001
+Hypothesis: 9: 51 states.
+0.0749395648670427
+Hypothesis: 10: 54 states.
+0.08004297609454741
+Unambiguous rows: 76.54%; 248 out of 324
+Hypothesis: 11: 54 states.
+0.08299758259468171
+Hypothesis: 12: 56 states.
+0.11496105291431641
+Hypothesis: 13: 56 states.
+0.09562181036798281
+Hypothesis: 14: 58 states.
+0.09105560032232071
+Hypothesis: 15: 60 states.
+0.1077088369594413
+Unambiguous rows: 83.33%; 310 out of 372
+Hypothesis: 16: 60 states.
+0.11012624227773302
+Hypothesis: 17: 63 states.
+0.032232070910556
+Hypothesis: 18: 64 states.
+0.06688154713940371
+Hypothesis: 19: 65 states.
+0.04002148804727371
+Hypothesis: 20: 65 states.
+0.038678485092667206
+Unambiguous rows: 80.58%; 332 out of 412
+Hypothesis: 21: 66 states.
+0.1270480795057749
+Hypothesis: 22: 72 states.
+0.13752350255170562
+Hypothesis: 23: 73 states.
+0.22857910287402633
+Hypothesis: 24: 73 states.
+0.23663712060166534
+Hypothesis: 25: 72 states.
+0.21944668278270213
+Unambiguous rows: 79.7%; 373 out of 468
+Hypothesis: 26: 72 states.
+0.22052108514638732
+Hypothesis: 27: 72 states.
+0.17915659414450713
+Hypothesis: 28: 74 states.
+0.21434327155519742
+Hypothesis: 29: 76 states.
+0.21138866505506312
+Hypothesis: 30: 76 states.
+0.21944668278270213
+Unambiguous rows: 77.98%; 386 out of 495
+Hypothesis: 31: 76 states.
+0.21837228041901693
+Hypothesis: 32: 76 states.
+0.30110126242277735
+Hypothesis: 33: 79 states.
+0.2852538275584206
+Hypothesis: 34: 78 states.
+0.29948965887724954
+Hypothesis: 35: 78 states.
+0.303518667741069
+Unambiguous rows: 75.73%; 390 out of 515
+Hypothesis: 36: 79 states.
+0.2992210582863282
+Hypothesis: 37: 79 states.
+0.29948965887724954
+Hypothesis: 38: 80 states.
+0.2959978511952726
+Hypothesis: 39: 80 states.
+0.303518667741069
+Hypothesis: 40: 80 states.
+0.29492344883158744
+Unambiguous rows: 76.04%; 403 out of 530
+Hypothesis: 41: 80 states.
+0.27209239860327694
+Hypothesis: 42: 80 states.
+0.28955143701316144
+Hypothesis: 43: 83 states.
+0.29116304055868925
+Hypothesis: 44: 84 states.
+0.29196884233145315
+Hypothesis: 45: 83 states.
+0.29734085414987915
+Unambiguous rows: 74.86%; 411 out of 549
+Hypothesis: 46: 84 states.
+0.29035723878592534
+Hypothesis: 47: 84 states.
+0.325006715014773
+Hypothesis: 48: 85 states.
+0.31694869728713404
+Hypothesis: 49: 85 states.
+0.31023368251410155
+Hypothesis: 50: 86 states.
+0.34192855224281493
+Unambiguous rows: 74.13%; 424 out of 572
+Hypothesis: 51: 86 states.
+0.34300295460650015
+Hypothesis: 52: 86 states.
+0.35589578297072255
+Hypothesis: 53: 86 states.
+0.3507923717432178
+Hypothesis: 54: 86 states.
+0.3424657534246575
+Hypothesis: 55: 86 states.
+0.3274241203330647
+Unambiguous rows: 73.6%; 421 out of 572
+Hypothesis: 56: 86 states.
+0.35267257587966694
+Hypothesis: 57: 87 states.
+0.32688691915122214
+Hypothesis: 58: 87 states.
+0.3486435670158474
+Hypothesis: 59: 88 states.
+0.34837496642492616
+Hypothesis: 60: 88 states.
+0.34380875637926406
+Unambiguous rows: 72.28%; 425 out of 588
+Hypothesis: 61: 88 states.
+0.33064732742412034
+Hypothesis: 62: 88 states.
+0.32554391619661566
+Hypothesis: 63: 88 states.
+0.31453129196884233
+Hypothesis: 64: 89 states.
+0.3220521085146387
+Hypothesis: 65: 89 states.
+0.31775449905989794
+Unambiguous rows: 72.65%; 433 out of 596
+Hypothesis: 66: 89 states.
+0.30862207896857374
+Hypothesis: 67: 89 states.
+0.31775449905989794
+Hypothesis: 68: 89 states.
+0.32312651087832395
+Hypothesis: 69: 89 states.
+0.32822992210582863
+Hypothesis: 70: 89 states.
+0.32366371206016653
+Unambiguous rows: 72.79%; 436 out of 599
+Hypothesis: 71: 89 states.
+0.3180230996508192
+Hypothesis: 72: 89 states.
+0.32393231265108785
+Hypothesis: 73: 89 states.
+0.3134568896051571
+Hypothesis: 74: 89 states.
+0.31479989255976365
+Hypothesis: 75: 89 states.
+0.3075476766048885
+Unambiguous rows: 73.46%; 440 out of 599
+Hypothesis: 76: 89 states.
+0.29626645178619393
+Hypothesis: 77: 89 states.
+0.30190706419554125
+Hypothesis: 78: 88 states.
+0.3096964813322589
+Hypothesis: 79: 88 states.
+0.3005640612409347
+Hypothesis: 80: 88 states.
+0.29331184528605964
+Unambiguous rows: 75.04%; 445 out of 593
+Hypothesis: 81: 88 states.
+0.29626645178619393
+Hypothesis: 82: 88 states.
+0.31560569433252755
+Hypothesis: 83: 88 states.
+0.31479989255976365
+Hypothesis: 84: 88 states.
+0.32608111737845824
+Hypothesis: 85: 89 states.
+0.325006715014773
+Unambiguous rows: 74.58%; 449 out of 602
+Hypothesis: 86: 89 states.
+0.32393231265108785
+Hypothesis: 87: 89 states.
+0.3067418748321246
+Hypothesis: 88: 90 states.
+0.33011012624227776
+Hypothesis: 89: 90 states.
+0.32312651087832395
+Hypothesis: 90: 90 states.
+0.3220521085146387
+Unambiguous rows: 73.49%; 449 out of 611
+Hypothesis: 91: 90 states.
+0.30781627719580984
+Hypothesis: 92: 90 states.
+0.325006715014773
+Hypothesis: 93: 90 states.
+0.3150684931506849
+Hypothesis: 94: 90 states.
+0.3137254901960784
+Hypothesis: 95: 90 states.
+0.3150684931506849
+Unambiguous rows: 73.65%; 450 out of 611
+Hypothesis: 96: 90 states.
+0.3174858984689766
+Hypothesis: 97: 90 states.
+0.314262691377921
+Hypothesis: 98: 90 states.
+0.3242009132420091
+Hypothesis: 99: 90 states.
+0.32017190437818965
+Hypothesis: 100: 90 states.
+0.314262691377921
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 90
+Time (in seconds)
+  Total                : 1042.92
+  Learning algorithm   : 1026.92
+  Conformance checking : 16.0
+Learning Algorithm
+ # Membership Queries  : 374240
+ # Steps               : 7382134
+Equivalence Query
+ # Membership Queries  : 48024
+ # Steps               : 863879
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 100.0%; 142 out of 142
+Hypothesis: 6: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 33 states.
+0.07279076013967231
+Hypothesis: 8: 34 states.
+0.07144775718506581
+Hypothesis: 9: 43 states.
+0.07977437550362611
+Hypothesis: 10: 46 states.
+0.09615901154982541
+Unambiguous rows: 79.25%; 210 out of 265
+Hypothesis: 11: 48 states.
+0.0953532097770615
+Hypothesis: 12: 55 states.
+0.10932044050496911
+Hypothesis: 13: 59 states.
+0.10018802041364491
+Hypothesis: 14: 63 states.
+0.13537469782433523
+Hypothesis: 15: 63 states.
+0.030083266183185603
+Unambiguous rows: 79.62%; 297 out of 373
+Hypothesis: 16: 66 states.
+0.26081117378458235
+Hypothesis: 17: 68 states.
+0.2594681708299758
+Hypothesis: 18: 69 states.
+0.303518667741069
+Hypothesis: 19: 70 states.
+0.32849852269674995
+Hypothesis: 20: 70 states.
+0.34810636583400484
+Unambiguous rows: 80.18%; 352 out of 439
+Hypothesis: 21: 69 states.
+0.3233951114692452
+Hypothesis: 22: 70 states.
+0.35643298415256514
+Hypothesis: 23: 70 states.
+0.35106097233413913
+Hypothesis: 24: 70 states.
+0.35965619124362075
+Hypothesis: 25: 70 states.
+0.35347837765243084
+Unambiguous rows: 80.09%; 358 out of 447
+Hypothesis: 26: 73 states.
+0.36126779478914856
+Hypothesis: 27: 73 states.
+0.34219715283373625
+Hypothesis: 28: 75 states.
+0.34649476228847703
+Hypothesis: 29: 75 states.
+0.335750738651625
+Hypothesis: 30: 75 states.
+0.3180230996508192
+Unambiguous rows: 75.88%; 368 out of 485
+Hypothesis: 31: 75 states.
+0.21380607037335483
+Hypothesis: 32: 75 states.
+0.22293849046467903
+Hypothesis: 33: 75 states.
+0.21246306741874832
+Hypothesis: 34: 77 states.
+0.26295997851195274
+Hypothesis: 35: 77 states.
+0.26215417673918884
+Unambiguous rows: 76.65%; 384 out of 501
+Hypothesis: 36: 77 states.
+0.21837228041901693
+Hypothesis: 37: 77 states.
+0.20977706150953532
+Hypothesis: 38: 77 states.
+0.21488047273704003
+Hypothesis: 39: 78 states.
+0.21165726564598442
+Hypothesis: 40: 79 states.
+0.14665592264302982
+Unambiguous rows: 74.66%; 386 out of 517
+Hypothesis: 41: 79 states.
+0.14289551437013162
+Hypothesis: 42: 81 states.
+0.2245500940102068
+Hypothesis: 43: 82 states.
+0.1998388396454472
+Hypothesis: 44: 84 states.
+0.3362879398334676
+Hypothesis: 45: 84 states.
+0.32608111737845824
+Unambiguous rows: 71.45%; 398 out of 557
+Hypothesis: 46: 84 states.
+0.32769272092398605
+Hypothesis: 47: 84 states.
+0.335750738651625
+Hypothesis: 48: 84 states.
+0.34192855224281493
+Hypothesis: 49: 84 states.
+0.34676336287939835
+Hypothesis: 50: 84 states.
+0.33924254633360196
+Unambiguous rows: 71.71%; 403 out of 562
+Hypothesis: 51: 84 states.
+0.33440773569701854
+Hypothesis: 52: 84 states.
+0.33440773569701854
+Hypothesis: 53: 84 states.
+0.3013698630136986
+Hypothesis: 54: 84 states.
+0.23932312651087834
+Hypothesis: 55: 84 states.
+0.23798012355627182
+Unambiguous rows: 72.47%; 408 out of 563
+Hypothesis: 56: 85 states.
+0.34273435401557883
+Hypothesis: 57: 85 states.
+0.33225893096964815
+Hypothesis: 58: 85 states.
+0.3266183185603008
+Hypothesis: 59: 85 states.
+0.35106097233413913
+Hypothesis: 60: 85 states.
+0.33011012624227776
+Unambiguous rows: 73.3%; 420 out of 573
+Hypothesis: 61: 85 states.
+0.33145312919688424
+Hypothesis: 62: 85 states.
+0.335750738651625
+Hypothesis: 63: 85 states.
+0.24415793714746173
+Hypothesis: 64: 85 states.
+0.22857910287402633
+Hypothesis: 65: 89 states.
+0.2814934192855224
+Unambiguous rows: 69.82%; 421 out of 603
+Hypothesis: 66: 89 states.
+0.27424120333064733
+Hypothesis: 67: 89 states.
+0.2677947891485361
+Hypothesis: 68: 89 states.
+0.27665860864893904
+Hypothesis: 69: 89 states.
+0.23878592532903573
+Hypothesis: 70: 89 states.
+0.22481869460112813
+Unambiguous rows: 71.48%; 431 out of 603
+Hypothesis: 71: 89 states.
+0.22696749932849852
+Hypothesis: 72: 89 states.
+0.22965350523771152
+Hypothesis: 73: 89 states.
+0.23986032769272092
+Hypothesis: 74: 89 states.
+0.23314531291968843
+Hypothesis: 75: 89 states.
+0.24120333064732744
+Unambiguous rows: 72.56%; 439 out of 605
+Hypothesis: 76: 89 states.
+0.29170024174053183
+Hypothesis: 77: 89 states.
+0.2401289282836422
+Hypothesis: 78: 89 states.
+0.23072790760139672
+Hypothesis: 79: 89 states.
+0.23932312651087834
+Hypothesis: 80: 90 states.
+0.23932312651087834
+Unambiguous rows: 70.73%; 435 out of 615
+Hypothesis: 81: 90 states.
+0.22965350523771152
+Hypothesis: 82: 90 states.
+0.233682514101531
+Hypothesis: 83: 90 states.
+0.22508729519204942
+Hypothesis: 84: 90 states.
+0.22723609991941982
+Hypothesis: 85: 90 states.
+0.23475691646521624
+Unambiguous rows: 71.59%; 441 out of 616
+Hypothesis: 86: 90 states.
+0.279344614558152
+Hypothesis: 87: 90 states.
+0.26054257319366103
+Hypothesis: 88: 90 states.
+0.25973677142089713
+Hypothesis: 89: 90 states.
+0.3188289014235831
+Hypothesis: 90: 90 states.
+0.24388933655654044
+Unambiguous rows: 72.08%; 444 out of 616
+Hypothesis: 91: 90 states.
+0.26510878323932313
+Hypothesis: 92: 90 states.
+0.2616169755573462
+Hypothesis: 93: 90 states.
+0.3150684931506849
+Hypothesis: 94: 90 states.
+0.3180230996508192
+Hypothesis: 95: 90 states.
+0.26591458501208703
+Unambiguous rows: 73.21%; 451 out of 616
+Hypothesis: 96: 91 states.
+0.31453129196884233
+Hypothesis: 97: 92 states.
+0.32097770615095356
+Hypothesis: 98: 91 states.
+0.25597636314799893
+Hypothesis: 99: 91 states.
+0.325006715014773
+Hypothesis: 100: 92 states.
+0.3182917002417405
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 92
+Time (in seconds)
+  Total                : 1083.31
+  Learning algorithm   : 1063.38
+  Conformance checking : 19.93
+Learning Algorithm
+ # Membership Queries  : 362327
+ # Steps               : 7152616
+Equivalence Query
+ # Membership Queries  : 47276
+ # Steps               : 850167
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 28 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 100.0%; 126 out of 126
+Hypothesis: 6: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 33 states.
+0.07923717432178351
+Hypothesis: 9: 35 states.
+0.0781627719580983
+Hypothesis: 10: 38 states.
+0.1036798280956218
+Unambiguous rows: 84.65%; 182 out of 215
+Hypothesis: 11: 47 states.
+0.032232070910556
+Hypothesis: 12: 53 states.
+0.04593070104754231
+Hypothesis: 13: 53 states.
+0.0362610797743755
+Hypothesis: 14: 55 states.
+0.032769272092398605
+Hypothesis: 15: 59 states.
+0.10529143164114961
+Unambiguous rows: 79.38%; 281 out of 354
+Hypothesis: 16: 59 states.
+0.13456889605157132
+Hypothesis: 17: 63 states.
+0.09374160623153371
+Hypothesis: 18: 62 states.
+0.08917539618587161
+Hypothesis: 19: 69 states.
+0.1917808219178082
+Hypothesis: 20: 70 states.
+0.18882621541767391
+Unambiguous rows: 76.7%; 339 out of 442
+Hypothesis: 21: 71 states.
+0.1917808219178082
+Hypothesis: 22: 72 states.
+0.18694601128122482
+Hypothesis: 23: 72 states.
+0.18667741069030352
+Hypothesis: 24: 72 states.
+0.18426000537201181
+Hypothesis: 25: 74 states.
+0.18426000537201181
+Unambiguous rows: 76.01%; 358 out of 471
+Hypothesis: 26: 75 states.
+0.19419822723609992
+Hypothesis: 27: 76 states.
+0.1890948160085952
+Hypothesis: 28: 75 states.
+0.1815739994627988
+Hypothesis: 29: 74 states.
+0.18748321246306743
+Hypothesis: 30: 76 states.
+0.17969379532634971
+Unambiguous rows: 75.51%; 373 out of 494
+Hypothesis: 31: 76 states.
+0.16545796400752083
+Hypothesis: 32: 76 states.
+0.18023099650819233
+Hypothesis: 33: 76 states.
+0.19392962664517863
+Hypothesis: 34: 77 states.
+0.1925866236905721
+Hypothesis: 35: 77 states.
+0.19607843137254902
+Unambiguous rows: 76.92%; 390 out of 507
+Hypothesis: 36: 77 states.
+0.18587160891753962
+Hypothesis: 37: 77 states.
+0.18802041364491
+Hypothesis: 38: 77 states.
+0.17647058823529413
+Hypothesis: 39: 79 states.
+0.19849583669084073
+Hypothesis: 40: 79 states.
+0.16760676873489122
+Unambiguous rows: 76.24%; 401 out of 526
+Hypothesis: 41: 79 states.
+0.18560300832661833
+Hypothesis: 42: 81 states.
+0.1890948160085952
+Hypothesis: 43: 82 states.
+0.1788879935535858
+Hypothesis: 44: 82 states.
+0.17136717700778942
+Hypothesis: 45: 82 states.
+0.1689497716894977
+Unambiguous rows: 73.71%; 401 out of 544
+Hypothesis: 46: 82 states.
+0.17297878055331722
+Hypothesis: 47: 82 states.
+0.1727101799623959
+Hypothesis: 48: 82 states.
+0.1552511415525114
+Hypothesis: 49: 82 states.
+0.1471931238248724
+Hypothesis: 50: 83 states.
+0.23341391351060972
+Unambiguous rows: 75.45%; 415 out of 550
+Hypothesis: 51: 82 states.
+0.21837228041901693
+Hypothesis: 52: 82 states.
+0.2199838839645447
+Hypothesis: 53: 82 states.
+0.2420091324200913
+Hypothesis: 54: 82 states.
+0.2594681708299758
+Hypothesis: 55: 84 states.
+0.2771958098307816
+Unambiguous rows: 75.81%; 420 out of 554
+Hypothesis: 56: 84 states.
+0.28283642224012895
+Hypothesis: 57: 85 states.
+0.2626913779210314
+Hypothesis: 58: 86 states.
+0.2669889873757722
+Hypothesis: 59: 86 states.
+0.2852538275584206
+Hypothesis: 60: 86 states.
+0.30163846360461993
+Unambiguous rows: 73.99%; 421 out of 569
+Hypothesis: 61: 85 states.
+0.30083266183185603
+Hypothesis: 62: 86 states.
+0.30647327424120335
+Hypothesis: 63: 86 states.
+0.29546065001343
+Hypothesis: 64: 86 states.
+0.303518667741069
+Hypothesis: 65: 87 states.
+0.29411764705882354
+Unambiguous rows: 73.39%; 422 out of 575
+Hypothesis: 66: 87 states.
+0.26833199033037874
+Hypothesis: 67: 87 states.
+0.27343540155788343
+Hypothesis: 68: 87 states.
+0.2914316411496105
+Hypothesis: 69: 87 states.
+0.2640343808756379
+Hypothesis: 70: 87 states.
+0.3043244695138329
+Unambiguous rows: 72.56%; 423 out of 583
+Hypothesis: 71: 88 states.
+0.29653505237711525
+Hypothesis: 72: 87 states.
+0.2968036529680365
+Hypothesis: 73: 89 states.
+0.30647327424120335
+Hypothesis: 74: 91 states.
+0.308890679559495
+Hypothesis: 75: 90 states.
+0.2761214074670964
+Unambiguous rows: 70.86%; 428 out of 604
+Hypothesis: 76: 90 states.
+0.26591458501208703
+Hypothesis: 77: 90 states.
+0.2801504163309159
+Hypothesis: 78: 90 states.
+0.2694063926940639
+Hypothesis: 79: 90 states.
+0.27907601396723075
+Hypothesis: 80: 90 states.
+0.27424120333064733
+Unambiguous rows: 71.24%; 431 out of 605
+Hypothesis: 81: 90 states.
+0.3174858984689766
+Hypothesis: 82: 89 states.
+0.3021756647864625
+Hypothesis: 83: 89 states.
+0.29546065001343
+Hypothesis: 84: 90 states.
+0.30190706419554125
+Hypothesis: 85: 90 states.
+0.3037872683319903
+Unambiguous rows: 71.74%; 434 out of 605
+Hypothesis: 86: 90 states.
+0.30486167069567555
+Hypothesis: 87: 90 states.
+0.33279613215149073
+Hypothesis: 88: 90 states.
+0.33360193392425463
+Hypothesis: 89: 91 states.
+0.35508998119795865
+Hypothesis: 90: 91 states.
+0.35106097233413913
+Unambiguous rows: 70.85%; 435 out of 614
+Hypothesis: 91: 90 states.
+0.3317217297878055
+Hypothesis: 92: 91 states.
+0.3486435670158474
+Hypothesis: 93: 91 states.
+0.330378726833199
+Hypothesis: 94: 91 states.
+0.32688691915122214
+Hypothesis: 95: 91 states.
+0.33897394574268064
+Unambiguous rows: 71.5%; 439 out of 614
+Hypothesis: 96: 91 states.
+0.34192855224281493
+Hypothesis: 97: 91 states.
+0.34058554928820844
+Hypothesis: 98: 91 states.
+0.34756916465216225
+Hypothesis: 99: 91 states.
+0.35186677410690304
+Hypothesis: 100: 91 states.
+0.33601933924254634
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 91
+Time (in seconds)
+  Total                : 1028.33
+  Learning algorithm   : 1008.77
+  Conformance checking : 19.56
+Learning Algorithm
+ # Membership Queries  : 334090
+ # Steps               : 7053378
+Equivalence Query
+ # Membership Queries  : 71292
+ # Steps               : 1282648
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+0.07681976900349181
+Unambiguous rows: 99.34%; 150 out of 151
+Hypothesis: 6: 32 states.
+0.0840719849583669
+Hypothesis: 7: 40 states.
+0.0867579908675799
+Hypothesis: 8: 47 states.
+0.10341122750470051
+Hypothesis: 9: 47 states.
+0.0749395648670427
+Hypothesis: 10: 50 states.
+0.0795057749127048
+Unambiguous rows: 78.89%; 228 out of 289
+Hypothesis: 11: 58 states.
+0.07279076013967231
+Hypothesis: 12: 59 states.
+0.1077088369594413
+Hypothesis: 13: 59 states.
+0.10663443459575611
+Hypothesis: 14: 63 states.
+0.10529143164114961
+Hypothesis: 15: 64 states.
+0.11388665055063121
+Unambiguous rows: 78.13%; 293 out of 375
+Hypothesis: 16: 66 states.
+0.12140746709642761
+Hypothesis: 17: 67 states.
+0.12570507655116842
+Hypothesis: 18: 69 states.
+0.13295729250604352
+Hypothesis: 19: 69 states.
+0.11361804995970991
+Hypothesis: 20: 69 states.
+0.13215149073327961
+Unambiguous rows: 75.7%; 324 out of 428
+Hypothesis: 21: 70 states.
+0.1246306741874832
+Hypothesis: 22: 74 states.
+0.11845286059629331
+Hypothesis: 23: 75 states.
+0.10878323932312652
+Hypothesis: 24: 75 states.
+0.115498254096159
+Hypothesis: 25: 75 states.
+0.12409347300564061
+Unambiguous rows: 74.53%; 354 out of 475
+Hypothesis: 26: 75 states.
+0.11442385173247381
+Hypothesis: 27: 76 states.
+0.11979586355089981
+Hypothesis: 28: 76 states.
+0.1259736771420897
+Hypothesis: 29: 76 states.
+0.12436207359656191
+Hypothesis: 30: 76 states.
+0.12543647596024712
+Unambiguous rows: 75.81%; 376 out of 496
+Hypothesis: 31: 77 states.
+0.12570507655116842
+Hypothesis: 32: 77 states.
+0.126242277733011
+Hypothesis: 33: 78 states.
+0.055868922911630405
+Hypothesis: 34: 78 states.
+0.054525919957023904
+Hypothesis: 35: 81 states.
+0.17297878055331722
+Unambiguous rows: 74.39%; 398 out of 535
+Hypothesis: 36: 81 states.
+0.17378458232608113
+Hypothesis: 37: 81 states.
+0.2009132420091324
+Hypothesis: 38: 81 states.
+0.2017190437818963
+Hypothesis: 39: 81 states.
+0.19554123019070643
+Hypothesis: 40: 81 states.
+0.19500402900886382
+Unambiguous rows: 75.51%; 407 out of 539
+Hypothesis: 41: 81 states.
+0.19957023905452592
+Hypothesis: 42: 82 states.
+0.26134837496642493
+Hypothesis: 43: 82 states.
+0.2747784045124899
+Hypothesis: 44: 82 states.
+0.2664517861939296
+Hypothesis: 45: 83 states.
+0.22320709105560033
+Unambiguous rows: 74.68%; 413 out of 553
+Hypothesis: 46: 84 states.
+0.28820843405855495
+Hypothesis: 47: 84 states.
+0.23153370937416062
+Hypothesis: 48: 84 states.
+0.22616169755573462
+Hypothesis: 49: 84 states.
+0.2154176739188826
+Hypothesis: 50: 84 states.
+0.21837228041901693
+Unambiguous rows: 75.09%; 419 out of 558
+Hypothesis: 51: 85 states.
+0.22723609991941982
+Hypothesis: 52: 85 states.
+0.22159548751007252
+Hypothesis: 53: 84 states.
+0.24496373892022563
+Hypothesis: 54: 85 states.
+0.23072790760139672
+Hypothesis: 55: 87 states.
+0.20709105560032232
+Unambiguous rows: 74.48%; 429 out of 576
+Hypothesis: 56: 87 states.
+0.21353746978243351
+Hypothesis: 57: 87 states.
+0.22616169755573462
+Hypothesis: 58: 87 states.
+0.21488047273704003
+Hypothesis: 59: 89 states.
+0.26833199033037874
+Hypothesis: 60: 89 states.
+0.2822992210582863
+Unambiguous rows: 73.08%; 429 out of 587
+Hypothesis: 61: 89 states.
+0.2769272092398603
+Hypothesis: 62: 89 states.
+0.29653505237711525
+Hypothesis: 63: 88 states.
+0.28579102874026324
+Hypothesis: 64: 88 states.
+0.2831050228310502
+Hypothesis: 65: 88 states.
+0.2822992210582863
+Unambiguous rows: 75.26%; 438 out of 582
+Hypothesis: 66: 89 states.
+0.28793983346763363
+Hypothesis: 67: 89 states.
+0.2777330110126242
+Hypothesis: 68: 89 states.
+0.28337362342197153
+Hypothesis: 69: 89 states.
+0.2594681708299758
+Hypothesis: 70: 89 states.
+0.32151490733279614
+Unambiguous rows: 74.62%; 441 out of 591
+Hypothesis: 71: 89 states.
+0.30996508192318023
+Hypothesis: 72: 89 states.
+0.2664517861939296
+Hypothesis: 73: 90 states.
+0.2594681708299758
+Hypothesis: 74: 90 states.
+0.2785388127853881
+Hypothesis: 75: 90 states.
+0.26295997851195274
+Unambiguous rows: 73.33%; 440 out of 600
+Hypothesis: 76: 90 states.
+0.26672038678485094
+Hypothesis: 77: 90 states.
+0.2718237980123556
+Hypothesis: 78: 90 states.
+0.25302175664786464
+Hypothesis: 79: 90 states.
+0.2492613483749664
+Hypothesis: 80: 90 states.
+0.252484555466022
+Unambiguous rows: 74.04%; 445 out of 601
+Hypothesis: 81: 90 states.
+0.2656459844211657
+Hypothesis: 82: 91 states.
+0.26618318560300835
+Hypothesis: 83: 91 states.
+0.25678216492076283
+Hypothesis: 84: 91 states.
+0.27880741337630943
+Hypothesis: 85: 91 states.
+0.27961321514907334
+Unambiguous rows: 73.56%; 448 out of 609
+Hypothesis: 86: 91 states.
+0.2747784045124899
+Hypothesis: 87: 93 states.
+0.2817620198764437
+Hypothesis: 88: 93 states.
+0.26886919151222133
+Hypothesis: 89: 93 states.
+0.20333064732742412
+Hypothesis: 90: 93 states.
+0.31023368251410155
+Unambiguous rows: 72.86%; 451 out of 619
+Hypothesis: 91: 93 states.
+0.27827021219446685
+Hypothesis: 92: 93 states.
+0.27961321514907334
+Hypothesis: 93: 94 states.
+0.3188289014235831
+Hypothesis: 94: 94 states.
+0.31184528605962936
+Hypothesis: 95: 94 states.
+0.319634703196347
+Unambiguous rows: 72.41%; 454 out of 627
+Hypothesis: 96: 94 states.
+0.3029814665592264
+Hypothesis: 97: 94 states.
+0.2959978511952726
+Hypothesis: 98: 94 states.
+0.3021756647864625
+Hypothesis: 99: 95 states.
+0.30566747246843945
+Hypothesis: 100: 95 states.
+0.30781627719580984
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 95
+Time (in seconds)
+  Total                : 1112.43
+  Learning algorithm   : 1096.6
+  Conformance checking : 15.83
+Learning Algorithm
+ # Membership Queries  : 346757
+ # Steps               : 7304371
+Equivalence Query
+ # Membership Queries  : 71283
+ # Steps               : 1281312
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 30 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 98.03%; 149 out of 152
+Hypothesis: 6: 33 states.
+0.07923717432178351
+Hypothesis: 7: 33 states.
+0.0781627719580983
+Hypothesis: 8: 34 states.
+0.07789417136717701
+Hypothesis: 9: 42 states.
+0.07681976900349181
+Hypothesis: 10: 50 states.
+0.10341122750470051
+Unambiguous rows: 78.08%; 228 out of 292
+Hypothesis: 11: 53 states.
+0.0265914585012087
+Hypothesis: 12: 57 states.
+0.038947085683588505
+Hypothesis: 13: 58 states.
+0.04297609454740801
+Hypothesis: 14: 57 states.
+0.09427880741337631
+Hypothesis: 15: 66 states.
+0.1232876712328767
+Unambiguous rows: 73.88%; 297 out of 402
+Hypothesis: 16: 69 states.
+0.026860059092130004
+Hypothesis: 17: 71 states.
+0.10744023636852001
+Hypothesis: 18: 71 states.
+0.08004297609454741
+Hypothesis: 19: 72 states.
+0.09051839914047811
+Hypothesis: 20: 74 states.
+0.08783239323126511
+Unambiguous rows: 71.0%; 333 out of 469
+Hypothesis: 21: 74 states.
+0.09159280150416331
+Hypothesis: 22: 74 states.
+0.10099382218640882
+Hypothesis: 23: 75 states.
+0.08917539618587161
+Hypothesis: 24: 74 states.
+0.1340316948697287
+Hypothesis: 25: 75 states.
+0.0854149879129734
+Unambiguous rows: 73.53%; 350 out of 476
+Hypothesis: 26: 76 states.
+0.027934461455815202
+Hypothesis: 27: 78 states.
+0.05372011818426001
+Hypothesis: 28: 78 states.
+0.0394842868654311
+Hypothesis: 29: 79 states.
+0.047810905183991406
+Hypothesis: 30: 80 states.
+0.0762825678216492
+Unambiguous rows: 72.47%; 379 out of 523
+Hypothesis: 31: 80 states.
+0.0652699435938759
+Hypothesis: 32: 81 states.
+0.14934192855224282
+Hypothesis: 33: 82 states.
+0.15498254096159012
+Hypothesis: 34: 83 states.
+0.0784313725490196
+Hypothesis: 35: 83 states.
+0.14101531023368252
+Unambiguous rows: 72.6%; 400 out of 551
+Hypothesis: 36: 83 states.
+0.147730325006715
+Hypothesis: 37: 82 states.
+0.14638732205210853
+Hypothesis: 38: 83 states.
+0.14665592264302982
+Hypothesis: 39: 83 states.
+0.1488047273704002
+Hypothesis: 40: 83 states.
+0.13107708836959442
+Unambiguous rows: 72.09%; 403 out of 559
+Hypothesis: 41: 83 states.
+0.1498791297340854
+Hypothesis: 42: 84 states.
+0.14746172441579372
+Hypothesis: 43: 84 states.
+0.13994090786999733
+Hypothesis: 44: 85 states.
+0.1305398871877518
+Hypothesis: 45: 85 states.
+0.13537469782433523
+Unambiguous rows: 70.21%; 403 out of 574
+Hypothesis: 46: 86 states.
+0.1434327155519742
+Hypothesis: 47: 86 states.
+0.15659414450711792
+Hypothesis: 48: 86 states.
+0.1616975557346226
+Hypothesis: 49: 86 states.
+0.1533709374160623
+Hypothesis: 50: 88 states.
+0.13832930432446952
+Unambiguous rows: 69.15%; 408 out of 590
+Hypothesis: 51: 89 states.
+0.15014773032500672
+Hypothesis: 52: 90 states.
+0.1488047273704002
+Hypothesis: 53: 90 states.
+0.15363953800698363
+Hypothesis: 54: 89 states.
+0.13725490196078433
+Hypothesis: 55: 89 states.
+0.14450711791565943
+Unambiguous rows: 68.05%; 409 out of 601
+Hypothesis: 56: 89 states.
+0.126242277733011
+Hypothesis: 57: 89 states.
+0.139672307279076
+Hypothesis: 58: 89 states.
+0.16653236637120603
+Hypothesis: 59: 89 states.
+0.1533709374160623
+Hypothesis: 60: 89 states.
+0.1608917539618587
+Unambiguous rows: 69.31%; 420 out of 606
+Hypothesis: 61: 89 states.
+0.1431641149610529
+Hypothesis: 62: 89 states.
+0.14128391082460381
+Hypothesis: 63: 89 states.
+0.15954875100725222
+Hypothesis: 64: 89 states.
+0.15928015041633092
+Hypothesis: 65: 89 states.
+0.15390813859790492
+Unambiguous rows: 70.39%; 428 out of 608
+Hypothesis: 66: 89 states.
+0.16116035455278002
+Hypothesis: 67: 89 states.
+0.1770077894171367
+Hypothesis: 68: 89 states.
+0.17217297878055332
+Hypothesis: 69: 90 states.
+0.2245500940102068
+Hypothesis: 70: 90 states.
+0.2511415525114155
+Unambiguous rows: 70.28%; 428 out of 609
+Hypothesis: 71: 91 states.
+0.25221595487510073
+Hypothesis: 72: 91 states.
+0.13832930432446952
+Hypothesis: 73: 91 states.
+0.20413644910018802
+Hypothesis: 74: 91 states.
+0.1834542035992479
+Hypothesis: 75: 93 states.
+0.20843405855492883
+Unambiguous rows: 69.79%; 439 out of 629
+Hypothesis: 76: 93 states.
+0.1944668278270212
+Hypothesis: 77: 93 states.
+0.2557077625570776
+Hypothesis: 78: 93 states.
+0.1890948160085952
+Hypothesis: 79: 93 states.
+0.18023099650819233
+Hypothesis: 80: 93 states.
+0.23502551705613753
+Unambiguous rows: 71.97%; 457 out of 635
+Hypothesis: 81: 94 states.
+0.2017190437818963
+Hypothesis: 82: 94 states.
+0.20574805264571583
+Hypothesis: 83: 94 states.
+0.19876443728176202
+Hypothesis: 84: 94 states.
+0.20950846091861403
+Hypothesis: 85: 94 states.
+0.20682245500940102
+Unambiguous rows: 71.36%; 461 out of 646
+Hypothesis: 86: 94 states.
+0.257856567284448
+Hypothesis: 87: 94 states.
+0.26752618855761484
+Hypothesis: 88: 94 states.
+0.26430298146655923
+Hypothesis: 89: 94 states.
+0.27048079505774913
+Hypothesis: 90: 95 states.
+0.2771958098307816
+Unambiguous rows: 70.64%; 462 out of 654
+Hypothesis: 91: 95 states.
+0.2723609991941982
+Hypothesis: 92: 95 states.
+0.2570507655116841
+Hypothesis: 93: 94 states.
+0.20252484555466022
+Hypothesis: 94: 94 states.
+0.20923986032769273
+Hypothesis: 95: 94 states.
+0.20440504969110931
+Unambiguous rows: 72.6%; 469 out of 646
+Hypothesis: 96: 95 states.
+0.22078968573730862
+Hypothesis: 97: 95 states.
+0.23045930701047543
+Hypothesis: 98: 94 states.
+0.22884770346494762
+Hypothesis: 99: 95 states.
+0.20870265914585012
+Hypothesis: 100: 95 states.
+0.2054794520547945
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 95
+Time (in seconds)
+  Total                : 1123.79
+  Learning algorithm   : 1107.77
+  Conformance checking : 16.02
+Learning Algorithm
+ # Membership Queries  : 318768
+ # Steps               : 7181406
+Equivalence Query
+ # Membership Queries  : 95053
+ # Steps               : 1710076
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 30 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 99.2%; 124 out of 125
+Hypothesis: 6: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 32 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 34 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 35 states.
+0.07735697018533441
+Unambiguous rows: 93.41%; 170 out of 182
+Hypothesis: 11: 36 states.
+0.07225355895782971
+Hypothesis: 12: 42 states.
+0.0776255707762557
+Hypothesis: 13: 45 states.
+0.08004297609454741
+Hypothesis: 14: 52 states.
+0.0762825678216492
+Hypothesis: 15: 53 states.
+0.069836153639538
+Unambiguous rows: 80.44%; 255 out of 317
+Hypothesis: 16: 54 states.
+0.0894439967767929
+Hypothesis: 17: 56 states.
+0.1031426269137792
+Hypothesis: 18: 57 states.
+0.10099382218640882
+Hypothesis: 19: 57 states.
+0.10690303518667742
+Hypothesis: 20: 59 states.
+0.0991136180499597
+Unambiguous rows: 80.32%; 298 out of 371
+Hypothesis: 21: 64 states.
+0.0972334139135106
+Hypothesis: 22: 64 states.
+0.09213000268600591
+Hypothesis: 23: 65 states.
+0.10932044050496911
+Hypothesis: 24: 68 states.
+0.12731668009669622
+Hypothesis: 25: 70 states.
+0.0397528874563524
+Unambiguous rows: 76.94%; 337 out of 438
+Hypothesis: 26: 71 states.
+0.035992479183454204
+Hypothesis: 27: 73 states.
+0.13564329841525652
+Hypothesis: 28: 73 states.
+0.15739994627988182
+Hypothesis: 29: 74 states.
+0.16680096696212732
+Hypothesis: 30: 76 states.
+0.1568627450980392
+Unambiguous rows: 78.96%; 379 out of 480
+Hypothesis: 31: 76 states.
+0.1522965350523771
+Hypothesis: 32: 77 states.
+0.15739994627988182
+Hypothesis: 33: 77 states.
+0.15766854687080312
+Hypothesis: 34: 77 states.
+0.1762019876443728
+Hypothesis: 35: 77 states.
+0.15122213268869192
+Unambiguous rows: 78.95%; 390 out of 494
+Hypothesis: 36: 77 states.
+0.17459038409884503
+Hypothesis: 37: 77 states.
+0.1708299758259468
+Hypothesis: 38: 77 states.
+0.1590115498254096
+Hypothesis: 39: 78 states.
+0.1890948160085952
+Hypothesis: 40: 78 states.
+0.17056137523502551
+Unambiguous rows: 78.77%; 397 out of 504
+Hypothesis: 41: 79 states.
+0.1952726295997851
+Hypothesis: 42: 79 states.
+0.1963470319634703
+Hypothesis: 43: 80 states.
+0.26457158205748055
+Hypothesis: 44: 80 states.
+0.2943862476497448
+Hypothesis: 45: 80 states.
+0.3000268600590921
+Unambiguous rows: 77.25%; 404 out of 523
+Hypothesis: 46: 80 states.
+0.3013698630136986
+Hypothesis: 47: 82 states.
+0.3349449368788611
+Hypothesis: 48: 82 states.
+0.35025517056137523
+Hypothesis: 49: 83 states.
+0.35750738651625036
+Hypothesis: 50: 83 states.
+0.34380875637926406
+Unambiguous rows: 75.09%; 413 out of 550
+Hypothesis: 51: 84 states.
+0.3362879398334676
+Hypothesis: 52: 84 states.
+0.34004834810636586
+Hypothesis: 53: 85 states.
+0.3416599516518936
+Hypothesis: 54: 85 states.
+0.33145312919688424
+Hypothesis: 55: 85 states.
+0.32554391619661566
+Unambiguous rows: 73.54%; 417 out of 567
+Hypothesis: 56: 87 states.
+0.3462261616975557
+Hypothesis: 57: 88 states.
+0.36126779478914856
+Hypothesis: 58: 88 states.
+0.3540155788342734
+Hypothesis: 59: 88 states.
+0.36046199301638465
+Hypothesis: 60: 88 states.
+0.3478377652430835
+Unambiguous rows: 72.93%; 431 out of 591
+Hypothesis: 61: 88 states.
+0.3507923717432178
+Hypothesis: 62: 89 states.
+0.3470319634703196
+Hypothesis: 63: 89 states.
+0.3424657534246575
+Hypothesis: 64: 89 states.
+0.34139135106097235
+Hypothesis: 65: 89 states.
+0.3540155788342734
+Unambiguous rows: 71.88%; 432 out of 601
+Hypothesis: 66: 89 states.
+0.35267257587966694
+Hypothesis: 67: 88 states.
+0.3043244695138329
+Hypothesis: 68: 89 states.
+0.2989524576954069
+Hypothesis: 69: 89 states.
+0.34918076819769006
+Hypothesis: 70: 88 states.
+0.34354015578834274
+Unambiguous rows: 74.41%; 442 out of 594
+Hypothesis: 71: 88 states.
+0.34971796937953264
+Hypothesis: 72: 88 states.
+0.36475960247112543
+Hypothesis: 73: 90 states.
+0.34918076819769006
+Hypothesis: 74: 90 states.
+0.34649476228847703
+Hypothesis: 75: 90 states.
+0.3462261616975557
+Unambiguous rows: 73.77%; 450 out of 610
+Hypothesis: 76: 90 states.
+0.35374697824335216
+Hypothesis: 77: 90 states.
+0.35213537469782435
+Hypothesis: 78: 90 states.
+0.34891216760676874
+Hypothesis: 79: 88 states.
+0.3408541498791297
+Hypothesis: 80: 89 states.
+0.36126779478914856
+Unambiguous rows: 74.83%; 452 out of 604
+Hypothesis: 81: 89 states.
+0.30727907601396726
+Hypothesis: 82: 89 states.
+0.29868385710448564
+Hypothesis: 83: 90 states.
+0.2809562181036798
+Hypothesis: 84: 90 states.
+0.2146118721461187
+Hypothesis: 85: 90 states.
+0.2017190437818963
+Unambiguous rows: 74.68%; 460 out of 616
+Hypothesis: 86: 90 states.
+0.2027934461455815
+Hypothesis: 87: 90 states.
+0.21864088100993823
+Hypothesis: 88: 90 states.
+0.2146118721461187
+Hypothesis: 89: 90 states.
+0.18023099650819233
+Hypothesis: 90: 90 states.
+0.21756647864625303
+Unambiguous rows: 75.36%; 465 out of 617
+Hypothesis: 91: 90 states.
+0.20682245500940102
+Hypothesis: 92: 90 states.
+0.21380607037335483
+Hypothesis: 93: 90 states.
+0.20574805264571583
+Hypothesis: 94: 90 states.
+0.23153370937416062
+Hypothesis: 95: 90 states.
+0.2264302981466559
+Unambiguous rows: 75.94%; 464 out of 611
+Hypothesis: 96: 90 states.
+0.2264302981466559
+Hypothesis: 97: 90 states.
+0.24174053182917002
+Hypothesis: 98: 90 states.
+0.2382487241471931
+Hypothesis: 99: 90 states.
+0.2527531560569433
+Hypothesis: 100: 91 states.
+0.21944668278270213
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 91
+Time (in seconds)
+  Total                : 1098.63
+  Learning algorithm   : 1083.61
+  Conformance checking : 15.02
+Learning Algorithm
+ # Membership Queries  : 302885
+ # Steps               : 6880197
+Equivalence Query
+ # Membership Queries  : 94049
+ # Steps               : 1690713
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 20 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 26 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 30 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 98.56%; 137 out of 139
+Hypothesis: 6: 32 states.
+0.07923717432178351
+Hypothesis: 7: 34 states.
+0.07413376309427881
+Hypothesis: 8: 41 states.
+0.07091055600322321
+Hypothesis: 9: 46 states.
+0.08434058554928821
+Hypothesis: 10: 49 states.
+0.07735697018533441
+Unambiguous rows: 78.99%; 218 out of 276
+Hypothesis: 11: 56 states.
+0.0862207896857373
+Hypothesis: 12: 57 states.
+0.088638195004029
+Hypothesis: 13: 58 states.
+0.08380338436744561
+Hypothesis: 14: 59 states.
+0.10690303518667742
+Hypothesis: 15: 60 states.
+0.0945474080042976
+Unambiguous rows: 76.75%; 274 out of 357
+Hypothesis: 16: 61 states.
+0.09830781627719581
+Hypothesis: 17: 64 states.
+0.09159280150416331
+Hypothesis: 18: 64 states.
+0.08836959441310771
+Hypothesis: 19: 64 states.
+0.0985764168681171
+Hypothesis: 20: 65 states.
+0.10878323932312652
+Unambiguous rows: 84.26%; 332 out of 394
+Hypothesis: 21: 67 states.
+0.054257319366102605
+Hypothesis: 22: 67 states.
+0.052914316411496104
+Hypothesis: 23: 69 states.
+0.0547945205479452
+Hypothesis: 24: 71 states.
+0.03384367445608381
+Hypothesis: 25: 72 states.
+0.0408272898200376
+Unambiguous rows: 78.43%; 360 out of 459
+Hypothesis: 26: 72 states.
+0.032769272092398605
+Hypothesis: 27: 72 states.
+0.0392156862745098
+Hypothesis: 28: 72 states.
+0.15471394037066882
+Hypothesis: 29: 73 states.
+0.15954875100725222
+Hypothesis: 30: 75 states.
+0.060435132957292505
+Unambiguous rows: 77.39%; 373 out of 482
+Hypothesis: 31: 75 states.
+0.05962933118452861
+Hypothesis: 32: 75 states.
+0.20521085146387322
+Hypothesis: 33: 75 states.
+0.2127316680096696
+Hypothesis: 34: 75 states.
+0.20682245500940102
+Hypothesis: 35: 75 states.
+0.2146118721461187
+Unambiguous rows: 77.48%; 382 out of 493
+Hypothesis: 36: 77 states.
+0.2100456621004566
+Hypothesis: 37: 77 states.
+0.19769003491807682
+Hypothesis: 38: 77 states.
+0.20413644910018802
+Hypothesis: 39: 77 states.
+0.21353746978243351
+Hypothesis: 40: 78 states.
+0.20413644910018802
+Unambiguous rows: 76.26%; 392 out of 514
+Hypothesis: 41: 80 states.
+0.15954875100725222
+Hypothesis: 42: 80 states.
+0.16841257050765512
+Hypothesis: 43: 82 states.
+0.1517593338705345
+Hypothesis: 44: 82 states.
+0.1807681976900349
+Hypothesis: 45: 82 states.
+0.18291700241740533
+Unambiguous rows: 74.86%; 408 out of 545
+Hypothesis: 46: 82 states.
+0.16948697287134032
+Hypothesis: 47: 83 states.
+0.182648401826484
+Hypothesis: 48: 84 states.
+0.17378458232608113
+Hypothesis: 49: 85 states.
+0.15551974214343273
+Hypothesis: 50: 85 states.
+0.15954875100725222
+Unambiguous rows: 71.96%; 408 out of 567
+Hypothesis: 51: 85 states.
+0.1651893634165995
+Hypothesis: 52: 86 states.
+0.18506580714477572
+Hypothesis: 53: 86 states.
+0.18828901423583133
+Hypothesis: 54: 88 states.
+0.17673918882621542
+Hypothesis: 55: 88 states.
+0.1743217835079237
+Unambiguous rows: 72.16%; 425 out of 589
+Hypothesis: 56: 89 states.
+0.22240128928283642
+Hypothesis: 57: 89 states.
+0.19795863550899812
+Hypothesis: 58: 89 states.
+0.18479720655385443
+Hypothesis: 59: 89 states.
+0.18694601128122482
+Hypothesis: 60: 89 states.
+0.1925866236905721
+Unambiguous rows: 72.44%; 431 out of 595
+Hypothesis: 61: 89 states.
+0.20386784850926673
+Hypothesis: 62: 89 states.
+0.15122213268869192
+Hypothesis: 63: 89 states.
+0.1727101799623959
+Hypothesis: 64: 89 states.
+0.22347569164652162
+Hypothesis: 65: 89 states.
+0.2172978780553317
+Unambiguous rows: 73.28%; 436 out of 595
+Hypothesis: 66: 90 states.
+0.21138866505506312
+Hypothesis: 67: 90 states.
+0.20843405855492883
+Hypothesis: 68: 91 states.
+0.21702927746441042
+Hypothesis: 69: 91 states.
+0.22240128928283642
+Hypothesis: 70: 91 states.
+0.24523233951114692
+Unambiguous rows: 73.28%; 447 out of 610
+Hypothesis: 71: 91 states.
+0.24362073596561912
+Hypothesis: 72: 91 states.
+0.2506043513295729
+Hypothesis: 73: 91 states.
+0.23475691646521624
+Hypothesis: 74: 91 states.
+0.24147193123824873
+Hypothesis: 75: 91 states.
+0.24335213537469783
+Unambiguous rows: 74.14%; 453 out of 611
+Hypothesis: 76: 91 states.
+0.22669889873757723
+Hypothesis: 77: 92 states.
+0.23314531291968843
+Hypothesis: 78: 91 states.
+0.22965350523771152
+Hypothesis: 79: 92 states.
+0.2549019607843137
+Hypothesis: 80: 91 states.
+0.23072790760139672
+Unambiguous rows: 73.9%; 453 out of 613
+Hypothesis: 81: 94 states.
+0.2172978780553317
+Hypothesis: 82: 93 states.
+0.20950846091861403
+Hypothesis: 83: 93 states.
+0.22266988987375771
+Hypothesis: 84: 93 states.
+0.21138866505506312
+Hypothesis: 85: 93 states.
+0.22266988987375771
+Unambiguous rows: 72.22%; 455 out of 630
+Hypothesis: 86: 93 states.
+0.21353746978243351
+Hypothesis: 87: 93 states.
+0.20762825678216493
+Hypothesis: 88: 93 states.
+0.230996508192318
+Hypothesis: 89: 93 states.
+0.21783507923717432
+Hypothesis: 90: 93 states.
+0.21514907332796132
+Unambiguous rows: 72.51%; 459 out of 633
+Hypothesis: 91: 93 states.
+0.22052108514638732
+Hypothesis: 92: 94 states.
+0.21407467096427613
+Hypothesis: 93: 94 states.
+0.2108514638732205
+Hypothesis: 94: 95 states.
+0.2946548482406661
+Hypothesis: 95: 95 states.
+0.29626645178619393
+Unambiguous rows: 70.79%; 458 out of 647
+Hypothesis: 96: 95 states.
+0.3013698630136986
+Hypothesis: 97: 95 states.
+0.30405586892291164
+Hypothesis: 98: 95 states.
+0.2976094547408004
+Hypothesis: 99: 94 states.
+0.3021756647864625
+Hypothesis: 100: 94 states.
+0.2992210582863282
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 94
+Time (in seconds)
+  Total                : 1100.74
+  Learning algorithm   : 1084.55
+  Conformance checking : 16.19
+Learning Algorithm
+ # Membership Queries  : 295007
+ # Steps               : 7155489
+Equivalence Query
+ # Membership Queries  : 118817
+ # Steps               : 2138119
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 25 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 29 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 99.23%; 129 out of 130
+Hypothesis: 6: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 32 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 8: 32 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 9: 33 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 10: 34 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 91.33%; 158 out of 173
+Hypothesis: 11: 35 states.
+0.0717163577759871
+Hypothesis: 12: 36 states.
+0.0926672038678485
+Hypothesis: 13: 42 states.
+0.07332796132151491
+Hypothesis: 14: 47 states.
+0.06822455009401021
+Hypothesis: 15: 53 states.
+0.07977437550362611
+Unambiguous rows: 77.64%; 243 out of 313
+Hypothesis: 16: 53 states.
+0.07520816545796401
+Hypothesis: 17: 57 states.
+0.11334944936878862
+Hypothesis: 18: 62 states.
+0.1141552511415525
+Hypothesis: 19: 66 states.
+0.10018802041364491
+Hypothesis: 20: 67 states.
+0.0991136180499597
+Unambiguous rows: 76.94%; 307 out of 399
+Hypothesis: 21: 72 states.
+0.11066344345957561
+Hypothesis: 22: 72 states.
+0.13537469782433523
+Hypothesis: 23: 72 states.
+0.1313456889605157
+Hypothesis: 24: 77 states.
+0.11925866236905722
+Hypothesis: 25: 77 states.
+0.1297340854149879
+Unambiguous rows: 71.34%; 341 out of 478
+Hypothesis: 26: 78 states.
+0.11764705882352941
+Hypothesis: 27: 79 states.
+0.115498254096159
+Hypothesis: 28: 79 states.
+0.10690303518667742
+Hypothesis: 29: 79 states.
+0.1168412570507655
+Hypothesis: 30: 80 states.
+0.10932044050496911
+Unambiguous rows: 69.73%; 357 out of 512
+Hypothesis: 31: 80 states.
+0.1332258930969648
+Hypothesis: 32: 81 states.
+0.11442385173247381
+Hypothesis: 33: 81 states.
+0.11442385173247381
+Hypothesis: 34: 82 states.
+0.11120064464141821
+Hypothesis: 35: 81 states.
+0.08434058554928821
+Unambiguous rows: 70.45%; 372 out of 528
+Hypothesis: 36: 81 states.
+0.10206822455009401
+Hypothesis: 37: 81 states.
+0.11254364759602471
+Hypothesis: 38: 81 states.
+0.14665592264302982
+Hypothesis: 39: 81 states.
+0.142358313188289
+Hypothesis: 40: 81 states.
+0.0408272898200376
+Unambiguous rows: 74.72%; 402 out of 538
+Hypothesis: 41: 81 states.
+0.058823529411764705
+Hypothesis: 42: 81 states.
+0.1681439699167338
+Hypothesis: 43: 82 states.
+0.18855761482675262
+Hypothesis: 44: 82 states.
+0.20897125973677141
+Hypothesis: 45: 82 states.
+0.20601665323663712
+Unambiguous rows: 76.91%; 413 out of 537
+Hypothesis: 46: 82 states.
+0.19204942250872953
+Hypothesis: 47: 82 states.
+0.1982272360999194
+Hypothesis: 48: 82 states.
+0.18372280419016923
+Hypothesis: 49: 83 states.
+0.18855761482675262
+Hypothesis: 50: 83 states.
+0.18291700241740533
+Unambiguous rows: 75.92%; 413 out of 544
+Hypothesis: 51: 83 states.
+0.18560300832661833
+Hypothesis: 52: 84 states.
+0.19473542841794253
+Hypothesis: 53: 84 states.
+0.19661563255439163
+Hypothesis: 54: 85 states.
+0.19500402900886382
+Hypothesis: 55: 85 states.
+0.1861402095084609
+Unambiguous rows: 75.27%; 426 out of 566
+Hypothesis: 56: 84 states.
+0.1952726295997851
+Hypothesis: 57: 84 states.
+0.19795863550899812
+Hypothesis: 58: 84 states.
+0.1890948160085952
+Hypothesis: 59: 85 states.
+0.1963470319634703
+Hypothesis: 60: 84 states.
+0.20574805264571583
+Unambiguous rows: 75.71%; 427 out of 564
+Hypothesis: 61: 84 states.
+0.19285522428149343
+Hypothesis: 62: 84 states.
+0.18802041364491
+Hypothesis: 63: 85 states.
+0.185334407735697
+Hypothesis: 64: 85 states.
+0.1340316948697287
+Hypothesis: 65: 85 states.
+0.12194466827827022
+Unambiguous rows: 74.69%; 428 out of 573
+Hypothesis: 66: 86 states.
+0.1259736771420897
+Hypothesis: 67: 85 states.
+0.15578834273435402
+Hypothesis: 68: 86 states.
+0.1305398871877518
+Hypothesis: 69: 86 states.
+0.126242277733011
+Hypothesis: 70: 86 states.
+0.1340316948697287
+Unambiguous rows: 76.63%; 446 out of 582
+Hypothesis: 71: 85 states.
+0.1834542035992479
+Hypothesis: 72: 85 states.
+0.1834542035992479
+Hypothesis: 73: 86 states.
+0.17915659414450713
+Hypothesis: 74: 86 states.
+0.18237980123556272
+Hypothesis: 75: 86 states.
+0.18694601128122482
+Unambiguous rows: 75.99%; 443 out of 583
+Hypothesis: 76: 86 states.
+0.17566478646253023
+Hypothesis: 77: 86 states.
+0.18506580714477572
+Hypothesis: 78: 86 states.
+0.17969379532634971
+Hypothesis: 79: 85 states.
+0.19473542841794253
+Hypothesis: 80: 85 states.
+0.18237980123556272
+Unambiguous rows: 77.57%; 446 out of 575
+Hypothesis: 81: 85 states.
+0.18963201719043782
+Hypothesis: 82: 85 states.
+0.19151222132688692
+Hypothesis: 83: 85 states.
+0.17942519473542842
+Hypothesis: 84: 85 states.
+0.19419822723609992
+Hypothesis: 85: 85 states.
+0.2108514638732205
+Unambiguous rows: 77.82%; 449 out of 577
+Hypothesis: 86: 85 states.
+0.20440504969110931
+Hypothesis: 87: 85 states.
+0.19930163846360463
+Hypothesis: 88: 85 states.
+0.20118184260005373
+Hypothesis: 89: 85 states.
+0.20198764437281763
+Hypothesis: 90: 85 states.
+0.20897125973677141
+Unambiguous rows: 78.16%; 451 out of 577
+Hypothesis: 91: 85 states.
+0.2119258662369057
+Hypothesis: 92: 85 states.
+0.1925866236905721
+Hypothesis: 93: 85 states.
+0.20574805264571583
+Hypothesis: 94: 85 states.
+0.1743217835079237
+Hypothesis: 95: 86 states.
+0.17673918882621542
+Unambiguous rows: 78.19%; 459 out of 587
+Hypothesis: 96: 86 states.
+0.17673918882621542
+Hypothesis: 97: 86 states.
+0.17029277464410422
+Hypothesis: 98: 86 states.
+0.17459038409884503
+Hypothesis: 99: 86 states.
+0.17593338705345152
+Hypothesis: 100: 86 states.
+0.15847434864356702
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 86
+Time (in seconds)
+  Total                : 1021.17
+  Learning algorithm   : 1005.85
+  Conformance checking : 15.32
+Learning Algorithm
+ # Membership Queries  : 276146
+ # Steps               : 6780370
+Equivalence Query
+ # Membership Queries  : 116567
+ # Steps               : 2095933
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 32 states.
+0.07225355895782971
+Unambiguous rows: 100.0%; 154 out of 154
+Hypothesis: 6: 32 states.
+0.08595218909481601
+Hypothesis: 7: 38 states.
+0.0010744023636852001
+Hypothesis: 8: 40 states.
+0.0013430029546065002
+Hypothesis: 9: 44 states.
+0.0757453666398066
+Hypothesis: 10: 50 states.
+0.0749395648670427
+Unambiguous rows: 78.01%; 227 out of 291
+Hypothesis: 11: 54 states.
+0.0854149879129734
+Hypothesis: 12: 56 states.
+0.0803115766854687
+Hypothesis: 13: 58 states.
+0.0717163577759871
+Hypothesis: 14: 58 states.
+0.08004297609454741
+Hypothesis: 15: 58 states.
+0.0808487778673113
+Unambiguous rows: 82.25%; 292 out of 355
+Hypothesis: 16: 59 states.
+0.08460918614020951
+Hypothesis: 17: 61 states.
+0.09696481332258931
+Hypothesis: 18: 62 states.
+0.13000268600590922
+Hypothesis: 19: 62 states.
+0.1286596830513027
+Hypothesis: 20: 63 states.
+0.13537469782433523
+Unambiguous rows: 82.59%; 332 out of 402
+Hypothesis: 21: 63 states.
+0.1313456889605157
+Hypothesis: 22: 66 states.
+0.1415525114155251
+Hypothesis: 23: 68 states.
+0.13725490196078433
+Hypothesis: 24: 69 states.
+0.12919688423314532
+Hypothesis: 25: 67 states.
+0.13537469782433523
+Unambiguous rows: 79.58%; 343 out of 431
+Hypothesis: 26: 69 states.
+0.13268869191512223
+Hypothesis: 27: 68 states.
+0.12919688423314532
+Hypothesis: 28: 68 states.
+0.14182111200644643
+Hypothesis: 29: 68 states.
+0.13940370668815472
+Hypothesis: 30: 70 states.
+0.1297340854149879
+Unambiguous rows: 79.91%; 366 out of 458
+Hypothesis: 31: 70 states.
+0.0623153370937416
+Hypothesis: 32: 72 states.
+0.1275852806876175
+Hypothesis: 33: 74 states.
+0.25839376846629064
+Hypothesis: 34: 76 states.
+0.3129196884233145
+Hypothesis: 35: 76 states.
+0.1952726295997851
+Unambiguous rows: 73.18%; 371 out of 507
+Hypothesis: 36: 76 states.
+0.19312382487241472
+Hypothesis: 37: 80 states.
+0.22428149341928552
+Hypothesis: 38: 80 states.
+0.2723609991941982
+Hypothesis: 39: 80 states.
+0.2586623690572119
+Hypothesis: 40: 82 states.
+0.26134837496642493
+Unambiguous rows: 70.4%; 383 out of 544
+Hypothesis: 41: 82 states.
+0.3333333333333333
+Hypothesis: 42: 82 states.
+0.325006715014773
+Hypothesis: 43: 82 states.
+0.32634971796937956
+Hypothesis: 44: 82 states.
+0.3233951114692452
+Hypothesis: 45: 83 states.
+0.2540961590115498
+Unambiguous rows: 71.2%; 393 out of 552
+Hypothesis: 46: 84 states.
+0.24979854955680902
+Hypothesis: 47: 83 states.
+0.32903572387859253
+Hypothesis: 48: 83 states.
+0.24066612946548482
+Hypothesis: 49: 82 states.
+0.22804190169218372
+Hypothesis: 50: 82 states.
+0.3150684931506849
+Unambiguous rows: 74.22%; 406 out of 547
+Hypothesis: 51: 83 states.
+0.3029814665592264
+Hypothesis: 52: 83 states.
+0.3096964813322589
+Hypothesis: 53: 83 states.
+0.30996508192318023
+Hypothesis: 54: 84 states.
+0.3150684931506849
+Hypothesis: 55: 85 states.
+0.3134568896051571
+Unambiguous rows: 71.65%; 412 out of 575
+Hypothesis: 56: 85 states.
+0.30163846360461993
+Hypothesis: 57: 86 states.
+0.31479989255976365
+Hypothesis: 58: 86 states.
+0.30405586892291164
+Hypothesis: 59: 86 states.
+0.3113080848777867
+Hypothesis: 60: 86 states.
+0.3091592801504163
+Unambiguous rows: 71.28%; 417 out of 585
+Hypothesis: 61: 86 states.
+0.26430298146655923
+Hypothesis: 62: 86 states.
+0.2594681708299758
+Hypothesis: 63: 87 states.
+0.29116304055868925
+Hypothesis: 64: 88 states.
+0.29196884233145315
+Hypothesis: 65: 88 states.
+0.2831050228310502
+Unambiguous rows: 71.45%; 428 out of 599
+Hypothesis: 66: 88 states.
+0.28417942519473544
+Hypothesis: 67: 88 states.
+0.28659683051302715
+Hypothesis: 68: 88 states.
+0.27827021219446685
+Hypothesis: 69: 88 states.
+0.30083266183185603
+Hypothesis: 70: 88 states.
+0.29492344883158744
+Unambiguous rows: 71.67%; 430 out of 600
+Hypothesis: 71: 88 states.
+0.2868654311039484
+Hypothesis: 72: 88 states.
+0.27531560569433255
+Hypothesis: 73: 88 states.
+0.29250604351329573
+Hypothesis: 74: 89 states.
+0.3105022831050228
+Hypothesis: 75: 89 states.
+0.29035723878592534
+Unambiguous rows: 71.1%; 433 out of 609
+Hypothesis: 76: 89 states.
+0.3037872683319903
+Hypothesis: 77: 89 states.
+0.2968036529680365
+Hypothesis: 78: 89 states.
+0.2951920494225087
+Hypothesis: 79: 89 states.
+0.2876712328767123
+Hypothesis: 80: 89 states.
+0.3029814665592264
+Unambiguous rows: 71.1%; 433 out of 609
+Hypothesis: 81: 89 states.
+0.29116304055868925
+Hypothesis: 82: 89 states.
+0.28337362342197153
+Hypothesis: 83: 89 states.
+0.2868654311039484
+Hypothesis: 84: 89 states.
+0.27880741337630943
+Hypothesis: 85: 89 states.
+0.28337362342197153
+Unambiguous rows: 72.09%; 439 out of 609
+Hypothesis: 86: 89 states.
+0.2946548482406661
+Hypothesis: 87: 89 states.
+0.28337362342197153
+Hypothesis: 88: 89 states.
+0.2519473542841794
+Hypothesis: 89: 89 states.
+0.2914316411496105
+Hypothesis: 90: 92 states.
+0.29626645178619393
+Unambiguous rows: 68.51%; 433 out of 632
+Hypothesis: 91: 92 states.
+0.29948965887724954
+Hypothesis: 92: 92 states.
+0.29170024174053183
+Hypothesis: 93: 92 states.
+0.31533709374160623
+Hypothesis: 94: 92 states.
+0.30781627719580984
+Hypothesis: 95: 92 states.
+0.3067418748321246
+Unambiguous rows: 68.25%; 432 out of 633
+Hypothesis: 96: 92 states.
+0.3075476766048885
+Hypothesis: 97: 92 states.
+0.30620467365028203
+Hypothesis: 98: 92 states.
+0.2908944399677679
+Hypothesis: 99: 92 states.
+0.29787805533172174
+Hypothesis: 100: 92 states.
+0.31023368251410155
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 92
+Time (in seconds)
+  Total                : 1102.92
+  Learning algorithm   : 1081.34
+  Conformance checking : 21.58
+Learning Algorithm
+ # Membership Queries  : 275216
+ # Steps               : 7213852
+Equivalence Query
+ # Membership Queries  : 142825
+ # Steps               : 2570247
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 21 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 32 states.
+0.0010744023636852001
+Unambiguous rows: 99.36%; 155 out of 156
+Hypothesis: 6: 33 states.
+0.0005372011818426001
+Hypothesis: 7: 40 states.
+0.07225355895782971
+Hypothesis: 8: 45 states.
+0.0784313725490196
+Hypothesis: 9: 46 states.
+0.069836153639538
+Hypothesis: 10: 51 states.
+0.0907869997313994
+Unambiguous rows: 82.76%; 240 out of 290
+Hypothesis: 11: 52 states.
+0.08890679559495031
+Hypothesis: 12: 54 states.
+0.09374160623153371
+Hypothesis: 13: 58 states.
+0.07091055600322321
+Hypothesis: 14: 57 states.
+0.0762825678216492
+Hypothesis: 15: 58 states.
+0.09830781627719581
+Unambiguous rows: 85.84%; 303 out of 353
+Hypothesis: 16: 59 states.
+0.1031426269137792
+Hypothesis: 17: 62 states.
+0.1818426000537201
+Hypothesis: 18: 62 states.
+0.19016921837228043
+Hypothesis: 19: 64 states.
+0.20467365028203063
+Hypothesis: 20: 64 states.
+0.2108514638732205
+Unambiguous rows: 85.14%; 338 out of 397
+Hypothesis: 21: 64 states.
+0.2146118721461187
+Hypothesis: 22: 65 states.
+0.3137254901960784
+Hypothesis: 23: 66 states.
+0.30325006715014774
+Hypothesis: 24: 67 states.
+0.32232070910556004
+Hypothesis: 25: 67 states.
+0.3333333333333333
+Unambiguous rows: 81.37%; 345 out of 424
+Hypothesis: 26: 68 states.
+0.34380875637926406
+Hypothesis: 27: 68 states.
+0.33145312919688424
+Hypothesis: 28: 68 states.
+0.32634971796937956
+Hypothesis: 29: 68 states.
+0.32930432446951385
+Hypothesis: 30: 69 states.
+0.28659683051302715
+Unambiguous rows: 81.26%; 360 out of 443
+Hypothesis: 31: 68 states.
+0.29626645178619393
+Hypothesis: 32: 68 states.
+0.28901423583131886
+Hypothesis: 33: 69 states.
+0.2938490464679022
+Hypothesis: 34: 69 states.
+0.30781627719580984
+Hypothesis: 35: 71 states.
+0.30325006715014774
+Unambiguous rows: 80.17%; 368 out of 459
+Hypothesis: 36: 72 states.
+0.29170024174053183
+Hypothesis: 37: 72 states.
+0.2914316411496105
+Hypothesis: 38: 72 states.
+0.2868654311039484
+Hypothesis: 39: 76 states.
+0.290088638195004
+Hypothesis: 40: 76 states.
+0.28417942519473544
+Unambiguous rows: 74.59%; 364 out of 488
+Hypothesis: 41: 76 states.
+0.2809562181036798
+Hypothesis: 42: 77 states.
+0.29331184528605964
+Hypothesis: 43: 77 states.
+0.2694063926940639
+Hypothesis: 44: 77 states.
+0.26994359387590655
+Hypothesis: 45: 77 states.
+0.273972602739726
+Unambiguous rows: 74.34%; 368 out of 495
+Hypothesis: 46: 77 states.
+0.27988181573999465
+Hypothesis: 47: 77 states.
+0.26591458501208703
+Hypothesis: 48: 76 states.
+0.27128659683051304
+Hypothesis: 49: 77 states.
+0.26886919151222133
+Hypothesis: 50: 79 states.
+0.27800161160354553
+Unambiguous rows: 75.29%; 387 out of 514
+Hypothesis: 51: 81 states.
+0.2831050228310502
+Hypothesis: 52: 81 states.
+0.28283642224012895
+Hypothesis: 53: 81 states.
+0.24415793714746173
+Hypothesis: 54: 81 states.
+0.2532903572387859
+Hypothesis: 55: 83 states.
+0.2686005909213
+Unambiguous rows: 71.2%; 393 out of 552
+Hypothesis: 56: 84 states.
+0.26591458501208703
+Hypothesis: 57: 84 states.
+0.2726295997851195
+Hypothesis: 58: 84 states.
+0.2801504163309159
+Hypothesis: 59: 84 states.
+0.30781627719580984
+Hypothesis: 60: 84 states.
+0.26994359387590655
+Unambiguous rows: 72.25%; 401 out of 555
+Hypothesis: 61: 84 states.
+0.26134837496642493
+Hypothesis: 62: 84 states.
+0.26752618855761484
+Hypothesis: 63: 84 states.
+0.2634971796937953
+Hypothesis: 64: 84 states.
+0.2573193661026054
+Hypothesis: 65: 84 states.
+0.263228579102874
+Unambiguous rows: 73.7%; 412 out of 559
+Hypothesis: 66: 84 states.
+0.2634971796937953
+Hypothesis: 67: 84 states.
+0.25678216492076283
+Hypothesis: 68: 84 states.
+0.2602739726027397
+Hypothesis: 69: 84 states.
+0.2806876175127585
+Hypothesis: 70: 85 states.
+0.27961321514907334
+Unambiguous rows: 72.58%; 413 out of 569
+Hypothesis: 71: 85 states.
+0.27585280687617514
+Hypothesis: 72: 85 states.
+0.2731668009669621
+Hypothesis: 73: 85 states.
+0.25167875369325815
+Hypothesis: 74: 85 states.
+0.27343540155788343
+Hypothesis: 75: 85 states.
+0.25919957023905454
+Unambiguous rows: 74.04%; 422 out of 570
+Hypothesis: 76: 85 states.
+0.26833199033037874
+Hypothesis: 77: 85 states.
+0.26376578028471664
+Hypothesis: 78: 85 states.
+0.26994359387590655
+Hypothesis: 79: 84 states.
+0.2626913779210314
+Hypothesis: 80: 84 states.
+0.25678216492076283
+Unambiguous rows: 74.83%; 428 out of 572
+Hypothesis: 81: 85 states.
+0.25382755842062854
+Hypothesis: 82: 85 states.
+0.2557077625570776
+Hypothesis: 83: 85 states.
+0.25302175664786464
+Hypothesis: 84: 85 states.
+0.25543916196615635
+Hypothesis: 85: 85 states.
+0.2581251678753693
+Unambiguous rows: 74.66%; 433 out of 580
+Hypothesis: 86: 85 states.
+0.2535589578297072
+Hypothesis: 87: 87 states.
+0.27585280687617514
+Hypothesis: 88: 87 states.
+0.27370400214880475
+Hypothesis: 89: 87 states.
+0.26054257319366103
+Hypothesis: 90: 87 states.
+0.2532903572387859
+Unambiguous rows: 74.06%; 434 out of 586
+Hypothesis: 91: 87 states.
+0.2465753424657534
+Hypothesis: 92: 87 states.
+0.2602739726027397
+Hypothesis: 93: 87 states.
+0.2557077625570776
+Hypothesis: 94: 87 states.
+0.2527531560569433
+Hypothesis: 95: 87 states.
+0.26672038678485094
+Unambiguous rows: 75.43%; 442 out of 586
+Hypothesis: 96: 87 states.
+0.24872414719312383
+Hypothesis: 97: 87 states.
+0.25302175664786464
+Hypothesis: 98: 87 states.
+0.24791834542035993
+Hypothesis: 99: 87 states.
+0.26376578028471664
+Hypothesis: 100: 87 states.
+0.25758796669352674
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 87
+Time (in seconds)
+  Total                : 1058.96
+  Learning algorithm   : 1042.74
+  Conformance checking : 16.22
+Learning Algorithm
+ # Membership Queries  : 277466
+ # Steps               : 7215247
+Equivalence Query
+ # Membership Queries  : 140573
+ # Steps               : 2528068
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 31 states.
+0.0835347837765243
+Hypothesis: 5: 32 states.
+0.0762825678216492
+Unambiguous rows: 94.74%; 162 out of 171
+Hypothesis: 6: 40 states.
+0.0711791565941445
+Hypothesis: 7: 46 states.
+0.0781627719580983
+Hypothesis: 8: 53 states.
+0.0744023636852001
+Hypothesis: 9: 55 states.
+0.0972334139135106
+Hypothesis: 10: 57 states.
+0.09239860327692721
+Unambiguous rows: 78.4%; 254 out of 324
+Hypothesis: 11: 59 states.
+0.11334944936878862
+Hypothesis: 12: 59 states.
+0.10985764168681171
+Hypothesis: 13: 63 states.
+0.08729519204942252
+Hypothesis: 14: 65 states.
+0.09024979854955681
+Hypothesis: 15: 66 states.
+0.11630405586892291
+Unambiguous rows: 77.33%; 307 out of 397
+Hypothesis: 16: 67 states.
+0.10985764168681171
+Hypothesis: 17: 71 states.
+0.11899006177813591
+Hypothesis: 18: 71 states.
+0.1377921031426269
+Hypothesis: 19: 73 states.
+0.13671770077894171
+Hypothesis: 20: 74 states.
+0.1614289551437013
+Unambiguous rows: 72.86%; 341 out of 468
+Hypothesis: 21: 74 states.
+0.1571313456889605
+Hypothesis: 22: 75 states.
+0.1522965350523771
+Hypothesis: 23: 75 states.
+0.18506580714477572
+Hypothesis: 24: 75 states.
+0.1890948160085952
+Hypothesis: 25: 75 states.
+0.18748321246306743
+Unambiguous rows: 76.08%; 369 out of 485
+Hypothesis: 26: 77 states.
+0.1807681976900349
+Hypothesis: 27: 76 states.
+0.17969379532634971
+Hypothesis: 28: 76 states.
+0.1845286059629331
+Hypothesis: 29: 76 states.
+0.16948697287134032
+Hypothesis: 30: 76 states.
+0.17647058823529413
+Unambiguous rows: 77.73%; 384 out of 494
+Hypothesis: 31: 77 states.
+0.16760676873489122
+Hypothesis: 32: 77 states.
+0.18882621541767391
+Hypothesis: 33: 77 states.
+0.18211120064464142
+Hypothesis: 34: 77 states.
+0.1872146118721461
+Hypothesis: 35: 77 states.
+0.17673918882621542
+Unambiguous rows: 77.89%; 391 out of 502
+Hypothesis: 36: 77 states.
+0.1780821917808219
+Hypothesis: 37: 77 states.
+0.18963201719043782
+Hypothesis: 38: 77 states.
+0.17861939296266452
+Hypothesis: 39: 79 states.
+0.1780821917808219
+Hypothesis: 40: 80 states.
+0.17781359118990062
+Unambiguous rows: 74.29%; 393 out of 529
+Hypothesis: 41: 80 states.
+0.17647058823529413
+Hypothesis: 42: 80 states.
+0.179962395917271
+Hypothesis: 43: 80 states.
+0.1770077894171367
+Hypothesis: 44: 81 states.
+0.18802041364491
+Hypothesis: 45: 82 states.
+0.18479720655385443
+Unambiguous rows: 72.84%; 397 out of 545
+Hypothesis: 46: 83 states.
+0.26376578028471664
+Hypothesis: 47: 82 states.
+0.2640343808756379
+Hypothesis: 48: 82 states.
+0.24630674187483212
+Hypothesis: 49: 81 states.
+0.2535589578297072
+Hypothesis: 50: 82 states.
+0.20843405855492883
+Unambiguous rows: 73.71%; 401 out of 544
+Hypothesis: 51: 82 states.
+0.19124362073596562
+Hypothesis: 52: 82 states.
+0.2535589578297072
+Hypothesis: 53: 83 states.
+0.24764974482943863
+Hypothesis: 54: 83 states.
+0.24388933655654044
+Hypothesis: 55: 83 states.
+0.24630674187483212
+Unambiguous rows: 74.19%; 411 out of 554
+Hypothesis: 56: 83 states.
+0.23690572119258663
+Hypothesis: 57: 83 states.
+0.24120333064732744
+Hypothesis: 58: 84 states.
+0.24281493419285521
+Hypothesis: 59: 84 states.
+0.23717432178350792
+Hypothesis: 60: 84 states.
+0.25006715014773034
+Unambiguous rows: 74.47%; 420 out of 564
+Hypothesis: 61: 84 states.
+0.2420091324200913
+Hypothesis: 62: 84 states.
+0.23421971528337363
+Hypothesis: 63: 84 states.
+0.23663712060166534
+Hypothesis: 64: 84 states.
+0.23959172710179963
+Hypothesis: 65: 83 states.
+0.24254633360193392
+Unambiguous rows: 75.94%; 423 out of 557
+Hypothesis: 66: 84 states.
+0.2401289282836422
+Hypothesis: 67: 83 states.
+0.23959172710179963
+Hypothesis: 68: 83 states.
+0.2355627182379801
+Hypothesis: 69: 84 states.
+0.23045930701047543
+Hypothesis: 70: 84 states.
+0.24308353478377653
+Unambiguous rows: 73.52%; 422 out of 574
+Hypothesis: 71: 84 states.
+0.25141015310233683
+Hypothesis: 72: 84 states.
+0.23395111469245233
+Hypothesis: 73: 84 states.
+0.2382487241471931
+Hypothesis: 74: 84 states.
+0.34649476228847703
+Hypothesis: 75: 84 states.
+0.34139135106097235
+Unambiguous rows: 75.52%; 435 out of 576
+Hypothesis: 76: 85 states.
+0.34756916465216225
+Hypothesis: 77: 85 states.
+0.34649476228847703
+Hypothesis: 78: 84 states.
+0.35213537469782435
+Hypothesis: 79: 84 states.
+0.3395111469245232
+Hypothesis: 80: 86 states.
+0.3258125167875369
+Unambiguous rows: 75.25%; 444 out of 590
+Hypothesis: 81: 86 states.
+0.33763094278807415
+Hypothesis: 82: 86 states.
+0.34515175933387054
+Hypothesis: 83: 86 states.
+0.35965619124362075
+Hypothesis: 84: 86 states.
+0.35025517056137523
+Hypothesis: 85: 86 states.
+0.35723878592532904
+Unambiguous rows: 74.83%; 446 out of 596
+Hypothesis: 86: 86 states.
+0.34219715283373625
+Hypothesis: 87: 85 states.
+0.33924254633360196
+Hypothesis: 88: 86 states.
+0.35106097233413913
+Hypothesis: 89: 86 states.
+0.3408541498791297
+Hypothesis: 90: 86 states.
+0.3494493687886113
+Unambiguous rows: 76.61%; 452 out of 590
+Hypothesis: 91: 87 states.
+0.35831318828901426
+Hypothesis: 92: 87 states.
+0.35106097233413913
+Hypothesis: 93: 87 states.
+0.34461455815202796
+Hypothesis: 94: 86 states.
+0.35589578297072255
+Hypothesis: 95: 86 states.
+0.3416599516518936
+Unambiguous rows: 75.92%; 454 out of 598
+Hypothesis: 96: 86 states.
+0.3387053451517593
+Hypothesis: 97: 86 states.
+0.35106097233413913
+Hypothesis: 98: 86 states.
+0.34380875637926406
+Hypothesis: 99: 86 states.
+0.34434595756110664
+Hypothesis: 100: 85 states.
+0.35965619124362075
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 85
+Time (in seconds)
+  Total                : 1106.27
+  Learning algorithm   : 1089.75
+  Conformance checking : 16.52
+Learning Algorithm
+ # Membership Queries  : 255181
+ # Steps               : 7280111
+Equivalence Query
+ # Membership Queries  : 167083
+ # Steps               : 3007072
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 27 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 29 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+0.0808487778673113
+Unambiguous rows: 99.32%; 145 out of 146
+Hypothesis: 6: 32 states.
+0.06876175127585281
+Hypothesis: 7: 39 states.
+0.07923717432178351
+Hypothesis: 8: 41 states.
+0.07413376309427881
+Hypothesis: 9: 50 states.
+0.10099382218640882
+Hypothesis: 10: 52 states.
+0.1122750470051034
+Unambiguous rows: 76.67%; 230 out of 300
+Hypothesis: 11: 55 states.
+0.1308084877786731
+Hypothesis: 12: 57 states.
+0.1305398871877518
+Hypothesis: 13: 58 states.
+0.09884501745903841
+Hypothesis: 14: 61 states.
+0.1522965350523771
+Hypothesis: 15: 63 states.
+0.1431641149610529
+Unambiguous rows: 78.04%; 295 out of 378
+Hypothesis: 16: 64 states.
+0.14182111200644643
+Hypothesis: 17: 63 states.
+0.12731668009669622
+Hypothesis: 18: 65 states.
+0.11791565941445072
+Hypothesis: 19: 68 states.
+0.1297340854149879
+Hypothesis: 20: 69 states.
+0.1278538812785388
+Unambiguous rows: 78.64%; 335 out of 426
+Hypothesis: 21: 72 states.
+0.11630405586892291
+Hypothesis: 22: 74 states.
+0.1431641149610529
+Hypothesis: 23: 73 states.
+0.14853612677947892
+Hypothesis: 24: 77 states.
+0.1522965350523771
+Hypothesis: 25: 76 states.
+0.16277195809830783
+Unambiguous rows: 77.69%; 376 out of 484
+Hypothesis: 26: 76 states.
+0.15498254096159012
+Hypothesis: 27: 76 states.
+0.1579371474617244
+Hypothesis: 28: 76 states.
+0.1431641149610529
+Hypothesis: 29: 78 states.
+0.15095353209777063
+Hypothesis: 30: 78 states.
+0.1670695675530486
+Unambiguous rows: 78.7%; 399 out of 507
+Hypothesis: 31: 79 states.
+0.18211120064464142
+Hypothesis: 32: 80 states.
+0.15739994627988182
+Hypothesis: 33: 79 states.
+0.1625033575073865
+Hypothesis: 34: 79 states.
+0.15202793446145582
+Hypothesis: 35: 80 states.
+0.15551974214343273
+Unambiguous rows: 77.16%; 402 out of 521
+Hypothesis: 36: 81 states.
+0.1541767391888262
+Hypothesis: 37: 83 states.
+0.16841257050765512
+Hypothesis: 38: 83 states.
+0.17029277464410422
+Hypothesis: 39: 82 states.
+0.1708299758259468
+Hypothesis: 40: 82 states.
+0.17512758528068761
+Unambiguous rows: 76.35%; 410 out of 537
+Hypothesis: 41: 82 states.
+0.15847434864356702
+Hypothesis: 42: 82 states.
+0.16599516518936341
+Hypothesis: 43: 81 states.
+0.15954875100725222
+Hypothesis: 44: 81 states.
+0.15390813859790492
+Hypothesis: 45: 81 states.
+0.1598173515981735
+Unambiguous rows: 78.46%; 419 out of 534
+Hypothesis: 46: 84 states.
+0.08192318023099651
+Hypothesis: 47: 85 states.
+0.1351060972334139
+Hypothesis: 48: 85 states.
+0.13994090786999733
+Hypothesis: 49: 86 states.
+0.13107708836959442
+Hypothesis: 50: 86 states.
+0.14638732205210853
+Unambiguous rows: 75.62%; 425 out of 562
+Hypothesis: 51: 87 states.
+0.1506849315068493
+Hypothesis: 52: 87 states.
+0.1359118990061778
+Hypothesis: 53: 88 states.
+0.1743217835079237
+Hypothesis: 54: 89 states.
+0.1590115498254096
+Hypothesis: 55: 89 states.
+0.16196615632554393
+Unambiguous rows: 72.71%; 429 out of 590
+Hypothesis: 56: 89 states.
+0.1332258930969648
+Hypothesis: 57: 89 states.
+0.13725490196078433
+Hypothesis: 58: 89 states.
+0.13215149073327961
+Hypothesis: 59: 90 states.
+0.1388665055063121
+Hypothesis: 60: 90 states.
+0.13456889605157132
+Unambiguous rows: 70.88%; 426 out of 601
+Hypothesis: 61: 90 states.
+0.13027128659683052
+Hypothesis: 62: 90 states.
+0.14289551437013162
+Hypothesis: 63: 90 states.
+0.1286596830513027
+Hypothesis: 64: 90 states.
+0.1340316948697287
+Hypothesis: 65: 90 states.
+0.13295729250604352
+Unambiguous rows: 71.36%; 431 out of 604
+Hypothesis: 66: 90 states.
+0.1251678753693258
+Hypothesis: 67: 90 states.
+0.1246306741874832
+Hypothesis: 68: 90 states.
+0.1385979049153908
+Hypothesis: 69: 90 states.
+0.12812248186946013
+Hypothesis: 70: 91 states.
+0.12919688423314532
+Unambiguous rows: 70.8%; 434 out of 613
+Hypothesis: 71: 91 states.
+0.11576685468708031
+Hypothesis: 72: 91 states.
+0.12087026591458501
+Hypothesis: 73: 91 states.
+0.12087026591458501
+Hypothesis: 74: 91 states.
+0.12919688423314532
+Hypothesis: 75: 91 states.
+0.12221326886919151
+Unambiguous rows: 70.68%; 434 out of 614
+Hypothesis: 76: 91 states.
+0.1278538812785388
+Hypothesis: 77: 91 states.
+0.11308084877786731
+Hypothesis: 78: 91 states.
+0.12543647596024712
+Hypothesis: 79: 91 states.
+0.1278538812785388
+Hypothesis: 80: 91 states.
+0.13430029546065
+Unambiguous rows: 71.71%; 441 out of 615
+Hypothesis: 81: 91 states.
+0.131614289551437
+Hypothesis: 82: 91 states.
+0.1270480795057749
+Hypothesis: 83: 91 states.
+0.128928283642224
+Hypothesis: 84: 91 states.
+0.12033306473274241
+Hypothesis: 85: 91 states.
+0.14128391082460381
+Unambiguous rows: 71.68%; 443 out of 618
+Hypothesis: 86: 91 states.
+0.13188289014235832
+Hypothesis: 87: 91 states.
+0.13430029546065
+Hypothesis: 88: 92 states.
+0.13268869191512223
+Hypothesis: 89: 92 states.
+0.12113886650550632
+Hypothesis: 90: 92 states.
+0.1278538812785388
+-----------------------------------
+Learning Finished.
+Learning Rounds:  90
+Number of states: 92
+Time (in seconds)
+  Total                : 907.89
+  Learning algorithm   : 893.2
+  Conformance checking : 14.69
+Learning Algorithm
+ # Membership Queries  : 212480
+ # Steps               : 6423804
+Equivalence Query
+ # Membership Queries  : 162085
+ # Steps               : 2914320
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 100.0%; 137 out of 137
+Hypothesis: 6: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 33 states.
+0.09669621273166801
+Hypothesis: 8: 33 states.
+0.0972334139135106
+Hypothesis: 9: 41 states.
+0.06956755304861671
+Hypothesis: 10: 45 states.
+0.11388665055063121
+Unambiguous rows: 83.2%; 208 out of 250
+Hypothesis: 11: 49 states.
+0.11308084877786731
+Hypothesis: 12: 53 states.
+0.1050228310502283
+Hypothesis: 13: 57 states.
+0.12543647596024712
+Hypothesis: 14: 57 states.
+0.10529143164114961
+Hypothesis: 15: 60 states.
+0.15041633091592801
+Unambiguous rows: 77.3%; 269 out of 348
+Hypothesis: 16: 60 states.
+0.1351060972334139
+Hypothesis: 17: 61 states.
+0.13994090786999733
+Hypothesis: 18: 64 states.
+0.14826752618855762
+Hypothesis: 19: 66 states.
+0.15014773032500672
+Hypothesis: 20: 68 states.
+0.09239860327692721
+Unambiguous rows: 79.29%; 333 out of 420
+Hypothesis: 21: 67 states.
+0.0985764168681171
+Hypothesis: 22: 71 states.
+0.18103679828095623
+Hypothesis: 23: 71 states.
+0.1697555734622616
+Hypothesis: 24: 72 states.
+0.17056137523502551
+Hypothesis: 25: 74 states.
+0.18775181305398872
+Unambiguous rows: 75.48%; 351 out of 465
+Hypothesis: 26: 74 states.
+0.20010744023636853
+Hypothesis: 27: 74 states.
+0.18936341659951653
+Hypothesis: 28: 75 states.
+0.21031426269137793
+Hypothesis: 29: 77 states.
+0.2154176739188826
+Hypothesis: 30: 77 states.
+0.20306204673650283
+Unambiguous rows: 74.54%; 363 out of 487
+Hypothesis: 31: 76 states.
+0.21138866505506312
+Hypothesis: 32: 76 states.
+0.2081654579640075
+Hypothesis: 33: 76 states.
+0.20923986032769273
+Hypothesis: 34: 75 states.
+0.20574805264571583
+Hypothesis: 35: 76 states.
+0.20440504969110931
+Unambiguous rows: 77.02%; 372 out of 483
+Hypothesis: 36: 76 states.
+0.21810367982809561
+Hypothesis: 37: 76 states.
+0.20655385441847973
+Hypothesis: 38: 76 states.
+0.22750470051034113
+Hypothesis: 39: 76 states.
+0.21219446682782703
+Hypothesis: 40: 77 states.
+0.21300026860059093
+Unambiguous rows: 78.5%; 387 out of 493
+Hypothesis: 41: 78 states.
+0.22723609991941982
+Hypothesis: 42: 78 states.
+0.2172978780553317
+Hypothesis: 43: 78 states.
+0.21246306741874832
+Hypothesis: 44: 79 states.
+0.2119258662369057
+Hypothesis: 45: 79 states.
+0.2199838839645447
+Unambiguous rows: 77.95%; 396 out of 508
+Hypothesis: 46: 80 states.
+0.22428149341928552
+Hypothesis: 47: 80 states.
+0.2108514638732205
+Hypothesis: 48: 80 states.
+0.21380607037335483
+Hypothesis: 49: 79 states.
+0.2100456621004566
+Hypothesis: 50: 79 states.
+0.21568627450980393
+Unambiguous rows: 77.99%; 404 out of 518
+Hypothesis: 51: 79 states.
+0.20494225087295193
+Hypothesis: 52: 79 states.
+0.22723609991941982
+Hypothesis: 53: 79 states.
+0.21326886919151222
+Hypothesis: 54: 79 states.
+0.2127316680096696
+Hypothesis: 55: 79 states.
+0.18963201719043782
+Unambiguous rows: 79.62%; 414 out of 520
+Hypothesis: 56: 79 states.
+0.18130539887187752
+Hypothesis: 57: 80 states.
+0.21138866505506312
+Hypothesis: 58: 80 states.
+0.21676067687348913
+Hypothesis: 59: 81 states.
+0.21112006446414183
+Hypothesis: 60: 81 states.
+0.21434327155519742
+Unambiguous rows: 77.01%; 412 out of 535
+Hypothesis: 61: 81 states.
+0.22347569164652162
+Hypothesis: 62: 80 states.
+0.21407467096427613
+Hypothesis: 63: 80 states.
+0.1990330378726833
+Hypothesis: 64: 81 states.
+0.21864088100993823
+Hypothesis: 65: 81 states.
+0.20789685737308622
+Unambiguous rows: 78.88%; 422 out of 535
+Hypothesis: 66: 81 states.
+0.21112006446414183
+Hypothesis: 67: 82 states.
+0.21407467096427613
+Hypothesis: 68: 82 states.
+0.21138866505506312
+Hypothesis: 69: 83 states.
+0.19688423314531292
+Hypothesis: 70: 82 states.
+0.21165726564598442
+Unambiguous rows: 76.65%; 417 out of 544
+Hypothesis: 71: 84 states.
+0.21380607037335483
+Hypothesis: 72: 83 states.
+0.20843405855492883
+Hypothesis: 73: 84 states.
+0.21353746978243351
+Hypothesis: 74: 84 states.
+0.2108514638732205
+Hypothesis: 75: 85 states.
+0.20923986032769273
+Unambiguous rows: 72.93%; 415 out of 569
+Hypothesis: 76: 85 states.
+0.21702927746441042
+Hypothesis: 77: 85 states.
+0.20601665323663712
+Hypothesis: 78: 85 states.
+0.21031426269137793
+Hypothesis: 79: 85 states.
+0.21058286328229922
+Hypothesis: 80: 86 states.
+0.20682245500940102
+Unambiguous rows: 71.45%; 413 out of 578
+Hypothesis: 81: 86 states.
+0.20574805264571583
+Hypothesis: 82: 86 states.
+0.2100456621004566
+Hypothesis: 83: 85 states.
+0.20118184260005373
+Hypothesis: 84: 86 states.
+0.21971528337362342
+Hypothesis: 85: 86 states.
+0.2017190437818963
+Unambiguous rows: 72.59%; 421 out of 580
+Hypothesis: 86: 86 states.
+0.21488047273704003
+Hypothesis: 87: 86 states.
+0.20897125973677141
+Hypothesis: 88: 86 states.
+0.21112006446414183
+Hypothesis: 89: 86 states.
+0.20789685737308622
+Hypothesis: 90: 86 states.
+0.20333064732742412
+Unambiguous rows: 73.49%; 427 out of 581
+Hypothesis: 91: 86 states.
+0.20574805264571583
+Hypothesis: 92: 86 states.
+0.19231802309965082
+Hypothesis: 93: 86 states.
+0.19876443728176202
+Hypothesis: 94: 86 states.
+0.19554123019070643
+Hypothesis: 95: 86 states.
+0.21676067687348913
+Unambiguous rows: 74.74%; 435 out of 582
+Hypothesis: 96: 86 states.
+0.1971528337362342
+Hypothesis: 97: 86 states.
+0.20762825678216493
+Hypothesis: 98: 87 states.
+0.2172978780553317
+Hypothesis: 99: 87 states.
+0.22105828632822994
+Hypothesis: 100: 87 states.
+0.2108514638732205
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 87
+Time (in seconds)
+  Total                : 1046.58
+  Learning algorithm   : 1024.97
+  Conformance checking : 21.61
+Learning Algorithm
+ # Membership Queries  : 219004
+ # Steps               : 7012564
+Equivalence Query
+ # Membership Queries  : 190594
+ # Steps               : 3430949
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 31 states.
+0.07923717432178351
+Hypothesis: 5: 31 states.
+0.0795057749127048
+Unambiguous rows: 95.29%; 162 out of 170
+Hypothesis: 6: 36 states.
+0.07064195541230191
+Hypothesis: 7: 41 states.
+0.0684931506849315
+Hypothesis: 8: 49 states.
+0.0821917808219178
+Hypothesis: 9: 53 states.
+0.0932044050496911
+Hypothesis: 10: 54 states.
+0.09374160623153371
+Unambiguous rows: 78.77%; 256 out of 325
+Hypothesis: 11: 58 states.
+0.0835347837765243
+Hypothesis: 12: 59 states.
+0.031426269137792104
+Hypothesis: 13: 61 states.
+0.022293849046467903
+Hypothesis: 14: 62 states.
+0.0443190975020145
+Hypothesis: 15: 63 states.
+0.13000268600590922
+Unambiguous rows: 78.17%; 308 out of 394
+Hypothesis: 16: 65 states.
+0.11576685468708031
+Hypothesis: 17: 67 states.
+0.0410958904109589
+Hypothesis: 18: 68 states.
+0.12436207359656191
+Hypothesis: 19: 69 states.
+0.1305398871877518
+Hypothesis: 20: 69 states.
+0.1407467096427612
+Unambiguous rows: 78.73%; 348 out of 442
+Hypothesis: 21: 69 states.
+0.14370131614289552
+Hypothesis: 22: 69 states.
+0.1340316948697287
+Hypothesis: 23: 69 states.
+0.13671770077894171
+Hypothesis: 24: 70 states.
+0.12248186946011282
+Hypothesis: 25: 71 states.
+0.13752350255170562
+Unambiguous rows: 79.65%; 364 out of 457
+Hypothesis: 26: 70 states.
+0.1286596830513027
+Hypothesis: 27: 70 states.
+0.1305398871877518
+Hypothesis: 28: 71 states.
+0.13644910018802042
+Hypothesis: 29: 73 states.
+0.062046736502820304
+Hypothesis: 30: 75 states.
+0.136986301369863
+Unambiguous rows: 74.59%; 367 out of 492
+Hypothesis: 31: 75 states.
+0.1334944936878861
+Hypothesis: 32: 76 states.
+0.13940370668815472
+Hypothesis: 33: 76 states.
+0.14477571850658072
+Hypothesis: 34: 77 states.
+0.13752350255170562
+Hypothesis: 35: 78 states.
+0.15390813859790492
+Unambiguous rows: 73.93%; 380 out of 514
+Hypothesis: 36: 78 states.
+0.1525651356432984
+Hypothesis: 37: 78 states.
+0.15014773032500672
+Hypothesis: 38: 79 states.
+0.1498791297340854
+Hypothesis: 39: 79 states.
+0.1442385173247381
+Hypothesis: 40: 79 states.
+0.139672307279076
+Unambiguous rows: 75.14%; 393 out of 523
+Hypothesis: 41: 79 states.
+0.15095353209777063
+Hypothesis: 42: 80 states.
+0.13671770077894171
+Hypothesis: 43: 80 states.
+0.15471394037066882
+Hypothesis: 44: 82 states.
+0.13725490196078433
+Hypothesis: 45: 83 states.
+0.1498791297340854
+Unambiguous rows: 71.71%; 398 out of 555
+Hypothesis: 46: 84 states.
+0.13430029546065
+Hypothesis: 47: 85 states.
+0.1351060972334139
+Hypothesis: 48: 85 states.
+0.1461187214611872
+Hypothesis: 49: 85 states.
+0.13188289014235832
+Hypothesis: 50: 84 states.
+0.13000268600590922
+Unambiguous rows: 73.07%; 407 out of 557
+Hypothesis: 51: 84 states.
+0.23959172710179963
+Hypothesis: 52: 84 states.
+0.22428149341928552
+Hypothesis: 53: 84 states.
+0.1770077894171367
+Hypothesis: 54: 89 states.
+0.20843405855492883
+Hypothesis: 55: 89 states.
+0.2154176739188826
+Unambiguous rows: 71.26%; 414 out of 581
+Hypothesis: 56: 89 states.
+0.21837228041901693
+Hypothesis: 57: 89 states.
+0.2062852538275584
+Hypothesis: 58: 89 states.
+0.25624496373892025
+Hypothesis: 59: 89 states.
+0.22696749932849852
+Hypothesis: 60: 89 states.
+0.20950846091861403
+Unambiguous rows: 71.18%; 415 out of 583
+Hypothesis: 61: 90 states.
+0.21112006446414183
+Hypothesis: 62: 90 states.
+0.23207091055600323
+Hypothesis: 63: 91 states.
+0.22884770346494762
+Hypothesis: 64: 91 states.
+0.22938490464679023
+Hypothesis: 65: 90 states.
+0.18237980123556272
+Unambiguous rows: 71.19%; 425 out of 597
+Hypothesis: 66: 90 states.
+0.1861402095084609
+Hypothesis: 67: 92 states.
+0.22616169755573462
+Hypothesis: 68: 92 states.
+0.20870265914585012
+Hypothesis: 69: 92 states.
+0.25543916196615635
+Hypothesis: 70: 93 states.
+0.25973677142089713
+Unambiguous rows: 70.81%; 439 out of 620
+Hypothesis: 71: 92 states.
+0.2624227773301101
+Hypothesis: 72: 92 states.
+0.26913779210314265
+Hypothesis: 73: 93 states.
+0.2503357507386516
+Hypothesis: 74: 93 states.
+0.25678216492076283
+Hypothesis: 75: 93 states.
+0.27504700510341124
+Unambiguous rows: 70.21%; 436 out of 621
+Hypothesis: 76: 93 states.
+0.26994359387590655
+Hypothesis: 77: 93 states.
+0.2634971796937953
+Hypothesis: 78: 93 states.
+0.2648401826484018
+Hypothesis: 79: 93 states.
+0.26510878323932313
+Hypothesis: 80: 93 states.
+0.27800161160354553
+Unambiguous rows: 70.37%; 437 out of 621
+Hypothesis: 81: 93 states.
+0.2747784045124899
+Hypothesis: 82: 92 states.
+0.2710179962395917
+Hypothesis: 83: 93 states.
+0.27209239860327694
+Hypothesis: 84: 93 states.
+0.2594681708299758
+Hypothesis: 85: 93 states.
+0.2586623690572119
+Unambiguous rows: 70.19%; 438 out of 624
+Hypothesis: 86: 92 states.
+0.2573193661026054
+Hypothesis: 87: 92 states.
+0.2581251678753693
+Hypothesis: 88: 92 states.
+0.27531560569433255
+Hypothesis: 89: 92 states.
+0.2616169755573462
+Hypothesis: 90: 92 states.
+0.2694063926940639
+Unambiguous rows: 70.94%; 437 out of 616
+Hypothesis: 91: 92 states.
+0.255170561375235
+Hypothesis: 92: 92 states.
+0.27370400214880475
+Hypothesis: 93: 92 states.
+0.25973677142089713
+Hypothesis: 94: 92 states.
+0.2672575879666935
+Hypothesis: 95: 92 states.
+0.26591458501208703
+Unambiguous rows: 72.12%; 445 out of 617
+Hypothesis: 96: 92 states.
+0.26376578028471664
+Hypothesis: 97: 92 states.
+0.27128659683051304
+Hypothesis: 98: 92 states.
+0.25141015310233683
+Hypothesis: 99: 92 states.
+0.2549019607843137
+Hypothesis: 100: 92 states.
+0.28659683051302715
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 92
+Time (in seconds)
+  Total                : 1090.07
+  Learning algorithm   : 1073.19
+  Conformance checking : 16.88
+Learning Algorithm
+ # Membership Queries  : 235921
+ # Steps               : 7240413
+Equivalence Query
+ # Membership Queries  : 186343
+ # Steps               : 3350713
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 28 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 5: 31 states.
+Converting hypothesis to stormpy went wrong!
+Unambiguous rows: 100.0%; 144 out of 144
+Hypothesis: 6: 31 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 7: 34 states.
+0.0531829170024174
+Hypothesis: 8: 34 states.
+0.07144775718506581
+Hypothesis: 9: 42 states.
+0.0789685737308622
+Hypothesis: 10: 43 states.
+0.10018802041364491
+Unambiguous rows: 82.23%; 199 out of 242
+Hypothesis: 11: 52 states.
+0.0907869997313994
+Hypothesis: 12: 56 states.
+0.04136449100188021
+Hypothesis: 13: 58 states.
+0.0378726833199033
+Hypothesis: 14: 66 states.
+0.13725490196078433
+Hypothesis: 15: 66 states.
+0.1246306741874832
+Unambiguous rows: 76.81%; 318 out of 414
+Hypothesis: 16: 66 states.
+0.12409347300564061
+Hypothesis: 17: 67 states.
+0.1286596830513027
+Hypothesis: 18: 69 states.
+0.20601665323663712
+Hypothesis: 19: 70 states.
+0.21246306741874832
+Hypothesis: 20: 70 states.
+0.20118184260005373
+Unambiguous rows: 77.23%; 346 out of 448
+Hypothesis: 21: 71 states.
+0.2199838839645447
+Hypothesis: 22: 69 states.
+0.21488047273704003
+Hypothesis: 23: 72 states.
+0.25678216492076283
+Hypothesis: 24: 73 states.
+0.2543647596024711
+Hypothesis: 25: 72 states.
+0.23851732473811443
+Unambiguous rows: 77.56%; 363 out of 468
+Hypothesis: 26: 72 states.
+0.24362073596561912
+Hypothesis: 27: 75 states.
+0.23395111469245233
+Hypothesis: 28: 73 states.
+0.25758796669352674
+Hypothesis: 29: 73 states.
+0.25141015310233683
+Hypothesis: 30: 74 states.
+0.20950846091861403
+Unambiguous rows: 75.91%; 375 out of 494
+Hypothesis: 31: 75 states.
+0.21300026860059093
+Hypothesis: 32: 76 states.
+0.2073596561912436
+Hypothesis: 33: 75 states.
+0.20655385441847973
+Hypothesis: 34: 76 states.
+0.22857910287402633
+Hypothesis: 35: 79 states.
+0.22857910287402633
+Unambiguous rows: 73.42%; 384 out of 523
+Hypothesis: 36: 79 states.
+0.25597636314799893
+Hypothesis: 37: 80 states.
+0.23959172710179963
+Hypothesis: 38: 81 states.
+0.2420091324200913
+Hypothesis: 39: 81 states.
+0.27128659683051304
+Hypothesis: 40: 81 states.
+0.26591458501208703
+Unambiguous rows: 73.85%; 401 out of 543
+Hypothesis: 41: 81 states.
+0.24845554660220254
+Hypothesis: 42: 81 states.
+0.24362073596561912
+Hypothesis: 43: 82 states.
+0.24281493419285521
+Hypothesis: 44: 82 states.
+0.23959172710179963
+Hypothesis: 45: 82 states.
+0.2557077625570776
+Unambiguous rows: 72.36%; 398 out of 550
+Hypothesis: 46: 82 states.
+0.23126510878323933
+Hypothesis: 47: 82 states.
+0.26672038678485094
+Hypothesis: 48: 83 states.
+0.20950846091861403
+Hypothesis: 49: 83 states.
+0.2503357507386516
+Hypothesis: 50: 83 states.
+0.24684394305667473
+Unambiguous rows: 71.96%; 403 out of 560
+Hypothesis: 51: 84 states.
+0.25382755842062854
+Hypothesis: 52: 84 states.
+0.263228579102874
+Hypothesis: 53: 84 states.
+0.23636852001074402
+Hypothesis: 54: 83 states.
+0.25543916196615635
+Hypothesis: 55: 85 states.
+0.2446951383293043
+Unambiguous rows: 71.7%; 413 out of 576
+Hypothesis: 56: 86 states.
+0.23475691646521624
+Hypothesis: 57: 84 states.
+0.2355627182379801
+Hypothesis: 58: 84 states.
+0.2863282299221058
+Hypothesis: 59: 84 states.
+0.2664517861939296
+Hypothesis: 60: 84 states.
+0.28820843405855495
+Unambiguous rows: 74.47%; 423 out of 568
+Hypothesis: 61: 85 states.
+0.2763900080580177
+Hypothesis: 62: 85 states.
+0.28417942519473544
+Hypothesis: 63: 86 states.
+0.28793983346763363
+Hypothesis: 64: 86 states.
+0.2922374429223744
+Hypothesis: 65: 87 states.
+0.27746441042170294
+Unambiguous rows: 72.3%; 428 out of 592
+Hypothesis: 66: 87 states.
+0.22884770346494762
+Hypothesis: 67: 87 states.
+0.22132688691915123
+Hypothesis: 68: 88 states.
+0.31936610260542575
+Hypothesis: 69: 88 states.
+0.24174053182917002
+Hypothesis: 70: 89 states.
+0.3080848777867311
+Unambiguous rows: 71.57%; 433 out of 605
+Hypothesis: 71: 90 states.
+0.29358044587698096
+Hypothesis: 72: 90 states.
+0.29707225355895783
+Hypothesis: 73: 90 states.
+0.19473542841794253
+Hypothesis: 74: 90 states.
+0.27450980392156865
+Hypothesis: 75: 92 states.
+0.25463336019339244
+Unambiguous rows: 72.45%; 455 out of 628
+Hypothesis: 76: 91 states.
+0.2686005909213
+Hypothesis: 77: 91 states.
+0.2492613483749664
+Hypothesis: 78: 91 states.
+0.24818694601128122
+Hypothesis: 79: 92 states.
+0.25221595487510073
+Hypothesis: 80: 92 states.
+0.24496373892022563
+Unambiguous rows: 70.91%; 451 out of 636
+Hypothesis: 81: 92 states.
+0.2543647596024711
+Hypothesis: 82: 92 states.
+0.2511415525114155
+Hypothesis: 83: 91 states.
+0.24684394305667473
+Hypothesis: 84: 92 states.
+0.2465753424657534
+Hypothesis: 85: 92 states.
+0.2549019607843137
+Unambiguous rows: 71.27%; 454 out of 637
+Hypothesis: 86: 92 states.
+0.23690572119258663
+Hypothesis: 87: 92 states.
+0.23529411764705882
+Hypothesis: 88: 92 states.
+0.23045930701047543
+Hypothesis: 89: 90 states.
+0.24093473005640612
+Hypothesis: 90: 90 states.
+0.23798012355627182
+Unambiguous rows: 73.91%; 459 out of 621
+Hypothesis: 91: 90 states.
+0.2532903572387859
+Hypothesis: 92: 91 states.
+0.2581251678753693
+Hypothesis: 93: 91 states.
+0.22857910287402633
+Hypothesis: 94: 91 states.
+0.22938490464679023
+Hypothesis: 95: 91 states.
+0.22159548751007252
+Unambiguous rows: 74.56%; 469 out of 629
+Hypothesis: 96: 91 states.
+0.22696749932849852
+Hypothesis: 97: 90 states.
+0.23314531291968843
+Hypothesis: 98: 90 states.
+0.24120333064732744
+Hypothesis: 99: 90 states.
+0.24039752887456353
+Hypothesis: 100: 91 states.
+0.22992210582863282
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 91
+Time (in seconds)
+  Total                : 1118.91
+  Learning algorithm   : 1102.57
+  Conformance checking : 16.34
+Learning Algorithm
+ # Membership Queries  : 195493
+ # Steps               : 6990531
+Equivalence Query
+ # Membership Queries  : 214111
+ # Steps               : 3854144
+-----------------------------------
+Hypothesis: 1: 9 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 2: 22 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 3: 30 states.
+Converting hypothesis to stormpy went wrong!
+Hypothesis: 4: 31 states.
+0.06419554123019071
+Hypothesis: 5: 32 states.
+0.07413376309427881
+Unambiguous rows: 96.67%; 174 out of 180
+Hypothesis: 6: 39 states.
+0.07091055600322321
+Hypothesis: 7: 48 states.
+0.0781627719580983
+Hypothesis: 8: 50 states.
+0.0738651625033575
+Hypothesis: 9: 55 states.
+0.08138597904915391
+Hypothesis: 10: 55 states.
+0.0795057749127048
+Unambiguous rows: 78.91%; 247 out of 313
+Hypothesis: 11: 60 states.
+0.08272898200376042
+Hypothesis: 12: 60 states.
+0.1168412570507655
+Hypothesis: 13: 61 states.
+0.038678485092667206
+Hypothesis: 14: 61 states.
+0.0335750738651625
+Hypothesis: 15: 63 states.
+0.035723878592532905
+Unambiguous rows: 81.79%; 310 out of 379
+Hypothesis: 16: 66 states.
+0.0381412839108246
+Hypothesis: 17: 68 states.
+0.0397528874563524
+Hypothesis: 18: 70 states.
+0.054257319366102605
+Hypothesis: 19: 74 states.
+0.11361804995970991
+Hypothesis: 20: 78 states.
+0.2640343808756379
+Unambiguous rows: 71.58%; 340 out of 475
+Hypothesis: 21: 79 states.
+0.2027934461455815
+Hypothesis: 22: 80 states.
+0.20306204673650283
+Hypothesis: 23: 81 states.
+0.25678216492076283
+Hypothesis: 24: 81 states.
+0.2589309696481332
+Hypothesis: 25: 81 states.
+0.25543916196615635
+Unambiguous rows: 72.39%; 367 out of 507
+Hypothesis: 26: 81 states.
+0.25919957023905454
+Hypothesis: 27: 83 states.
+0.2610797743755036
+Hypothesis: 28: 83 states.
+0.26591458501208703
+Hypothesis: 29: 83 states.
+0.28417942519473544
+Hypothesis: 30: 83 states.
+0.29653505237711525
+Unambiguous rows: 72.43%; 381 out of 526
+Hypothesis: 31: 84 states.
+0.27988181573999465
+Hypothesis: 32: 84 states.
+0.28041901692183724
+Hypothesis: 33: 84 states.
+0.33682514101531025
+Hypothesis: 34: 84 states.
+0.3137254901960784
+Hypothesis: 35: 84 states.
+0.19339242546333602
+Unambiguous rows: 73.62%; 399 out of 542
+Hypothesis: 36: 84 states.
+0.18667741069030352
+Hypothesis: 37: 86 states.
+0.2884770346494762
+Hypothesis: 38: 86 states.
+0.26537738383024445
+Hypothesis: 39: 86 states.
+0.2769272092398603
+Hypothesis: 40: 86 states.
+0.29035723878592534
+Unambiguous rows: 72.29%; 407 out of 563
+Hypothesis: 41: 86 states.
+0.2801504163309159
+Hypothesis: 42: 86 states.
+0.28203062046736505
+Hypothesis: 43: 87 states.
+0.2884770346494762
+Hypothesis: 44: 86 states.
+0.27585280687617514
+Hypothesis: 45: 86 states.
+0.2809562181036798
+Unambiguous rows: 72.73%; 408 out of 561
+Hypothesis: 46: 87 states.
+0.2930432446951383
+Hypothesis: 47: 87 states.
+0.30566747246843945
+Hypothesis: 48: 87 states.
+0.31023368251410155
+Hypothesis: 49: 87 states.
+0.29734085414987915
+Hypothesis: 50: 88 states.
+0.27746441042170294
+Unambiguous rows: 71.4%; 417 out of 584
+Hypothesis: 51: 89 states.
+0.2984152565135643
+Hypothesis: 52: 89 states.
+0.30405586892291164
+Hypothesis: 53: 88 states.
+0.30486167069567555
+Hypothesis: 54: 88 states.
+0.28659683051302715
+Hypothesis: 55: 89 states.
+0.34515175933387054
+Unambiguous rows: 71.86%; 424 out of 590
+Hypothesis: 56: 90 states.
+0.2855224281493419
+Hypothesis: 57: 90 states.
+0.30942788074133765
+Hypothesis: 58: 90 states.
+0.28740263228579105
+Hypothesis: 59: 90 states.
+0.21783507923717432
+Hypothesis: 60: 90 states.
+0.2146118721461187
+Unambiguous rows: 71.55%; 435 out of 608
+Hypothesis: 61: 90 states.
+0.25141015310233683
+Hypothesis: 62: 90 states.
+0.24093473005640612
+Hypothesis: 63: 90 states.
+0.2664517861939296
+Hypothesis: 64: 90 states.
+0.29948965887724954
+Hypothesis: 65: 90 states.
+0.28874563524039754
+Unambiguous rows: 72.21%; 434 out of 601
+Hypothesis: 66: 90 states.
+0.2602739726027397
+Hypothesis: 67: 90 states.
+0.2535589578297072
+Hypothesis: 68: 90 states.
+0.2648401826484018
+Hypothesis: 69: 90 states.
+0.2565135643298415
+Hypothesis: 70: 90 states.
+0.24684394305667473
+Unambiguous rows: 72.43%; 436 out of 602
+Hypothesis: 71: 90 states.
+0.2535589578297072
+Hypothesis: 72: 90 states.
+0.2549019607843137
+Hypothesis: 73: 90 states.
+0.24523233951114692
+Hypothesis: 74: 90 states.
+0.2672575879666935
+Hypothesis: 75: 90 states.
+0.2624227773301101
+Unambiguous rows: 72.35%; 437 out of 604
+Hypothesis: 76: 90 states.
+0.21138866505506312
+Hypothesis: 77: 90 states.
+0.20494225087295193
+Hypothesis: 78: 90 states.
+0.22750470051034113
+Hypothesis: 79: 90 states.
+0.21488047273704003
+Hypothesis: 80: 90 states.
+0.21783507923717432
+Unambiguous rows: 73.1%; 443 out of 606
+Hypothesis: 81: 90 states.
+0.21488047273704003
+Hypothesis: 82: 90 states.
+0.21434327155519742
+Hypothesis: 83: 90 states.
+0.21407467096427613
+Hypothesis: 84: 90 states.
+0.22804190169218372
+Hypothesis: 85: 90 states.
+0.22240128928283642
+Unambiguous rows: 74.34%; 452 out of 608
+Hypothesis: 86: 90 states.
+0.2146118721461187
+Hypothesis: 87: 90 states.
+0.21622347569164652
+Hypothesis: 88: 90 states.
+0.2519473542841794
+Hypothesis: 89: 91 states.
+0.2549019607843137
+Hypothesis: 90: 91 states.
+0.23341391351060972
+Unambiguous rows: 73.86%; 455 out of 616
+Hypothesis: 91: 92 states.
+0.24845554660220254
+Hypothesis: 92: 92 states.
+0.2549019607843137
+Hypothesis: 93: 93 states.
+0.2100456621004566
+Hypothesis: 94: 93 states.
+0.20977706150953532
+Hypothesis: 95: 93 states.
+0.20789685737308622
+Unambiguous rows: 72.08%; 457 out of 634
+Hypothesis: 96: 93 states.
+0.21837228041901693
+Hypothesis: 97: 93 states.
+0.20870265914585012
+Hypothesis: 98: 93 states.
+0.20118184260005373
+Hypothesis: 99: 93 states.
+0.19688423314531292
+Hypothesis: 100: 93 states.
+0.2831050228310502
+-----------------------------------
+Learning Finished.
+Learning Rounds:  100
+Number of states: 93
+Time (in seconds)
+  Total                : 1168.39
+  Learning algorithm   : 1151.5
+  Conformance checking : 16.89
+Learning Algorithm
+ # Membership Queries  : 211663
+ # Steps               : 7222028
+Equivalence Query
+ # Membership Queries  : 210601
+ # Steps               : 3787685
+-----------------------------------

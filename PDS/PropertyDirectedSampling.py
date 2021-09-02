@@ -4,9 +4,7 @@ import numpy as numpy
 import stormpy
 import random
 from collections import defaultdict
-
 from numpy.lib import math
-
 from aalpy.automata import Mdp
 from aalpy.base import Oracle, SUL
 from aalpy.oracles.RandomWalkEqOracle import UnseenOutputRandomWalkEqOracle
@@ -14,6 +12,12 @@ from aalpy.utils.ModelChecking import _target_string, _sanitize_for_prism
 
 
 class PDS(Oracle):
+    """
+    Equivalence oracle based on Property Directed Sampling. It uses a transition method to walk on the Stormpy
+    hypothesis based on the outputs of the SUL. If the hypothesis cannot step to the new state a counterexample is
+    returned.
+    """
+
     def __init__(self, alphabet: list,
                  sul: SUL,
                  target: str,
@@ -42,6 +46,14 @@ class PDS(Oracle):
         self.counterexample_list = []
 
     def find_cex(self, hypothesis):
+        """
+        find-cex method that has to be implemented for oracles; if the target state is not included in the hypothesis,
+        UnseenOutputRandomWalkEquivalenceOracle is called - in that case, no learning for the PDS oracle can be performed
+
+        Args:
+            hypothesis: the current hypothesis that will be checked
+
+        """
         found_target = False
         for state in hypothesis.states:
             if self.target in state.output.split("__"):
@@ -66,9 +78,20 @@ class PDS(Oracle):
             cex = cex[0] if len(cex) != 0 else None
             return cex
         else:
-            print("Converting hypothesis to stormpy went wrong!")
+            print("Converting hypothesis to Stormpy went wrong!")
 
     def _setup_pds(self, hypothesis):
+        """
+        Either parse a prism file directly or create a prism file from an MDP and parse it afterwards
+
+        Args:
+            hypothesis: current hypothesis to check
+
+        Returns:
+            stormpy_hypothesis: Stormpy version of the current hypothesis
+            result_scheduler: the resulting scheduler extracted from strompy
+
+        """
         prism_program = None
         found_target = False
         for state in hypothesis.states:
@@ -93,6 +116,20 @@ class PDS(Oracle):
         return None, None
 
     def execute_pds(self, hypothesis, evaluation=False):
+        """
+        Wrapper to execute pds; if evaluation is set to True, the current p_rand is stored, the learning of the oracle
+        is evaluated and afterwards p_rand is restored
+
+        Args:
+            hypothesis: current hypothesis to check
+            evaluation: if set to True, the learning of the oracle is evaluated
+
+        Returns:
+            p_rand_new: new probability to choose random inputs
+            s_new: new trace resulting from the current call to pds
+            s_all_new: all traces sampled with the oracle
+
+        """
         stormpy_hypothesis, scheduler = self._setup_pds(hypothesis=hypothesis)
 
         if stormpy_hypothesis is not None and scheduler is not None:
@@ -116,6 +153,25 @@ class PDS(Oracle):
             print("Converting hypothesis to stormpy went wrong!")
 
     def pds(self, p_rand, hypothesis, scheduler, n_batch, k, s_all, c_change, sul):
+        """
+        Creates traces and counterexamples for the current hypothesis.
+
+        Args:
+            p_rand: probability to choose random inputs
+            hypothesis: current hypothesis to check
+            scheduler: current scheduler used to sample traces
+            n_batch: number of traces to be sampled
+            k: step counter
+            s_all: a set of all sampled traces
+            c_change: factor indicating an exponential decrease for probabilities
+            sul: System Under Learning to sample from
+
+        Returns:
+            p_rand: new probability to choose random inputs
+            s_next: new trace resulting from the current call to pds
+            s_all: all traces sampled with the oracle
+
+        """
         s_next = []
         while len(s_next) < n_batch:
             trace, counterexample = self.sample(p_rand, scheduler, hypothesis, k, sul)
@@ -129,6 +185,21 @@ class PDS(Oracle):
         return p_rand, s_next, s_all
 
     def sample(self, p_rand, scheduler, hypothesis, k, sul):
+        """
+        Method to sample traces from a SUL. Determines if a trace is valid, or if a counterexample was found.
+
+        Args:
+            p_rand: probability to choose random inputs
+            scheduler: current scheduler used to sample traces
+            hypothesis: current hypothesis to check
+            k: step counter
+            sul: System Under Learning to sample from
+
+        Returns:
+            trace: the sampled trace from the SUL
+            found_counterexample: indicator if a counterexample was found
+
+        """
         sul.post()
         trace = [sul.pre()]
         q_curr = hypothesis.initial_states[0]
@@ -158,6 +229,17 @@ class PDS(Oracle):
 
     @staticmethod
     def parse_aalpy_mdp(mdp, name, k):
+        """
+        Creates a prism file from an MDP and parses it with Stormpy
+
+        Args:
+            mdp: the MDP that should be converted to a prism file
+            name: the name of the prism file
+            k: step counter to insert into the prism file
+
+        Returns: Create a prism file from an MDP and parse it with Stormpy
+
+        """
         dir_path = os.path.dirname(os.path.realpath(__file__))
         path = dir_path + f"/prism_files/{name}.txt"
 
@@ -172,6 +254,17 @@ class PDS(Oracle):
 
     @staticmethod
     def create_prism_program(mdp, name, k):
+        """
+        adaption of functionality taken from aalpy.utils.ModelChecking for Stormpy; creates a string representing a prism file from a MDP
+
+        Args:
+            mdp: the MDP that should be converted to a string
+            name: the name of the MDP
+            k: step counter to insert into the string
+
+        Returns: String of Stormpy adaption of an AALpy MDP in prism format
+
+        """
         builder = StringBuilder.StringBuilder()
 
         builder.append("mdp")
@@ -236,19 +329,56 @@ class PDS(Oracle):
 
     @staticmethod
     def parse_prism_file(hypothesis):
+        """
+        function to parse a prism program with the current hypothesis as parameter
+
+        Args:
+            hypothesis: current hypothesis to check
+
+        Returns: parsed prism program in Stormpy
+
+        """
         prism_program = stormpy.parse_prism_program(hypothesis, simplify=False)
         return prism_program
 
     @staticmethod
     def _coin_flip(p_rand):
+        """
+        Biased coin flip function returning True with probability and False with counter probability
+
+        Args:
+            p_rand: probability for biased coin flip i.e. if set to 1, coin flip will always return True
+
+        Returns: Boolean for biased coin flip
+
+        """
         return random.choices([True, False], weights=[p_rand, 1 - p_rand], k=1)[0]
 
     @staticmethod
     def _rand_sel(input_set):
+        """
+        Chooses an input from the input_set with an uniform distribution
+
+        Args:
+            input_set: set of inputs to choose from
+
+        Returns: a random choice from an input set
+
+        """
         return random.choices(input_set, weights=[1 / len(input_set)] * len(input_set), k=1)[0]
 
     @staticmethod
     def _get_corresponding_input(input, alphabet):
+        """
+        get corresponding input; str -> int, int -> str
+
+        Args:
+            input: input to get corresponding datatype
+            alphabet: used to get the int representation of the input
+
+        Returns: convert the input to either int or string
+
+        """
         if type(input) == str:
             return alphabet.index(input)
         elif type(input) == int:
@@ -256,6 +386,18 @@ class PDS(Oracle):
 
     @staticmethod
     def _transition_function(q_curr, input, alphabet, hypothesis):
+        """
+        Step function to walk on the Stormpy MDP
+
+        Args:
+            q_curr: current state
+            input: input for the current state
+            alphabet: input alphabet, used to get corresponding input
+            hypothesis: current hypothesis to check
+
+        Returns: probability distribution of the current state for the input
+
+        """
         dist_q = []
         if q_curr is not None:
             for action in hypothesis.states[q_curr].actions[
@@ -265,7 +407,17 @@ class PDS(Oracle):
 
     @staticmethod
     def build_formula(states, target, k):
-        # TODO: Find a better solution for this problem
+        """
+        includes target and bound for steps used by Stormpy to parse prism program
+
+        Args:
+            states: outputs of all states of the current hypothesis
+            target: the target state
+            k: step counter bound
+
+        Returns: string to hand over to Stormpy to define the bounded target
+
+        """
         formula_str = "Pmax=? ["
         states_checklist = []
         for output in states:
@@ -281,6 +433,17 @@ class PDS(Oracle):
     # ---------------------------------------------------------------------------
 
     def evaluate_scheduler(self, scheduler, hypothesis, sul):
+        """
+        function to evaluate the learning of the oracle
+
+        Args:
+            scheduler: used to sample traces
+            hypothesis: current hypothesis to check
+            sul: SUL to sample traces from
+
+        Returns: accuracy value representing the learning of the oracle
+
+        """
         sampled_traces = self.get_samples(scheduler, hypothesis, sul)
         num_satisfied_traces = 0
         for trace in sampled_traces:
@@ -290,12 +453,22 @@ class PDS(Oracle):
                     break
 
         self.accuracy = float(num_satisfied_traces) / float(len(sampled_traces))
-
         print(self.accuracy)
 
         return self.accuracy
 
     def get_samples(self, scheduler, hypothesis, sul):
+        """
+        uses a Chernoff bound to determine how many traces should be sampled
+
+        Args:
+            scheduler: used to sample traces
+            hypothesis: current hypothesis to check
+            sul: SUL to sample traces from
+
+        Returns: a set of sampled traces
+
+        """
         sample_traces = []
         for trace_count in range(PDS.get_chernoff_bound(epsilon=self.epsilon, delta=self.delta)):
             sample_traces.append(self.sample(0.0, scheduler, hypothesis, self.k, sul))
@@ -304,4 +477,14 @@ class PDS(Oracle):
 
     @staticmethod
     def get_chernoff_bound(epsilon, delta):
+        """
+        Chernoff bound to determine how many traces should be sampled for the evaluation of the oracle
+
+        Args:
+            epsilon: used in the Divisor of the formula
+            delta: used in the Dividend of the formula
+
+        Returns: Chernoff bound for sampling traces
+
+        """
         return math.ceil((numpy.log(2) - numpy.log(delta)) / (2 * epsilon ** 2))
