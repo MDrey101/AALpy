@@ -52,8 +52,9 @@ class Automaton(ABC):
         """
         self.initial_state = initial_state
         self.states = states
-        self.characterization_set: list
+        self.characterization_set: list = []
         self.current_state = initial_state
+        self.size = len(self.states)
 
     def reset_to_initial(self):
         """
@@ -76,72 +77,6 @@ class Automaton(ABC):
 
         """
         pass
-
-    def get_shortest_path(self, origin_state: AutomatonState, target_state: AutomatonState, automaton_type=None) -> tuple:
-        """
-        Breath First Search over the automaton
-
-        Args:
-
-            origin_state (AutomatonState): state from which the BFS will start
-            target_state (AutomatonState): state that will be reached with the return value
-
-        Returns:
-
-            sequence of inputs that lead from origin_state to target state
-
-        """
-        if origin_state not in self.states or target_state not in self.states:
-            raise SystemExit("State not in the automaton.")
-
-        explored = []
-        queue = [[origin_state]]
-
-        if origin_state == target_state:
-            return ()
-
-        while queue:
-            path = queue.pop(0)
-            if automaton_type is not None and automaton_type == "onfsm":
-                node = path[0]
-            else:
-                node = path[-1]
-            if node not in explored:
-                neighbours = node.transitions.values()
-                for neighbour in neighbours:
-                    new_path = list(path)
-                    new_path.append(neighbour)
-                    queue.append(new_path)
-                    # return path if neighbour is goal
-                    if neighbour == target_state:
-                        acc_seq = new_path[:-1]
-                        inputs = []
-                        for ind, state in enumerate(acc_seq):
-                            inputs.append(next(key for key, value in state.transitions.items()
-                                               if value == new_path[ind + 1]))
-                        return tuple(inputs)
-
-                # mark node as explored
-                explored.append(node)
-        return ()
-
-    def is_strongly_connected(self) -> bool:
-        """
-        Check whether the automaton is strongly connected,
-        meaning that every state can be reached from every other state.
-
-        Returns:
-
-            True if strongly connected, False otherwise
-
-        """
-        import itertools
-
-        state_comb_list = itertools.permutations(self.states, 2)
-        for state_comb in state_comb_list:
-            if not self.get_shortest_path(state_comb[0], state_comb[1]):
-                return False
-        return True
 
     def is_input_complete(self) -> bool:
         """
@@ -180,6 +115,62 @@ class Automaton(ABC):
         from aalpy.utils import save_automaton_to_file
         return save_automaton_to_file(self, path='learnedModel', file_type='string')
 
+    def execute_sequence(self, origin_state, seq):
+        self.current_state = origin_state
+        return [self.step(s) for s in seq]
+
+
+class DeterministicAutomaton(Automaton):
+
+    @abstractmethod
+    def step(self, letter):
+        pass
+
+    def get_shortest_path(self, origin_state: AutomatonState, target_state: AutomatonState) -> tuple:
+        """
+        Breath First Search over the automaton
+
+        Args:
+
+            origin_state (AutomatonState): state from which the BFS will start
+            target_state (AutomatonState): state that will be reached with the return value
+
+        Returns:
+
+            sequence of inputs that lead from origin_state to target state
+
+        """
+        if origin_state not in self.states or target_state not in self.states:
+            raise SystemExit("State not in the automaton.")
+
+        explored = []
+        queue = [[origin_state]]
+
+        if origin_state == target_state:
+            return ()
+
+        while queue:
+            path = queue.pop(0)
+            node = path[-1]
+            if node not in explored:
+                neighbours = node.transitions.values()
+                for neighbour in neighbours:
+                    new_path = list(path)
+                    new_path.append(neighbour)
+                    queue.append(new_path)
+                    # return path if neighbour is goal
+                    if neighbour == target_state:
+                        acc_seq = new_path[:-1]
+                        inputs = []
+                        for ind, state in enumerate(acc_seq):
+                            inputs.append(next(key for key, value in state.transitions.items()
+                                               if value == new_path[ind + 1]))
+                        return tuple(inputs)
+
+                # mark node as explored
+                explored.append(node)
+        return ()
+
     def compute_characterization_set(self):
         'Naive way of computing the characterization set. Distinguishing sequences are computed with BFS.'
         from itertools import combinations, permutations
@@ -196,7 +187,7 @@ class Automaton(ABC):
                 continue
 
             dist_seq_found = False
-            for i in range(len(self.states) - 1, 2, -1): # TODO OPTIMIZE BY REVERSING??
+            for i in range(2, len(self.states) - 1):  # TODO OPTIMIZE BY REVERSING??
                 for suffix in permutations(input_al, i):
                     if self.execute_sequence(s1, suffix) != self.execute_sequence(s2, suffix):
                         e_set.append(suffix)
@@ -209,6 +200,20 @@ class Automaton(ABC):
         e_set.sort(key=len)
         return e_set
 
-    def execute_sequence(self, origin_state, seq):
-        self.current_state = origin_state
-        return [self.step(s) for s in seq]
+    def is_strongly_connected(self) -> bool:
+        """
+        Check whether the automaton is strongly connected,
+        meaning that every state can be reached from every other state.
+
+        Returns:
+
+            True if strongly connected, False otherwise
+
+        """
+        import itertools
+
+        state_comb_list = itertools.permutations(self.states, 2)
+        for state_comb in state_comb_list:
+            if not self.get_shortest_path(state_comb[0], state_comb[1]):
+                return False
+        return True
