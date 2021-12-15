@@ -77,7 +77,7 @@ class Automaton(ABC):
         """
         pass
 
-    def get_shortest_path(self, origin_state: AutomatonState, target_state: AutomatonState) -> tuple:
+    def get_shortest_path(self, origin_state: AutomatonState, target_state: AutomatonState, automaton_type=None) -> tuple:
         """
         Breath First Search over the automaton
 
@@ -102,7 +102,10 @@ class Automaton(ABC):
 
         while queue:
             path = queue.pop(0)
-            node = path[-1]
+            if automaton_type is not None and automaton_type == "onfsm":
+                node = path[0]
+            else:
+                node = path[-1]
             if node not in explored:
                 neighbours = node.transitions.values()
                 for neighbour in neighbours:

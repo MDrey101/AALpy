@@ -37,6 +37,10 @@ class StatePrefixEqOracle(Oracle):
     def find_cex(self, hypothesis):
 
         states_to_cover = []
+
+        print(f"num states: {len(hypothesis.states)}: {hypothesis.states}")
+        if len(states_to_cover) > 5: #for CC2650.dot
+            print("ERROR: found more states than should be expected!")
         for state in hypothesis.states:
             if state.prefix not in self.freq_dict.keys():
                 self.freq_dict[state.prefix] = 0
@@ -50,27 +54,54 @@ class StatePrefixEqOracle(Oracle):
         else:
             random.shuffle(states_to_cover)
 
+        print(f"num states to cover: {len(states_to_cover)}: {states_to_cover}")
         for state in states_to_cover:
             self.freq_dict[state.prefix] = self.freq_dict[state.prefix] + 1
-
             self.reset_hyp_and_sul(hypothesis)
 
             prefix = state.prefix
-            for p in prefix:
-                hypothesis.step(p)
-                self.sul.step(p)
-                self.num_steps += 1
+            out_sul = "ERROR"
+            error_counter = 0
+            while out_sul == "ERROR" and error_counter < 20:
+                self.reset_hyp_and_sul(hypothesis)
 
-            suffix = ()
-            for _ in range(self.steps_per_walk):
-                suffix += (random.choice(self.alphabet),)
+                for p in prefix:
+                    out_sul = self.sul.step(p)
+                    if out_sul == "ERROR":
+                        error_counter += 1
+                        break
 
-                out_sul = self.sul.step(suffix[-1])
-                out_hyp = hypothesis.step(suffix[-1])
-                self.num_steps += 1
+                    output_list = hypothesis.outputs_on_input(p)
+                    print(output_list)
 
-                if out_sul != out_hyp:
-                    self.sul.post()
-                    return prefix + suffix
+                    self.num_steps += 1
+                    if out_sul not in output_list:
+                        break
+
+                if out_sul == "ERROR":
+                    error_counter += 1
+                    continue
+
+                suffix = ()
+                for _ in range(self.steps_per_walk):
+                    suffix += (random.choice(self.alphabet),)
+
+                    out_sul = self.sul.step(suffix[-1])
+                    print(out_sul)
+                    if "ERROR" == out_sul:
+                        break
+
+                    output_list = hypothesis.outputs_on_input(suffix[-1])
+                    print(output_list)
+
+                    self.num_steps += 1
+                    if out_sul in output_list:
+                        hypothesis.step_to(suffix[-1], out_sul)
+                        self.sul.post()
+                        return prefix + suffix
+
+                if out_sul == "ERROR":
+                    error_counter += 1
+                    continue
 
         return None

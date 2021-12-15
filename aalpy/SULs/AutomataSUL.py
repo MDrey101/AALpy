@@ -53,7 +53,8 @@ class MdpSUL(SUL):
 
     def pre(self):
         self.mdp.reset_to_initial()
-        return self.mdp.current_state.output
+        # return self.mdp.current_state.output
+        return self.mdp.current_state.prefix
 
     def post(self):
         pass

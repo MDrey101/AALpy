@@ -252,7 +252,7 @@ def load_automaton_from_file(path, automaton_type, compute_prefixes=False):
         assert automaton.is_input_complete()
     if compute_prefixes and not automaton_type == 'mc':
         for state in automaton.states:
-            state.prefix = automaton.get_shortest_path(automaton.initial_state, state)
+            state.prefix = automaton.get_shortest_path(automaton.initial_state, state, automaton_type)
     return automaton
 
 

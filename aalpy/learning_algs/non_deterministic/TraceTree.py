@@ -1,4 +1,5 @@
 from collections import defaultdict
+from colorama import Fore
 
 from aalpy.base import SUL
 
@@ -31,7 +32,8 @@ class SULWrapper(SUL):
 
         """
         out = self.sul.step(letter)
-        self.pta.add_to_tree(letter, out)
+        if out != "ERROR":
+            self.pta.add_to_tree(letter, out)
         return out
 
 
@@ -74,6 +76,8 @@ class TraceTree:
         Returns:
 
         """
+        if out == "ERROR":
+            print(Fore.RED + "ERROR: output detected and possibly adding it to the trace tree!")
         if inp not in self.curr_node.children.keys() or out not in [child.output for child in self.curr_node.children[inp]]:
             node = Node(out)
             self.curr_node.children[inp].append(node)

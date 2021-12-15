@@ -33,6 +33,7 @@ class NonDetObservationTable:
         # Systems in a Testing Context'. Each element of S is a (inputs, outputs) tuple, where first element of the
         # tuple are inputs and second element of the tuple are outputs associated with inputs.
         self.S.append((empty_word, empty_word))
+        print(f"Initial Set S {self.S}")
 
     def get_row_to_close(self):
         """
@@ -51,6 +52,9 @@ class NonDetObservationTable:
 
             if row_t not in s_rows:
                 self.S.append(t)
+                print(f"(Input, Output) set S was updated: {self.S} with element {t}")
+                if len(self.S) > 5:
+                    print("WARNING: number of states are greater than they should be for model CC2650")
                 self.S_dot_A.remove(t)
                 return t
 
@@ -99,6 +103,7 @@ class NonDetObservationTable:
                 if e not in self.T[s].keys():
                     num_s_e_sampled = 0
                     while num_s_e_sampled < self.n_samples:
+                        #TODO: debug the counter here?
                         output = tuple(self.sul.query(s[0] + e))
                         # Here I basically say... add just the last element of the output if it e is element of alphabet
                         # else add last len(e) outputs
