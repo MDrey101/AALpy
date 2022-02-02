@@ -15,6 +15,7 @@ class SUL(ABC):
         self.num_steps = 0
         self.num_cached_queries = 0
 
+
     def query(self, word: tuple) -> list:
         """
         Performs a membership query on the SUL. Before the query, pre() method is called and after the query post()
@@ -29,6 +30,7 @@ class SUL(ABC):
             list of outputs, where the i-th output corresponds to the output of the system after the i-th input
 
         """
+        print("reached normal query method")
         self.pre()
         # Empty string for DFA
         if len(word) == 0:

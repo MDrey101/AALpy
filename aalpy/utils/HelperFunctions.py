@@ -174,19 +174,42 @@ def print_observation_table(ot, table_type):
     s_rows = []
     extended_rows = []
     headers.insert(0, 'Prefixes / E set')
+    # Delete uncomplete entries (for now!)
     for s in s_set:
         row = [str(s)]
         if table_type == 'det':
             row.extend(str(e) for e in table[s])
         else:
-            row.extend(str(table[s][e]) for e in e_set)
+            row_extension = ""
+            for e in e_set:
+                if e not in table[s]:
+                    print(f"s: {s}, is missing e: {e}")
+                    for entry in table[s]:
+                        print(str(table[s][entry]))
+                    print("Adding 'NOT PRESENT!' to table")
+                    row.append("{'NOT PRESENT!'}")
+                    table[s][e] = {"NOT PRESENT!"}
+                else:
+                    row.append(str(table[s][e]))
+            # row.extend(str(table[s][e]) for e in e_set)
         s_rows.append(row)
     for s in extended_s:
         row = [str(s)]
         if table_type == 'det':
             row.extend(str(e) for e in table[s])
         else:
-            row.extend(str(table[s][e]) for e in e_set)
+            row_extension = ""
+            for e in e_set:
+                if e not in table[s]:
+                    print(f"s: {s}, is missing e: {e}")
+                    for entry in table[s]:
+                        print(str(table[s][entry]))
+                    print("Adding 'NOT PRESENT!' to table")
+                    row.append("{'NOT PRESENT!'}")
+                    table[s][e] = {"NOT PRESENT!"}
+                else:
+                    row.append(str(table[s][e]))
+            # row.extend(str(table[s][e]) for e in e_set)
         extended_rows.append(row)
 
     table = [headers] + s_rows

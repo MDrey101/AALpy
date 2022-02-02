@@ -53,7 +53,7 @@ class NonDetObservationTable:
             if row_t not in s_rows:
                 self.S.append(t)
                 print(f"(Input, Output) set S was updated: {self.S} with element {t}")
-                if len(self.S) > 5:
+                if len(self.S) > 10:
                     print("WARNING: number of states are greater than they should be for model CC2650")
                 self.S_dot_A.remove(t)
                 return t
@@ -73,10 +73,12 @@ class NonDetObservationTable:
         s_set = set(self.S)
         extension = []
         for a in self.A:
-            for t in self.T[row][a]:
-                new_row = (row[0] + a, row[1] + tuple([t]))
-                if new_row not in s_set:
-                    extension.append(new_row)
+            # TODO inserted here because of ERROR, probably caused by deleting entries in update_S set
+            if a in self.T[row]:
+                for t in self.T[row][a]:
+                    new_row = (row[0] + a, row[1] + tuple([t]))
+                    if new_row not in s_set:
+                        extension.append(new_row)
 
         self.S_dot_A.extend(extension)
         return extension
@@ -99,18 +101,75 @@ class NonDetObservationTable:
         update_E = e_set if e_set else self.E
 
         for s in update_S:
+            flag_to_delete = False
             for e in update_E:
                 if e not in self.T[s].keys():
                     num_s_e_sampled = 0
+                    print("update_S set")
+                    for entry in update_S:
+                        print(entry)
+                    print("\nupdate_E set")
+                    print(update_E)
+                    print("\nT[s] set")
+                    for entry in self.T[s]:
+                        print(entry)
+                    print("")
+                    upper_bound_counter = 0
                     while num_s_e_sampled < self.n_samples:
                         #TODO: debug the counter here?
+                        print(s[0] + e)
                         output = tuple(self.sul.query(s[0] + e))
+                        print(output)
                         # Here I basically say... add just the last element of the output if it e is element of alphabet
                         # else add last len(e) outputs
                         o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
-                        self.add_to_T((s[0], output[:len(s[1])]), e, o)
-                        if output[:len(s[1])] == s[1]:
-                            num_s_e_sampled += 1
+                        if "ERROR" not in output[:len(s[1])]:
+                            self.add_to_T((s[0], output[:len(s[1])]), e, o)
+                            if output[:len(s[1])] == s[1]:
+                                num_s_e_sampled += 1
+                                print(f"{num_s_e_sampled}/{self.n_samples}")
+                                print("")
+                        else:
+                            print("MISSMATCH:")
+                            print(f"output: {output[:len(s[1])]}")
+                            print(f"reference s[1]: {s[1]}")
+                            print("------------------------------------------")
+                            print("update_S set")
+                            for entry in update_S:
+                                print(entry)
+                            print("\nupdate_E set")
+                            print(update_E)
+                            print("")
+                            print("------------------------------------------")
+                        upper_bound_counter += 1
+                        if upper_bound_counter >= 10:
+                            row = (s[0][:-1], s[1][:-1])
+                            print(f"row to delete from: {row}")
+                            a = (s[0][-1],)
+                            print(f"row entry to delete from: {a}")
+                            to_delete = s[1][-1]
+                            print(f"entry to delete: {to_delete}")
+                            if a in self.T[row]:
+                                if to_delete in self.T[row][a]:
+                                    print("commencing delete!")
+                                    self.T[row][a].remove(to_delete)
+
+                            # print(f"Table after deletion: {self.T}")
+
+                            # print(f"Table before deleting element s {s}:\n{self.T}")
+                            # if s in self.T:
+                            #     self.T.pop(s)
+                            # print(f"Table after deleting element s {s}:\n{self.T}")
+                            temp_update_S = update_S.copy()
+                            temp_update_S.remove(s)
+                            update_S = temp_update_S
+                            flag_to_delete = True
+                            break
+                    if flag_to_delete:
+                        flag_to_delete = False
+                        break
+
+
 
     def gen_hypothesis(self) -> Automaton:
         """
@@ -139,10 +198,12 @@ class NonDetObservationTable:
 
         for prefix in self.S:
             for a in self.A:
-                for t in self.T[prefix][a]:
-                    state_in_S = state_distinguish[self.row_to_hashable((prefix[0] + a, prefix[1] + tuple([t])))]
-                    assert state_in_S
-                    states_dict[prefix].transitions[a[0]].append((t, state_in_S))
+                # TODO: if inserted here to combat error caused by deleting entries in set S (udpate_S)
+                if a in self.T[prefix]:
+                    for t in self.T[prefix][a]:
+                        state_in_S = state_distinguish[self.row_to_hashable((prefix[0] + a, prefix[1] + tuple([t])))]
+                        assert state_in_S
+                        states_dict[prefix].transitions[a[0]].append((t, state_in_S))
 
         assert initial
         automaton = Onfsm(initial, [s for s in states_dict.values()])
@@ -166,8 +227,9 @@ class NonDetObservationTable:
         """
         row_repr = tuple()
         for e in self.E:
-            #if e in self.T[row_prefix].keys():
-            row_repr += (frozenset(self.T[row_prefix][e]),)
+            #Uncommented the if here -> because of error occuring!
+            if e in self.T[row_prefix].keys():
+                row_repr += (frozenset(self.T[row_prefix][e]),)
         return row_repr
 
     def add_to_T(self, s, e, value):
@@ -182,9 +244,10 @@ class NonDetObservationTable:
 
 
         """
-        if e not in self.T[s]:
-            self.T[s][e] = set()
-        self.T[s][e].add(value)
+        if e != "ERROR":
+            if e not in self.T[s]:
+                self.T[s][e] = set()
+            self.T[s][e].add(value)
 
     def cex_processing(self, cex: tuple):
         """

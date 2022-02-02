@@ -5,6 +5,7 @@ from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetOb
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
 from aalpy.utils.HelperFunctions import extend_set, print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg
+from aalpy.utils.FileHandler import save_automaton_to_file
 
 print_options = [0, 1, 2, 3]
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
@@ -15,7 +16,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
     """
     Based on ''Learning Finite State Models of Observable Nondeterministic Systems in a Testing Context '' from Fakih
     et al. Relies on the all-weather assumption. (By sampling we will obtain all possible non-deterministic outputs.
-    Learning ONFSM relies on all-weather assumption. If this assumption is not satisfied by sampling,
+    Learning ONFSM reupdate_Slies on all-weather assumption. If this assumption is not satisfied by sampling,
     learning might not converge to the minimal model and runtime could increase substantially.
     Note that this is the inherent flaw of the all-weather assumption. (All outputs will be seen)
     AALpy v.2.0 will try to solve that problem with a novel approach.
@@ -88,6 +89,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
 
         # if print_level > 1:
         print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
+        save_automaton_to_file(hypothesis, path=f"Hypothesis{learning_rounds}")
 
         # if print_level == 3:
         print_observation_table(observation_table, 'non-det')

@@ -6,7 +6,6 @@ import aalpy.paths
 from aalpy.SULs import MealySUL, DfaSUL, MooreSUL
 from aalpy.automata import Mdp, StochasticMealyMachine, MealyMachine, Dfa, MooreMachine
 from aalpy.base import DeterministicAutomaton
-from aalpy.oracles import RandomWMethodEqOracle
 
 prism_prob_output_regex = re.compile("Result: (\d+\.\d+)")
 
@@ -226,6 +225,7 @@ def stop_based_on_confidence(hypothesis, property_based_stopping, print_level=2)
 
 
 def compare_automata(aut_1: DeterministicAutomaton, aut_2: DeterministicAutomaton, num_cex=10):
+    from aalpy.oracles import RandomWMethodEqOracle
     type_map = {MooreMachine: MooreSUL, Dfa: DfaSUL, MealyMachine: MealySUL}
     assert set(aut_1.get_input_alphabet()) == set(aut_2.get_input_alphabet())
 

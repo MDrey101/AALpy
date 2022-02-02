@@ -3,7 +3,7 @@ from collections import defaultdict
 from aalpy.base import Automaton, SUL
 from aalpy.automata import Dfa, DfaState, MealyState, MealyMachine, MooreMachine, MooreState
 
-aut_type = ['dfa', 'mealy', 'moore']
+aut_type = ['dfa', 'mealy', 'moore', 'onfsm']
 closing_options = ['shortest_first', 'longest_first', 'single']
 
 

@@ -39,7 +39,7 @@ class StatePrefixEqOracle(Oracle):
         states_to_cover = []
 
         print(f"num states: {len(hypothesis.states)}: {hypothesis.states}")
-        if len(states_to_cover) > 5: #for CC2650.dot
+        if len(states_to_cover) > 6: #for CC2650.dot
             print("ERROR: found more states than should be expected!")
         for state in hypothesis.states:
             if state.prefix not in self.freq_dict.keys():
@@ -97,6 +97,8 @@ class StatePrefixEqOracle(Oracle):
                     self.num_steps += 1
                     if out_sul in output_list:
                         hypothesis.step_to(suffix[-1], out_sul)
+                        # return prefix + suffix
+                    else:
                         self.sul.post()
                         return prefix + suffix
 

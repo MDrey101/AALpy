@@ -13,6 +13,9 @@ class SULWrapper(SUL):
         self.sul = sul
         self.pta = TraceTree()
 
+    def query(self, word):
+        return self.sul.query(word)
+
     def pre(self):
         """ """
         self.pta.reset()
