@@ -53,8 +53,8 @@ class NonDetObservationTable:
             if row_t not in s_rows:
                 self.S.append(t)
                 print(f"(Input, Output) set S was updated: {self.S} with element {t}")
-                if len(self.S) > 10:
-                    print("WARNING: number of states are greater than they should be for model CC2650")
+                # if len(self.S) > 10:
+                    # print("WARNING: number of states are greater than they should be for model CC2650")
                 self.S_dot_A.remove(t)
                 return t
 
@@ -101,70 +101,112 @@ class NonDetObservationTable:
         update_E = e_set if e_set else self.E
 
         for s in update_S:
+            table_entries = [entry for entry in self.T.keys() if entry[0] == s[0]]
+            if len(table_entries) > 1:
+                entries_to_delete = []
+                sample_counter = 0
+
+                for table_entry in table_entries:
+                    breakout_counter = 0
+                    while sample_counter < self.n_samples:
+                        output = tuple(self.sul.query(s[0]))
+                        if output == table_entry[1]:
+                            sample_counter += 1
+
+                        breakout_counter += 1
+                        if breakout_counter >= self.n_samples * 10:
+                            entries_to_delete.append(table_entry)
+                            break
+
+                temp_T = self.T
+                temp_S = self.S
+                temp_S_dot_A = self.S_dot_A
+                for entry_to_delete in entries_to_delete:
+                    if entry_to_delete in self.S:
+                        temp_S.remove(entry_to_delete)
+                    if entry_to_delete in self.S_dot_A:
+                        temp_S_dot_A.remove(entry_to_delete)
+                    del temp_T[entry_to_delete]
+                self.T = temp_T
+                self.S = temp_S
+                self.S_dot_A = temp_S_dot_A
+
+                if s in entries_to_delete:
+                    continue
+
+
             flag_to_delete = False
             for e in update_E:
                 if e not in self.T[s].keys():
                     num_s_e_sampled = 0
-                    print("update_S set")
-                    for entry in update_S:
-                        print(entry)
-                    print("\nupdate_E set")
-                    print(update_E)
-                    print("\nT[s] set")
-                    for entry in self.T[s]:
-                        print(entry)
-                    print("")
+                    # print("update_S set")
+                    # for entry in update_S:
+                    #     print(entry)
+                    # print("\nupdate_E set")
+                    # print(update_E)
+                    # print("\nT[s] set")
+                    # for entry in self.T[s]:
+                    #     print(entry)
+                    # print("")
                     upper_bound_counter = 0
                     while num_s_e_sampled < self.n_samples:
-                        #TODO: debug the counter here?
-                        print(s[0] + e)
+                        # print(s[0] + e)
                         output = tuple(self.sul.query(s[0] + e))
-                        print(output)
+                        # print(output)
                         # Here I basically say... add just the last element of the output if it e is element of alphabet
                         # else add last len(e) outputs
                         o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
                         if "ERROR" not in output[:len(s[1])]:
-                            self.add_to_T((s[0], output[:len(s[1])]), e, o)
                             if output[:len(s[1])] == s[1]:
+                                self.add_to_T((s[0], output[:len(s[1])]), e, o)
                                 num_s_e_sampled += 1
-                                print(f"{num_s_e_sampled}/{self.n_samples}")
-                                print("")
-                        else:
-                            print("MISSMATCH:")
-                            print(f"output: {output[:len(s[1])]}")
-                            print(f"reference s[1]: {s[1]}")
-                            print("------------------------------------------")
-                            print("update_S set")
-                            for entry in update_S:
-                                print(entry)
-                            print("\nupdate_E set")
-                            print(update_E)
-                            print("")
-                            print("------------------------------------------")
-                        upper_bound_counter += 1
-                        if upper_bound_counter >= 10:
+                                # print(f"{num_s_e_sampled}/{self.n_samples}")
+                                # print("")
+                            else:
+                                upper_bound_counter += 1
+                        # else:
+                        #     print("MISSMATCH:")
+                        #     print(f"output: {output[:len(s[1])]}")
+                        #     print(f"reference s[1]: {s[1]}")
+                        #     print("------------------------------------------")
+                        #     print("update_S set")
+                        #     for entry in update_S:
+                        #         print(entry)
+                        #     print("\nupdate_E set")
+                        #     print(update_E)
+                        #     print("")
+                        #     print("------------------------------------------")
+
+                        if upper_bound_counter >= self.n_samples * 10:
                             row = (s[0][:-1], s[1][:-1])
-                            print(f"row to delete from: {row}")
+                            # print(f"row to delete from: {row}")
                             a = (s[0][-1],)
-                            print(f"row entry to delete from: {a}")
+                            # print(f"row entry to delete from: {a}")
                             to_delete = s[1][-1]
-                            print(f"entry to delete: {to_delete}")
+                            # print(f"entry to delete: {to_delete}")
                             if a in self.T[row]:
                                 if to_delete in self.T[row][a]:
-                                    print("commencing delete!")
+                                    # print("commencing delete!")
                                     self.T[row][a].remove(to_delete)
 
-                            # print(f"Table after deletion: {self.T}")
+                            temp_T = self.T
+                            temp_S = self.S
+                            temp_S_dot_A = self.S_dot_A
+                            if s in self.S:
+                                temp_S.remove(s)
+                            if s in self.S_dot_A:
+                                temp_S_dot_A.remove(s)
+                            del temp_T[s]
+                            self.T = temp_T
+                            self.S = temp_S
+                            self.S_dot_A = temp_S_dot_A
 
-                            # print(f"Table before deleting element s {s}:\n{self.T}")
-                            # if s in self.T:
-                            #     self.T.pop(s)
-                            # print(f"Table after deleting element s {s}:\n{self.T}")
                             temp_update_S = update_S.copy()
                             temp_update_S.remove(s)
                             update_S = temp_update_S
                             flag_to_delete = True
                             break
+
                     if flag_to_delete:
                         flag_to_delete = False
                         break
@@ -201,9 +243,13 @@ class NonDetObservationTable:
                 # TODO: if inserted here to combat error caused by deleting entries in set S (udpate_S)
                 if a in self.T[prefix]:
                     for t in self.T[prefix][a]:
-                        state_in_S = state_distinguish[self.row_to_hashable((prefix[0] + a, prefix[1] + tuple([t])))]
-                        assert state_in_S
-                        states_dict[prefix].transitions[a[0]].append((t, state_in_S))
+                        key = self.row_to_hashable((prefix[0] + a, prefix[1] + tuple([t])))
+                        if key in state_distinguish.keys():
+                            state_in_S = state_distinguish[key]
+                            assert state_in_S
+                            states_dict[prefix].transitions[a[0]].append((t, state_in_S))
+                        else:
+                            print("what now?")
 
         assert initial
         automaton = Onfsm(initial, [s for s in states_dict.values()])
