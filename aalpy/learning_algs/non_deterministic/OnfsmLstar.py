@@ -84,6 +84,85 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
             observation_table.update_obs_table(s_set=extended_rows)
             row_to_close = observation_table.get_row_to_close()
 
+        empty_entries = True
+        printed_table = False
+
+        # while empty_entries:
+        #     empty_entries = False
+        #     for key, value in observation_table.T.items():
+        #         if key == ((), ()):
+        #             continue
+        #         # for v in value.values():
+        #         if len(value.values()) != len(observation_table.E) or set() in value.values():
+        #             empty_entries = True
+        #             if not printed_table:
+        #                 print_observation_table(observation_table, 'non-det')
+        #                 printed_table = True
+        #
+        #         # if v == "Empty":
+        #             temp_T = observation_table.T.copy()
+        #             temp_S = observation_table.S.copy()
+        #             temp_S_dot_A = observation_table.S_dot_A.copy()
+        #             if key in observation_table.S:
+        #                 temp_S.remove(key)
+        #             if key in observation_table.S_dot_A:
+        #                 temp_S_dot_A.remove(key)
+        #             del temp_T[key]
+        #             observation_table.T = temp_T
+        #             observation_table.S = temp_S
+        #             observation_table.S_dot_A = temp_S_dot_A
+        #
+        #             row_key = ((key[0][:-1]), (key[1][:-1]))
+        #             output_to_delete_from = (key[0][-1],)
+        #             entry_to_delete = key[1][-1]
+        #             if row_key in observation_table.T:
+        #                 if output_to_delete_from in observation_table.T[row_key]:
+        #                     if entry_to_delete in observation_table.T[row_key][output_to_delete_from]:
+        #                         print("commencing delete!")
+        #                         observation_table.T[row_key][output_to_delete_from].remove(entry_to_delete)
+        #             else:
+        #                 print(f"row_key {row_key} was not in table T: \n{observation_table.T}")
+        #
+        #             output_to_check = observation_table.T[row_key]
+        #             list_to_delete = []
+        #             for key, value in observation_table.T.items():
+        #                 if key == ((), ()):
+        #                     continue
+        #                 if value == output_to_check and key != row_key:
+        #                     list_to_delete.append(key)
+        #
+        #             for entry in list_to_delete:
+        #                 if entry in observation_table.S:
+        #                     # temp_S = observation_table.S.copy()
+        #                     # temp_S.remove(entry)
+        #                     # observation_table.S = temp_S
+        #                     # temp_T = observation_table.T.copy()
+        #
+        #                     temp_S = observation_table.S.copy()
+        #
+        #                     # temp_S_dot_A = observation_table.S_dot_A.copy()
+        #
+        #                     if entry in observation_table.S:
+        #                         temp_S.remove(entry)
+        #
+        #                     # if entry in observation_table.S_dot_A:
+        #                     #     temp_S_dot_A.remove(entry)
+        #                     # del temp_T[key]
+        #                     # observation_table.T = temp_T
+        #
+        #                     observation_table.S = temp_S
+        #
+        #                     # observation_table.S_dot_A = temp_S_dot_A
+
+
+        #Final check if the table contains an empty entry
+        for key, value in observation_table.T.items():
+            for k, v in value.items():
+                if v == set() or v == ():
+                    print("An empty entry was found - exiting program!")
+                    print_observation_table(observation_table, "non-det")
+                    exit(-1)
+
         # Generate hypothesis
         hypothesis = observation_table.gen_hypothesis()
 

@@ -7,7 +7,7 @@ from aalpy.utils.HelperFunctions import all_suffixes
 
 class NonDetObservationTable:
 
-    def __init__(self, alphabet: list, sul: SUL, n_sampling=100):
+    def __init__(self, alphabet: list, sul: SUL, n_sampling=100, trace_tree=False):
         """
         Construction of the non-deterministic observation table.
 
@@ -25,6 +25,7 @@ class NonDetObservationTable:
         self.E = [tuple([a]) for a in alphabet]
         self.T = defaultdict(dict)
         self.n_samples = n_sampling
+        self.trace_tree_flag = trace_tree
 
         self.sul = sul
         empty_word = tuple()
@@ -34,6 +35,8 @@ class NonDetObservationTable:
         # tuple are inputs and second element of the tuple are outputs associated with inputs.
         self.S.append((empty_word, empty_word))
         print(f"Initial Set S {self.S}")
+
+        self.num_non_observed_entries = 0
 
     def get_row_to_close(self):
         """
@@ -51,10 +54,10 @@ class NonDetObservationTable:
             row_t = self.row_to_hashable(t)
 
             if row_t not in s_rows:
+                if len(t) < len(self.E) - 1:
+                    continue
                 self.S.append(t)
-                print(f"(Input, Output) set S was updated: {self.S} with element {t}")
-                # if len(self.S) > 10:
-                    # print("WARNING: number of states are greater than they should be for model CC2650")
+                print(f"Set S was updated: {self.S} with element {t}")
                 self.S_dot_A.remove(t)
                 return t
 
@@ -100,41 +103,109 @@ class NonDetObservationTable:
         update_S = s_set if s_set else self.S + self.S_dot_A
         update_E = e_set if e_set else self.E
 
+        # execute the current s[0] and check the table with that output
+        # if entries cannot be observed - insert Empty
+        # at the last step - delete all empty entries
+        # change update_S and loop through it below
+        # for s in update_S:
+        #     if s == ((),()):
+        #         continue
+        #
+        #     sample_counter = 0
+        #     while sample_counter < self.n_samples:
+        #         output = tuple(self.sul.query(s[0]))
+        #         if "ERROR" not in output:
+        #             new_s = (s[0], output)
+        #             if new_s != s:
+        #                 print(f"Found different entries: \n{s}\nreplaced by\n{new_s}")
+        #                 temp_S = update_S.copy()
+        #                 # temp_S[update_S.index(s)] = new_s
+        #                 update_S = temp_S
+        #                 break
+        #             if (s[0], output) == s:
+        #                 break
+        #             sample_counter += 1
+    
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        # for s in update_S:
+        #     table_entries = [entry for entry in self.T.keys() if entry[0] == s[0]]
+            
+            # execute the current s[0] and check the table with that output
+            # if entries cannot be observed - insert Empty
+            # at the last step - delete all empty entries
+            # change update_S and loop through it below
+            
+            
+            
+            # if len(table_entries) > 1:
+            #     entries_to_delete = []
+            #     sample_counter = 0
+            #
+            #     for table_entry in table_entries:
+            #         breakout_counter = 0
+            #         while sample_counter < self.n_samples:
+            #             output = tuple(self.sul.query(s[0]))
+            #             if output == table_entry[1]:
+            #                 sample_counter += 1
+            #
+            #             breakout_counter += 1
+            #             if breakout_counter >= self.n_samples * 10:
+            #                 entries_to_delete.append(table_entry)
+            #                 break
+            #
+            #     temp_T = self.T
+            #     temp_S = self.S
+            #     temp_S_dot_A = self.S_dot_A
+            #     for entry_to_delete in entries_to_delete:
+            #         if entry_to_delete in self.S:
+            #             temp_S.remove(entry_to_delete)
+            #         if entry_to_delete in self.S_dot_A:
+            #             temp_n(table_entries) > 1:
+            #     entries_to_delete = []
+            #     sample_counter = 0
+            #
+            #     for table_entry in table_entries:
+            #         breakout_counter = 0
+            #         while sample_counter < self.n_samples:
+            #             output = tuple(self.sul.query(s[0]))
+            #             if output == table_entry[1]:
+            #                 sample_counter += 1
+            #
+            #             breakout_counter += 1
+            #             if breakout_counter >= self.n_samples * 10:
+            #                 entries_to_delete.append(table_entry)
+            #                 break
+            #
+            #     temp_T = self.T
+            #     temp_S = self.S
+            #     temp_S_dot_A = self.S_dot_A
+            #     for entry_to_delete in entries_to_delete:
+            #         if entry_to_delete in self.S:
+            #             temp_S.remove(entry_to_delete)
+            #         if entry_to_delete in self.S_dot_A:
+            #             temp_S_dot_A.remove(entry_to_delete)
+            #         del temp_T[entry_to_delete]
+            #     self.T = temp_T
+            #     self.S = temp_S
+            #     self.S_dot_A = temp_S_dot_A
+            #
+            #     if s in entries_to_delete:
+            #         continue
+
+        observed_s_list = []
         for s in update_S:
-            table_entries = [entry for entry in self.T.keys() if entry[0] == s[0]]
-            if len(table_entries) > 1:
-                entries_to_delete = []
-                sample_counter = 0
-
-                for table_entry in table_entries:
-                    breakout_counter = 0
-                    while sample_counter < self.n_samples:
-                        output = tuple(self.sul.query(s[0]))
-                        if output == table_entry[1]:
-                            sample_counter += 1
-
-                        breakout_counter += 1
-                        if breakout_counter >= self.n_samples * 10:
-                            entries_to_delete.append(table_entry)
-                            break
-
-                temp_T = self.T
-                temp_S = self.S
-                temp_S_dot_A = self.S_dot_A
-                for entry_to_delete in entries_to_delete:
-                    if entry_to_delete in self.S:
-                        temp_S.remove(entry_to_delete)
-                    if entry_to_delete in self.S_dot_A:
-                        temp_S_dot_A.remove(entry_to_delete)
-                    del temp_T[entry_to_delete]
-                self.T = temp_T
-                self.S = temp_S
-                self.S_dot_A = temp_S_dot_A
-
-                if s in entries_to_delete:
-                    continue
-
-
+            observed_s_list.append(s)
             flag_to_delete = False
             for e in update_E:
                 if e not in self.T[s].keys():
@@ -149,21 +220,33 @@ class NonDetObservationTable:
                     #     print(entry)
                     # print("")
                     upper_bound_counter = 0
-                    while num_s_e_sampled < self.n_samples:
-                        # print(s[0] + e)
+                    error_counter = 0
+                    while num_s_e_sampled < self.n_samples * max(len(s[0]), 1):
+                        print(s[0] + e)
+                        print(f"query tries: {num_s_e_sampled}/{self.n_samples * 10* max(len(s[0]), 1)}")
                         output = tuple(self.sul.query(s[0] + e))
                         # print(output)
                         # Here I basically say... add just the last element of the output if it e is element of alphabet
                         # else add last len(e) outputs
                         o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
                         if "ERROR" not in output[:len(s[1])]:
-                            if output[:len(s[1])] == s[1]:
+                            # if output[:len(s[1])] == s[1]:
+                            if output[:len(s[1])] in [entry[1] for entry in self.T.keys()]:
+                                if (s[0], output[:len(s[1])]) not in observed_s_list:
+                                    observed_s_list.append((s[0], output[:len(s[1])]))
                                 self.add_to_T((s[0], output[:len(s[1])]), e, o)
                                 num_s_e_sampled += 1
-                                # print(f"{num_s_e_sampled}/{self.n_samples}")
-                                # print("")
+                                print(f"successful samples: {num_s_e_sampled}/{self.n_samples * max(len(s[0]), 1)}\n")
                             else:
+                                self.num_non_observed_entries += 1
+                                print(f"# Observed output not in table: {self.num_non_observed_entries}, {output}")
                                 upper_bound_counter += 1
+                        else:
+                            error_counter += 1
+                            print(f"error counter: {error_counter}/{self.n_samples*20}")
+                            if error_counter >= self.n_samples * 20:
+                                print("breaking from loop, because of constant ERROR!")
+                                break
                         # else:
                         #     print("MISSMATCH:")
                         #     print(f"output: {output[:len(s[1])]}")
@@ -177,40 +260,153 @@ class NonDetObservationTable:
                         #     print("")
                         #     print("------------------------------------------")
 
-                        if upper_bound_counter >= self.n_samples * 10:
-                            row = (s[0][:-1], s[1][:-1])
-                            # print(f"row to delete from: {row}")
-                            a = (s[0][-1],)
-                            # print(f"row entry to delete from: {a}")
-                            to_delete = s[1][-1]
-                            # print(f"entry to delete: {to_delete}")
-                            if a in self.T[row]:
-                                if to_delete in self.T[row][a]:
-                                    # print("commencing delete!")
-                                    self.T[row][a].remove(to_delete)
-
-                            temp_T = self.T
-                            temp_S = self.S
-                            temp_S_dot_A = self.S_dot_A
-                            if s in self.S:
-                                temp_S.remove(s)
-                            if s in self.S_dot_A:
-                                temp_S_dot_A.remove(s)
-                            del temp_T[s]
-                            self.T = temp_T
-                            self.S = temp_S
-                            self.S_dot_A = temp_S_dot_A
-
-                            temp_update_S = update_S.copy()
-                            temp_update_S.remove(s)
-                            update_S = temp_update_S
-                            flag_to_delete = True
+                        if upper_bound_counter >= self.n_samples * 10 * max(len(s[0]), 1):
+                            print(f"Writing Epsilon to {s}[e]")
+                            self.add_to_T((s[0], output[:len(s[1])]), e, "Epsilon")
                             break
+
+                            # row = (s[0][:-1], s[1][:-1])
+                            # # print(f"row to delete from: {row}")
+                            # a = (s[0][-1],)
+                            # # print(f"row entry to delete from: {a}")
+                            # to_delete = s[1][-1]
+                            # # print(f"entry to delete: {to_delete}")
+                            # if a in self.T[row]:
+                            #     if to_delete in self.T[row][a]:
+                            #         # print("commencing delete!")
+                            #         self.T[row][a].remove(to_delete)
+                            #
+                            # temp_T = self.T.copy()
+                            # temp_S = self.S.copy()
+                            # temp_S_dot_A = self.S_dot_A.copy()
+                            # if s in self.S:
+                            #     temp_S.remove(s)
+                            # if s in self.S_dot_A:
+                            #     temp_S_dot_A.remove(s)
+                            # del temp_T[s]
+                            # self.T = temp_T
+                            # self.S = temp_S
+                            # self.S_dot_A = temp_S_dot_A
+                            #
+                            # temp_update_S = update_S.copy()
+                            # temp_update_S.remove(s)
+                            # update_S = temp_update_S
+                            # flag_to_delete = True
+                            # break
 
                     if flag_to_delete:
                         flag_to_delete = False
                         break
 
+            print(observed_s_list)
+            for observed_output in observed_s_list:
+                if observed_output not in self.T:
+                    continue
+
+                if {"Epsilon"} in self.T[observed_output].values() or len(self.T[observed_output]) < len(self.E):
+                    epsilon_counter = 0
+                    epsilon_entry = None
+                    table_entry = None
+    
+                    print("Checking for Epsilon entries")
+                    for key, value in self.T[observed_output].items():
+                        if epsilon_counter >= 2:
+                            print("2 Epsilon entries found - commencing to adapt the Table!")
+                            table_entry = self.delete_entry(observed_output, update_S)
+                        if value == {"Epsilon"}:
+                            epsilon_entry = key
+                            epsilon_counter += 1
+
+                    query_repeat_counter = 0
+                    if (epsilon_entry is None and table_entry is None) or table_entry is not None:
+                        if table_entry is None:
+                            table_entry = self.delete_entry(observed_output, update_S)
+
+                        if table_entry is None:
+                            continue
+
+                        row = table_entry[0]
+                        key = table_entry[1][0]
+                        removed_output = table_entry[1][1]
+
+                        while query_repeat_counter < 100:
+                            output = tuple(self.sul.query(row + key))
+                            o = output[-1] if len(key) == 1 else tuple(output[-len(key):])
+                            if "ERROR" not in output[:len(observed_output[1])]:
+                                if output[:len(observed_output[1])] == observed_output[1] and o != removed_output:
+                                    self.add_to_T((observed_output[0], output[:len(observed_output[1])]), key, o)
+                                    self.T[row][key].remove("Epsilon")
+                                    break
+                                query_repeat_counter += 1
+                        if query_repeat_counter >= 100:
+                            print(f"Resampling {row, key} was not successfull!")
+                            exit(-1)
+    
+                    else:
+                        print(f"Resampling Epsilon entry of {observed_output}[{epsilon_entry}]")
+                        while query_repeat_counter < 100:
+                            output = tuple(self.sul.query(observed_output[0] + epsilon_entry))
+                            o = output[-1] if len(epsilon_entry) == 1 else tuple(output[-len(epsilon_entry):])
+                            if "ERROR" not in output[:len(observed_output[1])]:
+                                if output[:len(observed_output[1])] == observed_output[1]:
+                                    self.add_to_T((observed_output[0], output[:len(observed_output[1])]), epsilon_entry, o)
+                                    self.T[observed_output][epsilon_entry].remove("Epsilon")
+                                    break
+                                query_repeat_counter += 1
+                        if query_repeat_counter >= 100:
+                            print(f"Resampling {observed_output[0], epsilon_entry} was not successfull!")
+                            exit(-1)
+                    # else:
+                    #     row = table_entry[0]
+                    #     key = table_entry[1][0]
+                    #     removed_output = table_entry[1][1]
+                    #
+                    #     while query_repeat_counter < 100:
+                    #         output = tuple(self.sul.query(row + key))
+                    #         o = output[-1] if len(key) == 1 else tuple(output[-len(key):])
+                    #         if "ERROR" not in output[:len(s[1])]:
+                    #             if output[:len(s[1])] == s[1] and o != removed_output:
+                    #                 self.add_to_T((s[0], output[:len(s[1])]), key, o)
+                    #                 self.T[row][key].remove("Epsilon")
+                    #                 break
+                    #             query_repeat_counter += 1
+
+
+    def delete_entry(self, s, update_S):
+        return_entry = None
+        
+        row = (s[0][:-1], s[1][:-1])
+        # print(f"row to delete from: {row}")
+        a = (s[0][-1],)
+        # print(f"row entry to delete from: {a}")
+        to_delete = s[1][-1]
+        # print(f"entry to delete: {to_delete}")
+        if a in self.T[row]:
+            if to_delete in self.T[row][a]:
+                # print("commencing delete!")
+                self.T[row][a].remove(to_delete)
+                if self.T[row][a] is set() or self.T[row][a] == ():
+                    self.T[row][a].add("Epsilon")
+                    return_entry = (row, (a, to_delete))
+    
+        temp_T = self.T.copy()
+        temp_S = self.S.copy()
+        temp_S_dot_A = self.S_dot_A.copy()
+        if s in self.S:
+            temp_S.remove(s)
+        if s in self.S_dot_A:
+            temp_S_dot_A.remove(s)
+        del temp_T[s]
+        self.T = temp_T
+        self.S = temp_S
+        self.S_dot_A = temp_S_dot_A
+    
+        temp_update_S = update_S.copy()
+        if s in temp_update_S:
+            temp_update_S.remove(s)
+        update_S = temp_update_S
+        flag_to_delete = True
+        return return_entry
 
 
     def gen_hypothesis(self) -> Automaton:
@@ -238,6 +434,16 @@ class NonDetObservationTable:
                 initial = states_dict[prefix]
             stateCounter += 1
 
+        # if self.trace_tree_flag:
+        #     for prefix in self.S:
+        #         curr_node = self.sul.pta.get_to_node(prefix[0], prefix[1])
+        #         for a in self.A:
+        #             for t in self.sul.pta.get_single_trace(curr_node, a):
+        #                 if self.row_to_hashable((prefix[0] + a, prefix[1] + tuple(t))) in state_distinguish.keys():
+        #                     state_in_S = state_distinguish[self.row_to_hashable((prefix[0] + a, prefix[1] + tuple(t)))]
+        #                     assert state_in_S
+        #                     states_dict[prefix].transitions[a[0]].append((t[0], state_in_S))
+        # else:
         for prefix in self.S:
             for a in self.A:
                 # TODO: if inserted here to combat error caused by deleting entries in set S (udpate_S)
@@ -264,7 +470,7 @@ class NonDetObservationTable:
 
         Args:
 
-            row_prefix: prefix of the row in the observation table
+            row_prefix: prefixkey of the row in the observation table
 
         Returns:
 
