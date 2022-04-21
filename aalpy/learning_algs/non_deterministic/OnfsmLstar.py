@@ -7,18 +7,17 @@ from aalpy.utils.HelperFunctions import extend_set, print_learning_info, print_o
     get_available_oracles_and_err_msg
 
 print_options = [0, 1, 2, 3]
+
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 
-def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50,
-                      max_learning_rounds=None, custom_oracle=False, return_data=False, print_level=2, trace_tree=False):
+def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=20, trace_tree=True,
+                      max_learning_rounds=None, custom_oracle=False, return_data=False, print_level=2,
+                      ):
     """
     Based on ''Learning Finite State Models of Observable Nondeterministic Systems in a Testing Context '' from Fakih
     et al. Relies on the all-weather assumption. (By sampling we will obtain all possible non-deterministic outputs.
-    Learning ONFSM relies on all-weather assumption. If this assumption is not satisfied by sampling,
-    learning might not converge to the minimal model and runtime could increase substantially.
-    Note that this is the inherent flaw of the all-weather assumption. (All outputs will be seen)
-    AALpy v.2.0 will try to solve that problem with a novel approach.
+    With table-shrinking we mitigate the undesired consequences of the all-weather assumption.
 
     Args:
 
@@ -30,6 +29,9 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
 
         n_sampling: number of times that each cell has to be updated. If this number is to low, all-weather condition
             will not hold and learning will not converge to the correct model. (Default value = 50)
+
+        trace_tree: removes limitation of all-weather assumption by dynamically keeping the observation table updated
+                    with respect to observations
 
         max_learning_rounds: if max_learning_rounds is reached, learning will stop (Default value = None)
 
@@ -45,12 +47,11 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
         learned ONFSM
 
     """
-    # Print warning
-    if not custom_oracle and type(eq_oracle) not in available_oracles:
-        raise SystemExit(available_oracles_error_msg)
-
     print('Starting learning with an all-weather assumption.\n'
           'See run_Lstar_ONFSM documentation for more details about possible non-convergence.')
+
+    if not custom_oracle and type(eq_oracle) not in available_oracles:
+        raise SystemExit(available_oracles_error_msg)
 
     start_time = time.time()
     eq_query_time = 0
@@ -60,6 +61,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
     sul = SULWrapper(sul)
     eq_oracle.sul = sul
 
+    # setting test_cells_again=TRUE seems to work better for larger onfsm and worse for smaller onfsm
     observation_table = NonDetObservationTable(alphabet, sul, n_sampling, trace_tree, test_cells_again=False)
 
     # We fist query the initial row. Then based on output in its cells, we generate new rows in the extended S set,
@@ -87,10 +89,6 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
 
         # Generate hypothesis
         hypothesis = observation_table.gen_hypothesis()
-
-        # this could be removed if the using the else instead of the if in gen_hypothesis() but would perform worse
-        while observation_table.clean_obs_table():
-            hypothesis = observation_table.gen_hypothesis()
 
         if print_level > 1:
             print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')

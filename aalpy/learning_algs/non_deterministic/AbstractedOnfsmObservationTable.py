@@ -7,7 +7,8 @@ from aalpy.utils.HelperFunctions import extend_set
 
 
 class AbstractedNonDetObservationTable:
-    def __init__(self, alphabet: list, sul: SUL, abstraction_mapping: dict, n_sampling=100, trace_tree=False):
+    def __init__(self, alphabet: list, sul: SUL, abstraction_mapping: dict, n_sampling=100, trace_tree_flag=False,
+                 trace_tree=False):
         """
         Construction of the abstracted non-deterministic observation table.
 
@@ -21,14 +22,14 @@ class AbstractedNonDetObservationTable:
 
         assert alphabet is not None and sul is not None
 
-        self.observation_table = NonDetObservationTable(alphabet, sul, n_sampling)
+        self.observation_table = NonDetObservationTable(alphabet, sul, n_sampling, trace_tree=trace_tree_flag)
 
         self.S = list()
         self.S_dot_A = []
         self.E = []
         self.T = defaultdict(dict)
         self.A = [tuple([a]) for a in alphabet]
-        self.trace_tree = trace_tree
+        self.trace_tree_flag = trace_tree_flag
 
         self.abstraction_mapping = abstraction_mapping
 
@@ -378,14 +379,14 @@ class AbstractedNonDetObservationTable:
             self.update_obs_table(e_set=added_suffixes)
 
     def clean_tables(self):
-        if not self.trace_tree:
+        if not self.trace_tree_flag:
             return
 
         self.observation_table.clean_obs_table()
         self.abstract_obs_table()
 
         update_S = self.S.copy()
-        whole_S= self.S + self.S_dot_A
+        whole_S = self.S + self.S_dot_A
 
         update_S.sort()
         update_S.sort(key=lambda t: len(t[0]))

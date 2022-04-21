@@ -7,6 +7,7 @@ class SULWrapper(SUL):
     """
     Wrapper for non-deterministic SUL. After every step, input/output pair is added to the tree containing all traces.
     """
+
     def __init__(self, sul: SUL):
         super().__init__()
         self.sul = sul
@@ -37,6 +38,7 @@ class SULWrapper(SUL):
 
 class Node:
     """ """
+
     def __init__(self, output):
         self.output = output
         self.children = defaultdict(list)
@@ -56,6 +58,7 @@ class Node:
 
 class TraceTree:
     """ """
+
     def __init__(self):
         self.root_node = Node(None)
         self.curr_node = None
@@ -66,60 +69,20 @@ class TraceTree:
 
     def add_to_tree(self, inp, out):
         """
+        Adds new element to tree and makes it the current node
 
         Args:
-          inp: 
-          out: 
+          inp: Inputs
+          out: Outputs
 
         Returns:
-
         """
-        if inp not in self.curr_node.children.keys() or out not in [child.output for child in self.curr_node.children[inp]]:
+        if inp not in self.curr_node.children.keys() or out not in [child.output for child in
+                                                                    self.curr_node.children[inp]]:
             node = Node(out)
             self.curr_node.children[inp].append(node)
-        # else:
+        # This was in an else statement. But that seems wrong.
         self.curr_node = self.curr_node.get_child(inp, out)
-
-    def get_all_outputs(self, inputs, outputs, e):
-        """
-        It should basically do this.
-        Get to the node that you reach when following input and outputs.
-        Than, from that node on, with input values in e, record ALL possible paths that follow it.
-        Edi 2 Konstantin:
-            In case of any questions about this, let me know.
-
-
-        Args:
-          inputs: 
-          outputs: 
-          e: 
-
-        Returns:
-
-        """
-        e = list(e)
-        curr_node = self.root_node
-        for i, o in zip(inputs, outputs):
-            node = curr_node.get_child(i, o)
-            if node is None:
-                return None
-            curr_node = node
-
-
-        # from this point all record all possible outputs
-        nodes_to_process = [curr_node]
-        # TODO RETURN WHOLE TRACES NOT JUST SINGLE OUTPUTS
-        # below this line it is faulty (but general idea is there, it is just wrong)
-        # also you can change stuff above it
-        while True:
-            if not e:
-                return tuple(node.output for node in nodes_to_process if node.output)
-            i = e.pop(0)
-            children = []
-            for node in nodes_to_process:
-                if node.children[i]:
-                    children.extend(node.children[i])
-            nodes_to_process = children
 
     def get_to_node(self, inp, out):
         """
@@ -249,4 +212,3 @@ class TraceTree:
                     curr_str = ''.join(curr_str) + " |  "
 
                 self.print_trace_tree(curr.children[node][c], depth + 1, curr_str)
-
