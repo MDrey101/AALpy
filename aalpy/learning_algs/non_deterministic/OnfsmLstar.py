@@ -11,7 +11,7 @@ available_oracles, available_oracles_error_msg = get_available_oracles_and_err_m
 
 
 def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50,
-                      max_learning_rounds=None, custom_oracle=False, return_data=False, print_level=2):
+                      max_learning_rounds=None, custom_oracle=False, return_data=False, print_level=2, trace_tree=False):
     """
     Based on ''Learning Finite State Models of Observable Nondeterministic Systems in a Testing Context '' from Fakih
     et al. Relies on the all-weather assumption. (By sampling we will obtain all possible non-deterministic outputs.
@@ -60,7 +60,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
     sul = SULWrapper(sul)
     eq_oracle.sul = sul
 
-    observation_table = NonDetObservationTable(alphabet, sul, n_sampling)
+    observation_table = NonDetObservationTable(alphabet, sul, n_sampling, trace_tree, test_cells_again=False)
 
     # We fist query the initial row. Then based on output in its cells, we generate new rows in the extended S set,
     # and then we perform membership/input queries for them.
@@ -83,8 +83,14 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=50
             observation_table.update_obs_table(s_set=extended_rows)
             row_to_close = observation_table.get_row_to_close()
 
+        observation_table.clean_obs_table()
+
         # Generate hypothesis
         hypothesis = observation_table.gen_hypothesis()
+
+        # this could be removed if the using the else instead of the if in gen_hypothesis() but would perform worse
+        while observation_table.clean_obs_table():
+            hypothesis = observation_table.gen_hypothesis()
 
         if print_level > 1:
             print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
