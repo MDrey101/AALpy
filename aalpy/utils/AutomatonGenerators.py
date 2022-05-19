@@ -236,30 +236,37 @@ def generate_random_ONFSM(num_states, num_inputs, num_outputs, multiple_out_prob
       num_states: number of states
       num_inputs: number of inputs
       num_outputs: number of outputs
-      multiple_out_prob: probability that state will have multiple outputs (Default value = 0.1)
+      multiple_out_prob: probability that state will have multiple outputs (Default value = 0.5)
 
     Returns:
 
         randomly generated ONFSM
 
     """
-    inputs = [random_string_generator(random.randint(1, 3)) for _ in range(num_inputs)]
-    outputs = [random_string_generator(random.randint(3, 7)) for _ in range(num_outputs)]
+    inputs = [f'i{i+1}' for i in range(num_inputs)]
+    outputs = [f'o{i+1}' for i in range(num_outputs)]
 
     states = []
     for i in range(num_states):
         state = OnfsmState(f's{i}')
         states.append(state)
 
+    state_buffer = states.copy()
+
     for state in states:
         for i in inputs:
             state_outputs = 1
-            if random.random() <= multiple_out_prob and num_outputs > 1:
+            if random.random() <= multiple_out_prob and num_outputs >= 2:
                 state_outputs = random.randint(2, num_outputs)
 
             random_out = random.sample(outputs, state_outputs)
             for index in range(state_outputs):
-                state.transitions[i].append((random_out[index], random.choice(states)))
+                if state_buffer:
+                    new_state = random.choice(state_buffer)
+                    state_buffer.remove(new_state)
+                else:
+                    new_state = random.choice(states)
+                state.transitions[i].append((random_out[index], new_state))
 
     return Onfsm(states[0], states)
 

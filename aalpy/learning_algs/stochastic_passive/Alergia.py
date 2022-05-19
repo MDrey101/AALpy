@@ -2,13 +2,13 @@ import time
 from collections import defaultdict
 from bisect import insort
 
-from aalpy.automata import MarkovChain, MdpState, Mdp, McState, MooreMachine, MooreState, StochasticMealyState, \
+from aalpy.automata import MarkovChain, MdpState, Mdp, McState, StochasticMealyState, \
     StochasticMealyMachine
 from aalpy.learning_algs.stochastic_passive.CompatibilityChecker import HoeffdingCompatibility
 from aalpy.learning_algs.stochastic_passive.FPTA import create_fpta
 
 state_automaton_map = {'mc': (McState, MarkovChain), 'mdp': (MdpState, Mdp),
-                       'moore': (MooreState, MooreMachine), 'smm': (StochasticMealyState, StochasticMealyMachine)}
+                       'smm': (StochasticMealyState, StochasticMealyMachine)}
 
 
 class Alergia:
@@ -28,7 +28,7 @@ class Alergia:
 
         pta_start = time.time()
 
-        self.t, self.a = create_fpta(data, automaton_type, optimize_for)
+        self.immutableTreeRoot, self.mutableTreeRoot = create_fpta(data, automaton_type, optimize_for)
 
         pta_time = round(time.time() - pta_start, 2)
         if self.print_info:
@@ -41,7 +41,7 @@ class Alergia:
         if not a.children.values() or not b.children.values():
             return True
 
-        if self.automaton_type != 'moore' and not self.diff_checker.check_difference(a, b):
+        if self.diff_checker.are_states_different(a, b):
             return False
 
         for el in set(a.children.keys()).intersection(b.children.keys()):
@@ -53,7 +53,7 @@ class Alergia:
     def merge(self, q_r, q_b):
         t_q_b = self.get_blue_node(q_b)
         b_prefix = q_b.getPrefix()
-        to_update = self.a
+        to_update = self.mutableTreeRoot
         for p in b_prefix[:-1]:
             to_update = to_update.children[p]
 
@@ -61,20 +61,20 @@ class Alergia:
 
         self.fold(q_r, q_b, t_q_b)
 
-    def fold(self, q_r, q_b, t_q_b):
-        for i, c in t_q_b.children.items():
-            if i in q_r.children.keys():
-                q_r.input_frequency[i] += t_q_b.input_frequency[i]
-                self.fold(q_r.children[i], q_b.children[i], c)
+    def fold(self, red, blue, blue_tree_node):
+        for i, c in blue.children.items():
+            if i in red.children.keys():
+                red.input_frequency[i] += blue_tree_node.input_frequency[i]
+                self.fold(red.children[i], blue.children[i], self.get_blue_node(blue.children[i]))
             else:
-                q_r.children[i] = q_b.children[i]
-                q_r.input_frequency[i] = t_q_b.input_frequency[i]
+                red.children[i] = blue.children[i]
+                red.input_frequency[i] = blue_tree_node.input_frequency[i]
 
     def run(self):
         start_time = time.time()
 
-        red = [self.a]  # representative nodes and will be included in the final output model
-        blue = self.a.succs()  # intermediate successors scheduled for testing
+        red = [self.mutableTreeRoot]  # representative nodes and will be included in the final output model
+        blue = self.mutableTreeRoot.successors()  # intermediate successors scheduled for testing
 
         while blue:
             lex_min_blue = min(list(blue), key=lambda x: len(x.getPrefix()))
@@ -90,16 +90,15 @@ class Alergia:
                 insort(red, lex_min_blue)
 
             blue.clear()
-            prefixes_in_red = [s.getPrefix() for s in red]
+
             for r in red:
-                for s in r.succs():
-                    if s.getPrefix() not in prefixes_in_red:
+                for s in r.successors():
+                    if s not in red:
                         blue.append(s)
 
         assert sorted(red, key=lambda x: len(x.getPrefix())) == red
 
-        if self.automaton_type != 'moore':
-            self.normalize(red)
+        self.normalize(red)
 
         for i, r in enumerate(red):
             r.state_id = f'q{i}'
@@ -128,7 +127,7 @@ class Alergia:
     def get_blue_node(self, red_node):
         if self.optimize_for == 'memory':
             return red_node
-        blue = self.t
+        blue = self.immutableTreeRoot
         for p in red_node.getPrefix():
             blue = blue.children[p]
         return blue
@@ -183,9 +182,8 @@ def run_Alergia(data, automaton_type, eps=0.005, compatibility_checker=None, opt
         eps: epsilon value if you are using default HoeffdingCompatibility. If it is set to 'auto' it will be computed
         as 10/(all steps in the data)
 
-        automaton_type: either 'mdp' if you wish to learn an MDP, 'mc' if you want to learn Markov Chain, 'moore'
-                        if you want to learn Moore Machine (underlying structure is deterministic), or 'smm' if you
-                        want to learn stochastic Mealy machine
+        automaton_type: either 'mdp' if you wish to learn an MDP, 'mc' if you want to learn Markov Chain, or 'smm' if
+        you want to learn stochastic Mealy machine
 
         optimize_for: either 'memory' or 'accuracy'. memory will use 50% less memory, but will be more inaccurate.
 
@@ -196,28 +194,26 @@ def run_Alergia(data, automaton_type, eps=0.005, compatibility_checker=None, opt
 
     Returns:
 
-        mdp or markov chain
+        mdp, smm, or markov chain
     """
-    assert automaton_type in {'mdp', 'mc', 'moore', 'smm'}
+    assert automaton_type in {'mdp', 'mc', 'smm'}
     alergia = Alergia(data, eps=eps, automaton_type=automaton_type, optimize_for=optimize_for,
                       compatibility_checker=compatibility_checker, print_info=print_info)
     model = alergia.run()
-    del alergia.a, alergia.t, alergia
+    del alergia.mutableTreeRoot, alergia.immutableTreeRoot, alergia
     return model
 
 
 def run_JAlergia(path_to_data_file, automaton_type, path_to_jAlergia_jar, eps=0.005,
                  heap_memory='-Xmx2048M', optimize_for='accuracy'):
-    assert automaton_type in {'mdp', 'smm', 'mc'}
-    assert optimize_for in {'memory', 'accuracy'}
     """
     Run Alergia or IOAlergia on provided data.
 
     Args:
 
-        data: path to file containin fata either in a form [[I,I,I],[I,I,I],...] if learning Markov Chains or
-        [[O,(I,O),(I,O)...],
-        [O,(I,O_,...],..,] if learning MDPs (I represents input, O output).
+        path_to_data_file: either a data in a list of lists or a path to file containing data. 
+        Form [[I,I,I],[I,I,I],...] if learning Markov Chains or
+        [[O,I,O,I,O...], [O,(I,O_,...],..,] if learning MDPs (I represents input, O output).
         Note that in whole data first symbol of each entry should be the same (Initial output of the MDP/MC).
 
         eps: epsilon value
@@ -235,12 +231,16 @@ def run_JAlergia(path_to_data_file, automaton_type, path_to_jAlergia_jar, eps=0.
 
         learnedModel
     """
+    # TODO rename path_to_data_file to data in next versions of AALpy after 20. may
+    assert automaton_type in {'mdp', 'smm', 'mc'}
+    assert optimize_for in {'memory', 'accuracy'}
 
     import os
     import subprocess
     from aalpy.utils.FileHandler import load_automaton_from_file
 
     save_file = "jAlergiaModel.dot"
+    delete_tmp_file = False
     if os.path.exists(save_file):
         os.remove(save_file)
 
@@ -250,11 +250,20 @@ def run_JAlergia(path_to_data_file, automaton_type, path_to_jAlergia_jar, eps=0.
         print(f'JAlergia jar not found at {path_to_jAlergia_jar}.')
         return
 
-    if os.path.exists(path_to_data_file):
-        abs_path = os.path.abspath(path_to_data_file)
+    if isinstance(path_to_data_file, str):
+        if os.path.exists(path_to_data_file):
+            abs_path = os.path.abspath(path_to_data_file)
+        else:
+            print('Input file not found.')
+            return
     else:
-        print('Input file not found.')
-        return
+        if not isinstance(path_to_data_file, (list, tuple)):
+            print('Data should be either a list of sequences or a path to the data file.')
+        with open('jAlergiaInputs.txt', 'w') as f:
+            for seq in path_to_data_file:
+                f.write(','.join([str(s) for s in seq]))
+        delete_tmp_file = True
+        abs_path = os.path.abspath('jAlergiaInputs.txt')
 
     optimize_for = optimize_for[:3]
 
@@ -267,4 +276,7 @@ def run_JAlergia(path_to_data_file, automaton_type, path_to_jAlergia_jar, eps=0.
 
     model = load_automaton_from_file(save_file, automaton_type=automaton_type)
     os.remove(save_file)
+    if delete_tmp_file:
+        os.remove('jAlergiaInputs.txt')
+
     return model

@@ -120,10 +120,26 @@ class Automaton(ABC):
         from aalpy.utils import save_automaton_to_file
         return save_automaton_to_file(self, path='learnedModel', file_type='string', round_floats=2)
 
+    def make_input_complete(self, missing_transition_go_to='self_loop'):
+        """
+        For more details check the implementation of this method in utils.HelperFunctions
+
+        missing_transition_go_to: either 'self_loop' or 'sink_state'.
+        """
+        from aalpy.utils.HelperFunctions import make_input_complete
+        make_input_complete(self, missing_transition_go_to)
+
     def execute_sequence(self, origin_state, seq):
         self.current_state = origin_state
         return [self.step(s) for s in seq]
 
+    def save(self, file_path='LearnedModel'):
+        from aalpy.utils import save_automaton_to_file
+        save_automaton_to_file(self, path=file_path)
+
+    def visualize(self, path='LearnedModel', file_type='pdf', display_same_state_transitions=True):
+        from aalpy.utils import visualize_automaton
+        visualize_automaton(self, path, file_type, display_same_state_transitions)
 
 class DeterministicAutomaton(Automaton):
 

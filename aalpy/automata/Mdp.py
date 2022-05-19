@@ -59,3 +59,4 @@ class Mdp(Automaton):
                 self.current_state = new_state[0]
                 return out
         return None
+

@@ -162,10 +162,10 @@ def random_onfsm_example(num_states, input_size, output_size, n_sampling):
     alphabet = onfsm.get_input_alphabet()
 
     sul = OnfsmSUL(onfsm)
-    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=500, min_walk_len=10, max_walk_len=50)
-    eq_oracle = RandomWalkEqOracle(alphabet, sul, num_steps=5000, reset_prob=0.15, reset_after_cex=True)
+    eq_oracle = RandomWalkEqOracle(alphabet, sul, num_steps=500, reset_prob=0.15, reset_after_cex=True)
+    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=500, min_walk_len=8, max_walk_len=20)
 
-    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle=eq_oracle, n_sampling=n_sampling, print_level=3)
+    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle=eq_oracle, n_sampling=n_sampling, print_level=2)
     return learned_model
 
 
@@ -390,7 +390,7 @@ def onfsm_mealy_paper_example():
     """
 
     from aalpy.SULs import OnfsmSUL
-    from aalpy.oracles import RandomWalkEqOracle, RandomWordEqOracle
+    from aalpy.oracles import RandomWordEqOracle
     from aalpy.learning_algs import run_non_det_Lstar
     from aalpy.utils import get_benchmark_ONFSM
 
@@ -398,10 +398,9 @@ def onfsm_mealy_paper_example():
     alphabet = onfsm.get_input_alphabet()
 
     sul = OnfsmSUL(onfsm)
-    eq_oracle = RandomWalkEqOracle(alphabet, sul, num_steps=5000, reset_prob=0.25, reset_after_cex=True)
-    # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=500, min_walk_len=2, max_walk_len=5)
+    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=500, min_walk_len=5, max_walk_len=12)
 
-    learned_onfsm = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=50, print_level=3)
+    learned_onfsm = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=1, print_level=2)
 
     return learned_onfsm
 
@@ -418,7 +417,7 @@ def multi_client_mqtt_example():
     import random
 
     from aalpy.base import SUL
-    from aalpy.oracles import RandomWalkEqOracle, RandomWordEqOracle
+    from aalpy.oracles import RandomWalkEqOracle
     from aalpy.learning_algs import run_abstracted_ONFSM_Lstar
     from aalpy.SULs import MealySUL
     from aalpy.utils import load_automaton_from_file
@@ -518,7 +517,7 @@ def abstracted_onfsm_example():
     :return: learned abstracted ONFSM
     """
     from aalpy.SULs import OnfsmSUL
-    from aalpy.oracles import RandomWalkEqOracle
+    from aalpy.oracles import RandomWordEqOracle
     from aalpy.learning_algs import run_abstracted_ONFSM_Lstar
     from aalpy.utils import get_ONFSM
 
@@ -527,7 +526,7 @@ def abstracted_onfsm_example():
     alphabet = onfsm.get_input_alphabet()
 
     sul = OnfsmSUL(onfsm)
-    eq_oracle = RandomWalkEqOracle(alphabet, sul, num_steps=5000, reset_prob=0.5, reset_after_cex=True)
+    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=500, min_walk_len=4, max_walk_len=8, reset_after_cex=True)
 
     abstraction_mapping = {0: 0, 'O': 0}
 
@@ -792,11 +791,18 @@ def jAlergiaExample():
     from aalpy.learning_algs import run_JAlergia
     from aalpy.utils import visualize_automaton
 
-    # if you need more heapreplace check
+    # if you need more heapspace check
     model = run_JAlergia(path_to_data_file='jAlergia/exampleMdpData.txt', automaton_type='mdp', eps=0.005,
                          path_to_jAlergia_jar='jAlergia/alergia.jar', optimize_for='memory')
 
+    # # alternatively pass the data in following form
+    # mc_data = [[1,2,3,4,5], [1,2,3,4,2,1], [1,3,5,2,3]]
+    # mdp_data = [[1,2,3,1,2], [1,3,6,4,2]]
+    # model = run_JAlergia(path_to_data_file=mc_data, automaton_type='mdp', eps=0.005,
+    #                      path_to_jAlergia_jar='jAlergia/alergia.jar', optimize_for='memory')
+
     visualize_automaton(model)
+    return model
 
 
 def active_alergia_example(example='first_grid'):
@@ -825,3 +831,49 @@ def active_alergia_example(example='first_grid'):
     model = run_active_Alergia(data, sul, sampler, n_iter=10)
 
     print(model)
+
+
+def rpni_example():
+    from aalpy.learning_algs import run_RPNI
+    data = [[(None, False), ('a', False), ('a', False), ('a', True)],
+            [('a', False), ('a', False), ('b', False), ('a', True)],
+            [('b', False), ('b', False), ('a', True)],
+            [('b', False), ('b', False), ('a', True), ('b', False), ('a', True)],
+            [('a', False,), ('b', False,), ('a', False)]]
+
+    model = run_RPNI(data, automaton_type='dfa')
+    model.visualize()
+
+
+def rpni_check_model_example():
+    import random
+    from aalpy.SULs import MealySUL
+    from aalpy.learning_algs import run_RPNI
+    from aalpy.oracles import StatePrefixEqOracle
+    from aalpy.utils import generate_random_mealy_machine, load_automaton_from_file
+
+    model = generate_random_mealy_machine(num_states=5, input_alphabet=[1, 2, 3], output_alphabet=['a', 'b'])
+    model = load_automaton_from_file('DotModels/Bluetooth/bluetooth_model.dot', automaton_type='mealy')
+
+    input_al = model.get_input_alphabet()
+
+    dfa_sul = MealySUL(model)
+    data = []
+    for _ in range(500):
+        dfa_sul.pre()
+        seq = []
+        for _ in range(5, 20):
+            i = random.choice(input_al)
+            o = dfa_sul.step(i)
+            seq.append((i, o))
+        dfa_sul.post()
+        data.append(seq)
+
+    rpni_model = run_RPNI(data, automaton_type='mealy', print_info=True)
+
+    eq_oracle_2 = StatePrefixEqOracle(input_al, dfa_sul, walks_per_state=100)
+    cex = eq_oracle_2.find_cex(rpni_model)
+    if cex is None:
+        print("Could not find a counterexample between the RPNI-model and the original model.")
+    else:
+        print('Counterexample found. Either RPNI data was incomplete, or there is a bug in RPNI algorithm :o ')

@@ -23,15 +23,15 @@ Whether you work with regular languages or you would like to learn models of
 (black-box) reactive systems, AALpy supports a wide range of modeling formalisms, including 
 **deterministic**, **non-deterministic**, and **stochastic automata**. 
 
-<center>
-
+<div align="center">
+	
 | Automata Type   |      Supported Formalisms      |  Features |
 |----------|:-------------:|------:|
-| Deterministic     |  Deterministic Finite Automata<br />Mealy Machines<br />Moore Machines | Counterexample Processing<br />Seamless Caching<br />11 Equivalence Oracles |
-| Non-Deterministic |    Observable Non-Deterministic FSM <br /> Abstracted Non-Deterministic FSM|   Size Reduction Trough Abstraction<br />|
+| Deterministic     |  Deterministic Finite Automata<br />Mealy Machines<br />Moore Machines | Counterexample Processing<br />Seamless Caching<br />11 Equivalence Oracles <br /> Passive learning of all formalisms |
+| Non-Deterministic |    Observable Non-Deterministic FSM <br /> Abstracted Non-Deterministic FSM|   Dynamic Observation Table Updates <br/> Size Reduction Trough Abstraction<br />|
 | Stochastic        |  Markov Decision Processes<br />Stochastic Mealy Machines<br />Markov Chains |    Counterexample Processing<br />Row/Cell Compatability Metrics<br />Model Checking with PRISM<br />Alergia Passive Learning|
 
-</center>
+</div>
 
 <!---
 You can use it to learn **deterministic finite automata**, **Moore machines**, 
@@ -49,9 +49,14 @@ AALpy enables efficient learning by providing a **large set of equivalence oracl
 is mostly based on Angluin's [L* algorithm](https://people.eecs.berkeley.edu/~dawnsong/teaching/s10/papers/angluin87.pdf), for which AALpy supports a 
 selection of optimizations, including **efficient counterexample processing** and **caching**.
 
+AALpy also includes **passive automata learning algorithms**. Unlike active algorithms which learn by interaction with the system, passive
+learning algorithms construct a model based on provided data.
+AALpy includes an implementation of RPNI, a  passive deterministic automata learning algorithm that constructs a model that conforms to the
+provided data.
 AALpy also has an efficient implementation of the [ALERGIA](https://link.springer.com/article/10.1007/s10994-016-5565-9) algorithm, 
 suited for passive learning of Markov Chains, Markov Decision processes, and Stochastic Mealy Machines.
-AALpy also act as a frontend to [jAlergia](https://github.com/emuskardin/jAlergia), a Java twin of AALpy's ALERGIA code.
+For more efficient ALERGIA execution, AALpy offers bindings to [jAlergia](https://github.com/emuskardin/jAlergia), 
+a Java twin of AALpy's ALERGIA code.
  
 ## Installation
 
@@ -79,9 +84,7 @@ For the **official documentation** of all classes and methods, check out:
 - <https://des-lab.github.io/AALpy/documentation/index.html>
 
 **Interactive examples** can be found in the [notebooks](https://github.com/DES-Lab/AALpy/tree/master/notebooks) folder.
-If you would like to interact/change those examples in the browser, click on the following badge. (Navigate to the _notebooks_ folder and select one notebook)
-
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/DES-Lab/AALpy/master)
+If you would like to interact/change those examples in the browser, click [here](https://mybinder.org/v2/gh/DES-Lab/AALpy/master). (Navigate to the _notebooks_ folder and select one notebook)
 
 [Examples.py](https://github.com/DES-Lab/AALpy/blob/master/Examples.py) contains many examples and it is a great starting point. 
 
@@ -141,10 +144,13 @@ eq_oracle = RandomWalkEqOracle(alphabet, sul, num_steps=5000, reset_prob=0.09)
 learned_dfa = run_Lstar(alphabet, sul, eq_oracle, automaton_type='dfa')
 
 # save automaton to file and visualize it
-save_automaton_to_file(learned_dfa, path='Learned_Automaton', file_type='dot')
+# save_automaton_to_file(learned_dfa, path='Learned_Automaton', file_type='dot')
+# or
+learned_dfa.save()
 
 # visualize automaton
-visualize_automaton(learned_dfa)
+# visualize_automaton(learned_dfa)
+learned_dfa.visualize()
 # or just print its DOT representation
 print(learned_dfa)
 ```
