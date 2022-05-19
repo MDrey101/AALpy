@@ -35,6 +35,13 @@ class SULWrapper(SUL):
         self.pta.add_to_tree(letter, out)
         return out
 
+    def query(self, word):
+        self.pre()
+        out = self.sul.query(word)
+        self.pta.add_to_tree(word, out)
+        self.post()
+        return out
+
 
 class Node:
     """ """
@@ -77,12 +84,22 @@ class TraceTree:
 
         Returns:
         """
-        if inp not in self.curr_node.children.keys() or out not in [child.output for child in
-                                                                    self.curr_node.children[inp]]:
-            node = Node(out)
+        # TODO Mod
+        if inp not in self.curr_node.children.keys():
+            self.curr_node.children[inp] = []
+
+        child_list = [child.output for child in self.curr_node.children[inp]]
+        for o in out:
+            node = Node(tuple(o))
             self.curr_node.children[inp].append(node)
-        # This was in an else statement. But that seems wrong.
-        self.curr_node = self.curr_node.get_child(inp, out)
+        # TODO: Mod
+        # if inp not in self.curr_node.children.keys() or out not in [child.output for child in
+        #                                                             self.curr_node.children[inp]]:
+        #     node = Node(out)
+        #     self.curr_node.children[inp].append(node)
+        #
+        # # This was in an else statement. But that seems wrong.
+        # self.curr_node = self.curr_node.get_child(inp, out)
 
     def get_to_node(self, inp, out):
         """

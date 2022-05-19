@@ -5,6 +5,8 @@ from aalpy.base import Automaton
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
 from aalpy.utils.HelperFunctions import all_suffixes
 
+import constant
+
 
 class NonDetObservationTable:
 
@@ -131,15 +133,35 @@ class NonDetObservationTable:
                     if e not in self.T[s].keys() or self.test_cells_again:
                         num_s_e_sampled = 0
                         while num_s_e_sampled < self.n_samples:
-                            output = tuple(self.sul.query(s[0] + e))
+                            #TODO: This part should be fine for now - concerning NonDet Cache
+                            output_list = self.sul.query(s[0] + e)
+                            # output = tuple(self.sul.query(s[0] + e))
                             # Here I basically say...
                             # add just the last element of the output if it e is element of alphabet
                             # else add last len(e) outputs
-                            o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
-                            self.add_to_T((s[0], output[:len(s[1])]), e, o)
-
-                            if output[:len(s[1])] == s[1]:
-                                num_s_e_sampled += 1
+                            for output_entry in output_list:
+                                output = tuple(output_entry)
+                                o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
+                                self.add_to_T((s[0], output[:len(s[1])]), e, o)
+    
+                                if output[:len(s[1])] == s[1]:
+                                    num_s_e_sampled += 1
+        # else:
+        #     for s in update_S:
+        #         for e in update_E:
+        #             if e not in self.T[s].keys() or self.test_cells_again:
+        #                 num_s_e_sampled = 0
+        #                 while num_s_e_sampled < self.n_samples:
+        #                     # TODO: This part should be fine for now - concerning NonDet Cache
+        #                     output = tuple(self.sul.query(s[0] + e))
+        #                     # Here I basically say...
+        #                     # add just the last element of the output if it e is element of alphabet
+        #                     # else add last len(e) outputs
+        #                     o = output[-1] if len(e) == 1 else tuple(output[-len(e):])
+        #                     self.add_to_T((s[0], output[:len(s[1])]), e, o)
+        #
+        #                     if output[:len(s[1])] == s[1]:
+        #                         num_s_e_sampled += 1
 
     def clean_obs_table(self):
         """
