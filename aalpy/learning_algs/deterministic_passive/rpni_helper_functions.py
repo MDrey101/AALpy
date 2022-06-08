@@ -22,40 +22,58 @@ class RpniNode:
         return self.prefix == other.prefix
 
 
-def check_sequance(root_node, seq, automaton_type):
+def check_sequence(root_node, seq, automaton_type):
     """
-    Checks whether each sequance in the dataset is valid in the current automaton.
+    Checks whether each sequence in the dataset is valid in the current automaton.
     """
     curr_node = root_node
     for i, o in seq:
-        if i not in curr_node.children.keys():
-            return False
-        curr_node = curr_node.children[i]
-        if automaton_type != 'mealy' and curr_node.output != o:
-            return False
+        if automaton_type == 'mealy':
+            input_outputs = {i: o for i, o in curr_node.children.keys()}
+            if i[0] not in input_outputs.keys() or o is not None and input_outputs[i[0]] != o:
+                return False
+            curr_node = curr_node.children[(i[0], input_outputs[i[0]])]
+        else:
+            # For dfa and moore, check if outputs are the same, iff output in test data is concrete (not None)
+            curr_node = curr_node.children[i]
+            if o is not None and curr_node.output != o:
+                return False
     return True
 
 
 def createPTA(data, automaton_type):
+    data.sort(key=lambda x: len(x[0]))
+
     root_node = RpniNode(None)
-    for seq in data:
+    for seq, label in data:
         curr_node = root_node
-        for i, o in seq:
-            if i is None and seq.index((i, o)) == 0:
-                if root_node.output is not None and o != root_node.output:
-                    return None
-                root_node.output = o
-                continue
-            if automaton_type == 'mealy':
-                i = (i, o)
+        for i in seq:
             if i not in curr_node.children.keys():
-                node = RpniNode(o)
+                node = RpniNode(None)
                 node.prefix = curr_node.prefix + (i,)
                 curr_node.children[i] = node
-            else:
-                if curr_node.children[i].output != o:
-                    return None
+
             curr_node = curr_node.children[i]
+        if curr_node.output is None:
+            curr_node.output = label
+        else:
+            # check for non-determinism
+            if curr_node.output != label:
+                return None
+
+    # Breath first traversal over the automaton to update the edges for RPNI-Mealy
+    if automaton_type == 'mealy':
+        queue = [root_node]
+        root_node.prefix = ()
+        while queue:
+            node_in_processing = queue.pop(0)
+            input_output_edge_keys = dict()
+            for input_value, child in node_in_processing.children.items():
+                input_output_edge_keys[(input_value, child.output)] = child
+                child.prefix = node_in_processing.prefix + ((input_value, child.output),)
+                queue.append(child)
+            node_in_processing.children = input_output_edge_keys
+
     return root_node
 
 
@@ -117,7 +135,7 @@ def to_automaton(red, automaton_type):
     return automaton(initial_state, list(prefix_state_map.values()))
 
 
-def visualize_pta(root_node):
+def visualize_pta(root_node, path='pta.pdf'):
     from pydot import Dot, Node, Edge
     graph = Dot('fpta', graph_type='digraph')
 
@@ -139,4 +157,4 @@ def visualize_pta(root_node):
     graph.add_node(Node('__start0', shape='none', label=''))
     graph.add_edge(Edge('__start0', str(root_node.prefix), label=''))
 
-    graph.write(path=f'pta.pdf', format='pdf')
+    graph.write(path=path, format='pdf')

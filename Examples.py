@@ -569,7 +569,7 @@ def weird_coffee_machine_mdp_example():
     :return learned MDP
     """
     from aalpy.SULs import MdpSUL
-    from aalpy.oracles import RandomWalkEqOracle
+    from aalpy.oracles import RandomWordEqOracle
     from aalpy.learning_algs import run_stochastic_Lstar
     from aalpy.utils import get_weird_coffee_machine_MDP
 
@@ -577,12 +577,12 @@ def weird_coffee_machine_mdp_example():
     input_alphabet = mdp.get_input_alphabet()
     sul = MdpSUL(mdp)
 
-    eq_oracle = RandomWalkEqOracle(input_alphabet, sul=sul, num_steps=4000, reset_prob=0.11,
+    eq_oracle = RandomWordEqOracle(input_alphabet, sul=sul, num_walks=2000, min_walk_len=4, max_walk_len=10,
                                    reset_after_cex=True)
 
     learned_mdp = run_stochastic_Lstar(input_alphabet, sul, eq_oracle, n_c=20, n_resample=1000, min_rounds=10,
-                                       max_rounds=500, strategy='normal', cex_processing='rs',
-                                       samples_cex_strategy='bfs', automaton_type='smm')
+                                       max_rounds=500, strategy='normal', cex_processing=None,
+                                       samples_cex_strategy=None, automaton_type='smm')
 
     return learned_mdp
 
@@ -630,30 +630,35 @@ def benchmark_stochastic_example(example, automaton_type='smm', n_c=20, n_resamp
     return learned_mdp
 
 
-def custom_smm_example(smm, n_c=20, n_resample=100, min_rounds=10, max_rounds=500):
+def custom_stochastic_example(stochastic_machine, learning_type='smm', min_rounds=10, max_rounds=500):
     """
     Learning custom SMM.
-    :param smm: stochastic Mealy machine to learn
-    :param n_c: cutoff for a state to be considered complete
-    :param n_resample: resampling size
+    :param stochastic_machine: stochastic Mealy machine or MDP to learn
+    :param learning_type: 'smm' or 'mdp'
     :param min_rounds: minimum number of learning rounds
     :param max_rounds: maximum number of learning rounds
-    :return: learned SMM
+    :return: learned model
     """
-    from aalpy.SULs import StochasticMealySUL
-    from aalpy.oracles import RandomWalkEqOracle
+    from aalpy.SULs import MdpSUL, StochasticMealySUL
+    from aalpy.automata import Mdp
+    from aalpy.oracles import RandomWordEqOracle
     from aalpy.learning_algs import run_stochastic_Lstar
 
-    input_al = smm.get_input_alphabet()
+    input_al = stochastic_machine.get_input_alphabet()
 
-    sul = StochasticMealySUL(smm)
+    if isinstance(stochastic_machine, Mdp):
+        sul = MdpSUL(stochastic_machine)
+    else:
+        sul = StochasticMealySUL(stochastic_machine)
 
-    eq_oracle = RandomWalkEqOracle(alphabet=input_al, sul=sul, num_steps=5000, reset_prob=0.2,
+    eq_oracle = RandomWordEqOracle(alphabet=input_al, sul=sul, num_walks=1000, min_walk_len=10, max_walk_len=30,
                                    reset_after_cex=True)
 
-    learned_model = run_stochastic_Lstar(input_al, sul, eq_oracle, n_c=n_c, n_resample=n_resample,
-                                         automaton_type='smm', min_rounds=min_rounds, max_rounds=max_rounds,
-                                         print_level=3)
+    learned_model = run_stochastic_Lstar(input_al, sul, eq_oracle,
+                                         automaton_type=learning_type,
+                                         min_rounds=min_rounds,
+                                         max_rounds=max_rounds,
+                                         print_level=2)
 
     return learned_model
 
@@ -690,7 +695,7 @@ def alergia_mdp_example():
     from aalpy.learning_algs import run_Alergia
     from aalpy.utils import visualize_automaton, generate_random_mdp
 
-    mdp, inps = generate_random_mdp(5, 2, custom_outputs=['A', 'B', 'C', 'D'])
+    mdp = generate_random_mdp(5, 2, 5)
     visualize_automaton(mdp, path='Original')
     sul = MdpSUL(mdp)
     inputs = mdp.get_input_alphabet()
@@ -791,7 +796,7 @@ def jAlergiaExample():
     from aalpy.learning_algs import run_JAlergia
     from aalpy.utils import visualize_automaton
 
-    # if you need more heapspace check
+    # if you need more heap space check
     model = run_JAlergia(path_to_data_file='jAlergia/exampleMdpData.txt', automaton_type='mdp', eps=0.005,
                          path_to_jAlergia_jar='jAlergia/alergia.jar', optimize_for='memory')
 
@@ -834,46 +839,73 @@ def active_alergia_example(example='first_grid'):
 
 
 def rpni_example():
-    from aalpy.learning_algs import run_RPNI
-    data = [[(None, False), ('a', False), ('a', False), ('a', True)],
-            [('a', False), ('a', False), ('b', False), ('a', True)],
-            [('b', False), ('b', False), ('a', True)],
-            [('b', False), ('b', False), ('a', True), ('b', False), ('a', True)],
-            [('a', False,), ('b', False,), ('a', False)]]
+    data = [(('a', 'a', 'a'), True),
+            (('a', 'a', 'b', 'a'), True),
+            (('b', 'b', 'a'), True),
+            (('b', 'b', 'a', 'b', 'a'), True),
+            (('a',), False),
+            (('b', 'b'), False),
+            (('a', 'a', 'b'), False),
+            (('a', 'b', 'a'), False)]
 
+    from aalpy.learning_algs import run_RPNI
     model = run_RPNI(data, automaton_type='dfa')
     model.visualize()
 
 
 def rpni_check_model_example():
     import random
-    from aalpy.SULs import MealySUL
+    from aalpy.SULs import MooreSUL
     from aalpy.learning_algs import run_RPNI
     from aalpy.oracles import StatePrefixEqOracle
-    from aalpy.utils import generate_random_mealy_machine, load_automaton_from_file
+    from aalpy.utils import generate_random_moore_machine, generate_random_dfa, load_automaton_from_file
 
-    model = generate_random_mealy_machine(num_states=5, input_alphabet=[1, 2, 3], output_alphabet=['a', 'b'])
-    model = load_automaton_from_file('DotModels/Bluetooth/bluetooth_model.dot', automaton_type='mealy')
+    model = generate_random_dfa(num_states=5, alphabet=[1, 2, 3], num_accepting_states=2)
+    model = generate_random_moore_machine(num_states=5, input_alphabet=[1, 2, 3], output_alphabet=['a', 'b'])
 
     input_al = model.get_input_alphabet()
 
-    dfa_sul = MealySUL(model)
+    num_sequences = 1000
     data = []
-    for _ in range(500):
-        dfa_sul.pre()
-        seq = []
-        for _ in range(5, 20):
-            i = random.choice(input_al)
-            o = dfa_sul.step(i)
-            seq.append((i, o))
-        dfa_sul.post()
-        data.append(seq)
+    for _ in range(num_sequences):
+        seq_len = random.randint(1, 20)
+        random_seq = random.choices(input_al, k=seq_len)
+        output = model.compute_output_seq(model.initial_state, random_seq)[-1]
+        data.append((random_seq, output))
 
-    rpni_model = run_RPNI(data, automaton_type='mealy', print_info=True)
+    rpni_model = run_RPNI(data, automaton_type='moore', print_info=True)
 
-    eq_oracle_2 = StatePrefixEqOracle(input_al, dfa_sul, walks_per_state=100)
+    rpni_model.make_input_complete('sink_state')
+    sul = MooreSUL(model)
+    eq_oracle_2 = StatePrefixEqOracle(input_al, sul, walks_per_state=100)
     cex = eq_oracle_2.find_cex(rpni_model)
     if cex is None:
         print("Could not find a counterexample between the RPNI-model and the original model.")
     else:
         print('Counterexample found. Either RPNI data was incomplete, or there is a bug in RPNI algorithm :o ')
+
+
+def rpni_mealy_example():
+    import random
+    from aalpy.learning_algs import run_RPNI
+    from aalpy.utils import generate_random_mealy_machine, load_automaton_from_file
+    from aalpy.utils.HelperFunctions import all_prefixes
+    random.seed(1)
+
+    model = generate_random_mealy_machine(num_states=5, input_alphabet=[1, 2, 3], output_alphabet=['a', 'b'])
+    model = load_automaton_from_file('DotModels/Bluetooth/bluetooth_model.dot', automaton_type='mealy')
+
+    input_al = model.get_input_alphabet()
+    num_sequences = 1000
+    data = []
+    for _ in range(num_sequences):
+        seq_len = random.randint(1, 10)
+        random_seq = random.choices(input_al, k=seq_len)
+        # make sure that all prefixes all included in the dataset
+        for prefix in all_prefixes(random_seq):
+            output = model.compute_output_seq(model.initial_state, prefix)[-1]
+            data.append((prefix, output))
+
+    rpni_model = run_RPNI(data, automaton_type='mealy', print_info=True)
+
+    return rpni_model

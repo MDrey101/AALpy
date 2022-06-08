@@ -4,7 +4,7 @@ from typing import Union
 
 from aalpy.base import DeterministicAutomaton
 from aalpy.learning_algs.deterministic_passive.rpni_helper_functions import to_automaton, createPTA, \
-    check_sequance, extract_unique_sequences
+    check_sequence, extract_unique_sequences
 
 
 class RPNI:
@@ -25,7 +25,6 @@ class RPNI:
 
         red = [self.root_node]
         blue = list(red[0].children.values())
-
         while blue:
             lex_min_blue = min(list(blue), key=lambda x: len(x.prefix))
             merged = False
@@ -62,7 +61,7 @@ class RPNI:
         Check if current model is compatible with the data.
         """
         for sequence in self.test_data:
-            if not check_sequance(root_node, sequence, automaton_type=self.automaton_type):
+            if not check_sequence(root_node, sequence, automaton_type=self.automaton_type):
                 return False
         return True
 
@@ -71,7 +70,8 @@ class RPNI:
         Only allow merging of states that have same output(s).
         """
         if self.automaton_type != 'mealy':
-            return red_node.output is None or red_node.output == blue_node.output
+            # None is compatible with everything
+            return red_node.output == blue_node.output or red_node.output is None or blue_node.output is None
         else:
             red_io = {i: o for i, o in red_node.children.keys()}
             blue_io = {i: o for i, o in blue_node.children.keys()}
@@ -105,7 +105,8 @@ class RPNI:
         return root_node
 
     def _fold(self, red_node, blue_node):
-        red_node.output = blue_node.output
+        # Change the output of red only to concrete output, ignore None
+        red_node.output = blue_node.output if blue_node.output is not None else red_node.output
 
         for i in blue_node.children.keys():
             if i in red_node.children.keys():
@@ -139,8 +140,8 @@ def run_RPNI(data, automaton_type, input_completeness=None, print_info=True) -> 
 
     Args:
 
-        data: sequance of input output sequences. Eg. [[(i1,o1), (i2,o2)], [(i1,o1), (i1,o2), (i3,o1)], ...]
-        automaton_type: either 'dfa', 'mealy', 'moore'
+        data: sequence of input sequences and corresponding label. Eg. [[(i1,i2,i3, ...), label], ...]
+        automaton_type: either 'dfa', 'mealy', 'moore'. Note that for 'mealy' machine learning, data has to be prefix-closed.
         input_completeness: either None, 'sink_state', or 'self_loop'. If None, learned model could be input incomplete,
         sink_state will lead all undefined inputs form some state to the sink state, whereas self_loop will simply create
         a self loop. In case of Mealy learning output of the added transition will be 'epsilon'.
