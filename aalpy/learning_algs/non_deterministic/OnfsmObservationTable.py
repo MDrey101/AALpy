@@ -2,12 +2,12 @@ from collections import Counter
 
 from aalpy.automata import Onfsm, OnfsmState
 from aalpy.base import Automaton
-from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
+# from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
 
 
 class NonDetObservationTable:
 
-    def __init__(self, alphabet: list, sul: SULWrapper, n_sampling):
+    def __init__(self, alphabet: list, sul, n_sampling):
         """
         Construction of the non-deterministic observation table.
 

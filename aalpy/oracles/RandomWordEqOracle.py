@@ -41,7 +41,7 @@ class RandomWordEqOracle(Oracle):
         # ONFSM heuristics - try to find cex that is as short as possible
         self.increase_interval = 20
 
-    def find_cex(self, hypothesis):
+    def find_cex(self, hypothesis, n_sampling):
         if not self.automata_type:
             self.automata_type = automaton_dict.get(type(hypothesis), 'det')
 
@@ -52,7 +52,8 @@ class RandomWordEqOracle(Oracle):
             self.num_walks_done += 1
 
             if self.automata_type != 'det':
-                prefix_lens = [len(p.prefix) for p in hypothesis.states]
+                # prefix_lens = [len(p.prefix) for p in hypothesis.states]
+                prefix_lens = [len(p.prefix[0]) for p in hypothesis.states]
                 max_prefix_len = max(prefix_lens)
                 diff = self.max_walk_len - max_prefix_len
                 testing_progress = self.num_walks_done / self.num_walks
@@ -80,6 +81,16 @@ class RandomWordEqOracle(Oracle):
                     return inputs
 
                 elif out_hyp is None:
+                    if self.automata_type == "onfsm":
+                        observed_outputs = []
+                        for _ in range(n_sampling):
+                            output = self.sul.sul.sul.query(inputs)
+                            observed_outputs.append(output)
+                        observed_outputs = [out[-1] for out in observed_outputs]
+                        observed_outputs = list(set([entry for entry in observed_outputs if observed_outputs.count(entry) >= n_sampling // 4]))
+                        if out_sul in observed_outputs:
+                            continue
+                            
                     if self.reset_after_cex:
                         self.num_walks_done = 0
                         self.sul.post()

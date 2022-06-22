@@ -25,13 +25,6 @@ class SULWrapper(SUL):
         self.pta.add_to_tree(letter, out)
         return out
 
-    # def query(self, word):
-    #     self.pre()
-    #     out = self.sul.query(word)
-    #     self.pta.add_to_tree(word, out)
-    #     self.post()
-    #     return out
-
 
 class Node:
     __slots__ = ['output', 'children', 'parent']

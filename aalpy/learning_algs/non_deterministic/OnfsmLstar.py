@@ -1,8 +1,12 @@
 import time
 
+from aalpy.utils import visualize_automaton
+
 from aalpy.base import SUL, Oracle
+from FailSafeLearning.NonDetFailSafeCacheSUL import NonDetFailSafeCacheSUL
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
+from FailSafeLearning.NonDetTraceTree import NonDetSULWrapper
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg, all_suffixes
 
@@ -52,7 +56,10 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
     learning_rounds = 0
     hypothesis = None
 
-    sul = SULWrapper(sul)
+    if type(sul) == NonDetFailSafeCacheSUL:
+        sul = NonDetSULWrapper(sul)
+    else:
+        sul = SULWrapper(sul)
     eq_oracle.sul = sul
 
     observation_table = NonDetObservationTable(alphabet, sul, n_sampling)
@@ -60,7 +67,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
     # We fist query the initial row. Then based on output in its cells, we generate new rows in the extended S set,
     # and then we perform membership/input queries for them.
     observation_table.update_obs_table()
-    observation_table.get_extended_S()
+    # observation_table.get_extended_S()
     observation_table.update_obs_table()
 
     # Keep track of last counterexample and last hypothesis size
@@ -90,13 +97,16 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
             # Find counterexample
             if print_level > 1:
+                sul.sul.cache.print_cache_tree()
                 print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
 
             if print_level == 3:
                 print_observation_table(observation_table, 'non-det')
+                # visualize_automaton(hypothesis, file_type='dot')
+                # hypothesis.visualize()
 
             eq_query_start = time.time()
-            cex = eq_oracle.find_cex(hypothesis)
+            cex = eq_oracle.find_cex(hypothesis, n_sampling)
             last_cex = cex
             eq_query_time += time.time() - eq_query_start
         else:
