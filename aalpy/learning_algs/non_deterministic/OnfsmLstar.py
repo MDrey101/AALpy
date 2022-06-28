@@ -114,6 +114,13 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
         # If no counterexample is found, return the hypothesis
         if cex is None:
+            observation_table.clean_obs_table()
+            # row_to_close = observation_table.get_row_to_close()
+            # while row_to_close is not None:
+            #     observation_table.update_obs_table()
+            #     observation_table.clean_obs_table()
+            #     row_to_close = observation_table.get_row_to_close()
+            hypothesis = observation_table.gen_hypothesis()
             break
 
         if print_level == 3:

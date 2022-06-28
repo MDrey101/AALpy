@@ -82,14 +82,31 @@ class RandomWordEqOracle(Oracle):
 
                 elif out_hyp is None:
                     if self.automata_type == "onfsm":
+                        # TODO: get prefix from state
+                        # TODO: sample outputs - not notwendig - because hypothesis is in this specific state and output should be valid
+                        # pta.insert output to corresponding prefix + input/output without children
                         observed_outputs = []
                         for _ in range(n_sampling):
                             output = self.sul.sul.sul.query(inputs)
                             observed_outputs.append(output)
-                        observed_outputs = [out[-1] for out in observed_outputs]
-                        observed_outputs = list(set([entry for entry in observed_outputs if observed_outputs.count(entry) >= n_sampling // 4]))
-                        if out_sul in observed_outputs:
-                            continue
+                        observed_outputs_filtered = [out[-1] for out in observed_outputs]
+                        observed_outputs_filtered = list(set([entry for entry in observed_outputs_filtered]))
+                        if out_sul in observed_outputs_filtered:
+                            # out = [entry for entry in observed_outputs if entry[-1] == out_sul][0]
+                            
+                            current_hyp_state = hypothesis.initial_state
+                            for i, o in zip(inputs[0:len(inputs)-1], outputs[0:len(outputs)-1]):
+                                current_hyp_state = [trans[1] for trans in current_hyp_state.transitions[i] if trans[0] == o][0]
+                                
+                            
+                            
+                            safe_node = self.sul.pta.curr_node
+                            self.sul.pta.reset()
+                            for i, o in zip(current_hyp_state.prefix[0], current_hyp_state.prefix[1]):
+                                self.sul.pta.add_to_tree(i, o)
+                            self.sul.pta.add_to_tree(inputs[-1], out_sul)
+                            self.sul.pta.curr_node = safe_node
+                            return None
                             
                     if self.reset_after_cex:
                         self.num_walks_done = 0
