@@ -7,6 +7,7 @@ from FailSafeLearning.NonDetFailSafeCacheSUL import NonDetFailSafeCacheSUL
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
 from FailSafeLearning.NonDetTraceTree import NonDetSULWrapper
+from FailSafeLearning.EquivalenceOracleWrapper import EquivalenceOracleWrapper
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg, all_suffixes
 
@@ -58,11 +59,15 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
     if type(sul) == NonDetFailSafeCacheSUL:
         sul = NonDetSULWrapper(sul)
+        if type(eq_oracle) == EquivalenceOracleWrapper:
+            eq_oracle.eq_oracle.sul = sul
     else:
         sul = SULWrapper(sul)
     eq_oracle.sul = sul
 
     observation_table = NonDetObservationTable(alphabet, sul, n_sampling)
+    if type(eq_oracle) == EquivalenceOracleWrapper:
+        eq_oracle.observation_table = observation_table
 
     # We fist query the initial row. Then based on output in its cells, we generate new rows in the extended S set,
     # and then we perform membership/input queries for them.
@@ -75,13 +80,21 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
     last_cex = None
 
     while True:
-        learning_rounds += 1
+        print_bool_flag = False
+        if type(last_cex) != bool:
+            learning_rounds += 1
+            print("updated PTA and start over again.")
+        else:
+            last_cex = None
+            print_bool_flag= True
         if max_learning_rounds and learning_rounds - 1 == max_learning_rounds:
             break
 
         # Close observation table
         row_to_close = observation_table.get_row_to_close()
         while row_to_close is not None:
+            if print_bool_flag:
+                print("Altough pta was updated, row_to_close is not None - udpating observation table until finished.")
             # First we add new rows to the extended S set. They are added based on the values in the cells of the
             # rows that is to be closed. Once those rows are created, they are populated and closedness is checked
             # once again.
@@ -106,22 +119,45 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
                 # hypothesis.visualize()
 
             eq_query_start = time.time()
-            cex = eq_oracle.find_cex(hypothesis, n_sampling)
+            cex = eq_oracle.find_cex(hypothesis)
             last_cex = cex
             eq_query_time += time.time() - eq_query_start
         else:
             cex = last_cex
 
         # If no counterexample is found, return the hypothesis
-        if cex is None:
+        if type(cex) == bool:
+            print("Updated pta - commencing update of observation table and continue in loop")
+            observation_table.update_obs_table()
             observation_table.clean_obs_table()
+            row_to_close = observation_table.get_row_to_close()
+            # cex = last_cex = None
+            continue
+        if cex is None:
+            # break
+            # observation_table.clean_obs_table()
             # row_to_close = observation_table.get_row_to_close()
             # while row_to_close is not None:
-            #     observation_table.update_obs_table()
-            #     observation_table.clean_obs_table()
-            #     row_to_close = observation_table.get_row_to_close()
-            hypothesis = observation_table.gen_hypothesis()
+            
+            # observation_table.update_obs_table()
+            # observation_table.clean_obs_table()
+            # row_to_close = observation_table.get_row_to_close()
+            # if row_to_close is not None:
+            #     continue
+                
+            # row_to_close = observation_table.get_row_to_close()
+            # if row_to_close is None:
+            # hypothesis = observation_table.gen_hypothesis()
             break
+            # continue
+            # hypothesis = observation_table.gen_hypothesis()
+            # break
+            
+        # if cex == ((), ()):
+        #     observation_table.clean_obs_table()
+        #     observation_table.update_obs_table()
+        #     hypothesis = observation_table.gen_hypothesis()
+        #     break
 
         if print_level == 3:
             print('Counterexample', cex)

@@ -111,6 +111,8 @@ class NonDetObservationTable:
                 #     continue
                 while num_s_e_sampled < self.n_samples:
                     # output = tuple(self.sul.query(s[0] + e))
+                    # print(s[0] + e)
+                    print("expected_output:" + str(s[1]))
                     output = self.sul.query(s[0] + e)
                     for out in [tuple(o) for o in output]:
                         # if output[:len(s[1])] == s[1]:
@@ -131,8 +133,6 @@ class NonDetObservationTable:
                     #
                     #     if output[:len(s[1])] == s[1]:
                     #         num_s_e_sampled += 1
-
-        print("finished?")
 
     def clean_obs_table(self):
         """
