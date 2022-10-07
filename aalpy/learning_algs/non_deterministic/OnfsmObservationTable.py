@@ -119,7 +119,7 @@ class NonDetObservationTable:
                         if out[:len(s[1])] == s[1]:
                             num_s_e_sampled += 1
                             self.sampling_counter[s[0] + e] += 1
-                            break
+                            break                            
 
                     # output_list = self.sul.query(s[0] + e)
                     # # output = tuple(self.sul.query(s[0] + e))

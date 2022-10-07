@@ -127,6 +127,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
         # If no counterexample is found, return the hypothesis
         if type(cex) == bool:
+            visualize_automaton(hypothesis, path="LearnedModel_learned_random", file_type='dot')
             print("Updated pta - commencing update of observation table and continue in loop")
             observation_table.update_obs_table()
             observation_table.clean_obs_table()
