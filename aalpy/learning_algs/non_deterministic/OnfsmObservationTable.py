@@ -1,7 +1,10 @@
+import math
 from collections import Counter
 
 from aalpy.automata import Onfsm, OnfsmState
 from aalpy.base import Automaton
+from colorama import Fore
+import constant
 # from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
 
 
@@ -101,25 +104,92 @@ class NonDetObservationTable:
 
         update_S = s_set if s_set else self.S + self.get_extended_S()
         update_E = e_set if e_set else self.E
+        idc_dict = {}
 
         # update_S, update_E = self.S + self.S_dot_A, self.E
 
-        for s in update_S:
-            for e in update_E:
-                num_s_e_sampled = 0
-                # if self.sampling_counter[s[0] + e] >= len(s[0] + e) + 1 * 2:
-                #     continue
-                while num_s_e_sampled < self.n_samples:
-                    # output = tuple(self.sul.query(s[0] + e))
-                    # print(s[0] + e)
-                    print("expected_output:" + str(s[1]))
-                    output = self.sul.query(s[0] + e)
-                    for out in [tuple(o) for o in output]:
-                        # if output[:len(s[1])] == s[1]:
-                        if out[:len(s[1])] == s[1]:
-                            num_s_e_sampled += 1
-                            self.sampling_counter[s[0] + e] += 1
-                            break                            
+
+        def inner_update_obs_table(update_S, update_E, idc_dict):
+            for s in update_S:
+                for e in update_E:
+                    num_s_e_sampled = 0
+                    while num_s_e_sampled < self.n_samples:
+                        print(Fore.RED + "expected_output:" + str(s[1]))
+                        expected_output = s[1] if type(s[1]) == tuple else tuple(s[1],)
+
+                        # constant.NONDET_QUERY_NUMBER = 5 * 5 if len(s[0] + e) < 4 else (4 ** len(s[0] + e)) * 4
+                        # constant.NONDET_QUERY_NUMBER = 5 * 5 if len(s[0] + e) < 4 else math.factorial(len(s[0] + e)) * 3
+                        # constant.NONDET_THRESHOLD = 3 if len(expected_output) < 4 else len(expected_output)
+                        # constant.NONDET_THRESHOLD = 2
+
+                        expected_prefix = (s[0] + e, expected_output)
+                        # idc_found, repeat_flag, observed_output = self.sul.query(expected_prefix)
+                        idc_found, repeat_list, observed_output = self.sul.query(expected_prefix)
+
+                        if idc_found:
+                            check_S = []
+                            for entry in update_S:
+                                if entry == ((), ()):
+                                    break
+                                check_S.append(entry)
+
+                            if len(observed_output) == 0:
+                                trace_to_resample = ((), ())
+                            else:
+                                trace_to_resample = (expected_prefix[0][:len(observed_output[0])], observed_output[0])
+
+                            if trace_to_resample in idc_dict:
+                                idc_dict[trace_to_resample] += 1
+                            else:
+                                idc_dict[trace_to_resample] = 1
+
+                            return [] if trace_to_resample == ((), ()) or trace_to_resample in check_S else [trace_to_resample]
+
+                        # elif repeat_flag:
+                            # trace_to_resample = (expected_prefix[0][:len(observed_output[0])], observed_output[0])
+                            # check_S = []
+                            # for entry in update_S:
+                            #     if entry == ((), ()):
+                            #         break
+                            #     check_S.append(entry)
+                            # if trace_to_resample not in check_S:
+                            #     return trace_to_resample
+                        elif len(repeat_list) != 0:
+                            check_S = []
+                            for entry in update_S:
+                                if entry == ((), ()):
+                                    break
+                                check_S.append(entry)
+
+                            traces_to_resample = []
+                            for out_rep in [rep for rep in repeat_list if rep != ((), ())]:
+                                trace_to_resample = (expected_prefix[0][:len(out_rep)], out_rep)
+                                if trace_to_resample not in check_S:
+                                    traces_to_resample.append(trace_to_resample)
+                            return traces_to_resample
+                        
+                        for out in observed_output:
+                            if out[:len(s[1])] == s[1]:
+                                print(Fore.GREEN + "matched output")
+                                num_s_e_sampled += 1
+                                self.sampling_counter[s[0] + e] += 1
+                                break
+
+        traces_to_resample = inner_update_obs_table(update_S, update_E, idc_dict)
+        # trace_to_resample = inner_update_obs_table(update_S, update_E, idc_dict)
+        # while trace_to_resample is not None:
+        #     if trace_to_resample != update_S[0]:
+        #         update_S.insert(0, trace_to_resample)
+        #     # if idc_dict[trace_to_resample] >= 2:
+        #     #     input("Please physically reset the device!")
+        #     trace_to_resample = inner_update_obs_table(update_S, update_E, idc_dict)
+        while traces_to_resample is not None:
+            for trace in traces_to_resample:
+                update_S.insert(0, trace)
+            # if idc_dict[trace_to_resample] >= 2:
+            #     input("Please physically reset the device!")
+            traces_to_resample = inner_update_obs_table(update_S, update_E, idc_dict)
+
 
                     # output_list = self.sul.query(s[0] + e)
                     # # output = tuple(self.sul.query(s[0] + e))
