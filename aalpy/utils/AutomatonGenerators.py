@@ -1,13 +1,141 @@
 import random
+import warnings
 
 from aalpy.automata import Dfa, DfaState, MdpState, Mdp, MealyMachine, MealyState, \
     MooreMachine, MooreState, OnfsmState, Onfsm, MarkovChain, McState, StochasticMealyState, StochasticMealyMachine
-from aalpy.utils.HelperFunctions import random_string_generator
 
 
-def generate_random_mealy_machine(num_states, input_alphabet, output_alphabet, compute_prefixes=False) -> MealyMachine:
+def generate_random_deterministic_automata(automaton_type,
+                                           num_states,
+                                           input_alphabet_size,
+                                           output_alphabet_size,
+                                           compute_prefixes=False,
+                                           ensure_minimality=True,
+                                           **kwargs
+                                           ):
     """
-    Generates a random Mealy machine.
+    Generates a random deterministic automata of 'automaton_type'.
+
+    Args:
+        automaton_type: type of automaton, either 'dfa', 'mealy', or 'moore'
+        num_states: number of states
+        input_alphabet_size: size of input alphabet
+        output_alphabet_size: size of output alphabet (ignored for DFAs)
+        compute_prefixes: compute prefixes leading to each state
+        ensure_minimality: ensure that the automaton is minimal
+        **kwargs:
+            : 'custom_input_alphabet'  a list of custom input alphabet values
+            : 'custom_output_alphabet' a list of custom output alphabet values
+            : 'num_accepting_states' number of accepting states for DFA generation
+
+    Returns:
+
+        Random deterministic automaton of user defined type, size. If ensure_minimality is set to False returned
+        automaton is not necessarily minimal. If minimality is reacquired and random automaton cannot be produced in
+        multiple interactions, non-minimal automaton will be returned and a warning message printed.
+    """
+
+    assert automaton_type in {'dfa', 'mealy', 'moore'}
+    if output_alphabet_size < 2 or output_alphabet_size is None:
+        output_alphabet_size = 2
+
+    state_class_map = {'dfa': DfaState, 'mealy': MealyState, 'moore': MooreState}
+    automaton_class_map = {'dfa': Dfa, 'mealy': MealyMachine, 'moore': MooreMachine}
+
+    input_alphabet = [f'i{i + 1}' for i in range(input_alphabet_size)]
+    output_alphabet = [f'o{i + 1}' for i in range(output_alphabet_size)] if automaton_type != 'dfa' else [True, False]
+
+    # For backwards comparability or if uses passes custom input output functions
+    if 'custom_input_alphabet' in kwargs:
+        input_alphabet = kwargs.get('custom_input_alphabet')
+    if 'custom_output_alphabet' in kwargs:
+        output_alphabet = kwargs.get('custom_output_alphabet')
+    accepting_state_ids = None
+    if 'num_accepting_states' in kwargs:
+        num_accepting_states = kwargs.get('num_accepting_states')
+        accepting_state_ids = [f's{i + 1}' for i in random.sample(list(range(num_states)), k=num_accepting_states)]
+
+    states = [state_class_map[automaton_type](state_id=f's{i + 1}') for i in range(num_states)]
+    state_id_state_map = {state.state_id: state for state in states}
+
+    if automaton_type != 'mealy':
+        for state in states:
+            output = random.choice(output_alphabet)
+            if automaton_type == 'dfa':
+                if accepting_state_ids is not None:
+                    output = state.state_id in accepting_state_ids
+                state.is_accepting = output
+            else:
+                state.output = output
+
+    state_buffer = [state.state_id for state in states]
+    queue = [states[0]]
+    state_buffer.remove(states[0].state_id)
+    visited_states = set()
+
+    while queue:
+        state = queue.pop(0)
+        visited_states.add(state.state_id)
+        for i in input_alphabet:
+            # states from which to choose next state (while all states have not be reached)
+            if state_buffer:
+                new_state_candidates = [state_id_state_map[state_id] for state_id in state_buffer]
+            else:
+                new_state_candidates = states
+
+            new_state = random.choice(new_state_candidates)
+
+            if new_state.state_id in state_buffer:
+                state_buffer.remove(new_state.state_id)
+
+            state.transitions[i] = new_state
+
+            if automaton_type == 'mealy':
+                state.output_fun[i] = random.choice(output_alphabet)
+
+        for child in state.transitions.values():
+            if child.state_id not in visited_states and child not in queue:
+                queue.append(child)
+
+    random_automaton = automaton_class_map[automaton_type](states[0], states)
+
+    if compute_prefixes:
+        for state in random_automaton.states:
+            state.prefix = random_automaton.get_shortest_path(random_automaton.initial_state, state)
+            if state != random_automaton.initial_state and not state.prefix:
+                print('Non-reachable state:', state.state_id)
+
+    if ensure_minimality:
+        minimality_iterations = 1
+        while not random_automaton.is_minimal():
+            # to avoid infinite loops
+            if minimality_iterations == 100:
+                warnings.warn(f'Non-minimal automaton ({automaton_type}, num_states : {num_states}) returned.')
+                break
+
+            custom_args = {}
+            if 'custom_input_alphabet' in kwargs:
+                custom_args['custom_input_alphabet'] = kwargs.get('custom_input_alphabet')
+            if 'custom_output_alphabet' in kwargs:
+                custom_args['custom_output_alphabet'] = kwargs.get('custom_output_alphabet')
+            if 'num_accepting_states' in kwargs:
+                custom_args['num_accepting_states'] = kwargs.get('num_accepting_states')
+
+            random_automaton = generate_random_deterministic_automata(automaton_type,
+                                                                      num_states,
+                                                                      input_alphabet_size,
+                                                                      output_alphabet_size,
+                                                                      False, # compute prefixes
+                                                                      False, # ensure minimality
+                                                                      **custom_args)
+
+    return random_automaton
+
+
+def generate_random_mealy_machine(num_states, input_alphabet, output_alphabet,
+                                  compute_prefixes=False, ensure_minimality=True) -> MealyMachine:
+    """
+    Generates a random Mealy machine. Kept for backwards compatibility.
 
     Args:
 
@@ -15,36 +143,26 @@ def generate_random_mealy_machine(num_states, input_alphabet, output_alphabet, c
         input_alphabet: input alphabet
         output_alphabet: output alphabet
         compute_prefixes: if true, shortest path to reach each state will be computed (Default value = False)
+        ensure_minimality: returned automaton will be minimal
 
     Returns:
+
         Mealy machine with num_states states
-
     """
-    states = list()
 
-    for i in range(num_states):
-        states.append(MealyState(i))
+    random_mealy_machine = generate_random_deterministic_automata('mealy', num_states,
+                                                                  input_alphabet_size=len(input_alphabet),
+                                                                  output_alphabet_size=len(output_alphabet),
+                                                                  ensure_minimality=ensure_minimality,
+                                                                  compute_prefixes=compute_prefixes,
+                                                                  custom_input_alphabet=input_alphabet,
+                                                                  custom_output_alphabet=output_alphabet)
 
-    state_buffer = list(states)
-    for state in states:
-        for a in input_alphabet:
-            if state_buffer:
-                new_state = random.choice(state_buffer)
-                state_buffer.remove(new_state)
-            else:
-                new_state = random.choice(states)
-            state.transitions[a] = new_state
-            state.output_fun[a] = random.choice(output_alphabet)
-
-    mm = MealyMachine(states[0], states)
-    if compute_prefixes:
-        for state in states:
-            state.prefix = mm.get_shortest_path(mm.initial_state, state)
-
-    return mm
+    return random_mealy_machine
 
 
-def generate_random_moore_machine(num_states, input_alphabet, output_alphabet, compute_prefixes=False) -> MooreMachine:
+def generate_random_moore_machine(num_states, input_alphabet, output_alphabet,
+                                  compute_prefixes=False, ensure_minimality=True) -> MooreMachine:
     """
     Generates a random Moore machine.
 
@@ -54,36 +172,26 @@ def generate_random_moore_machine(num_states, input_alphabet, output_alphabet, c
         input_alphabet: input alphabet
         output_alphabet: output alphabet
         compute_prefixes: if true, shortest path to reach each state will be computed (Default value = False)
+        ensure_minimality: returned automaton will be minimal
 
     Returns:
 
-        Moore machine with num_states states
+        Random Moore machine with num_states states
 
     """
-    states = list()
+    random_moore_machine = generate_random_deterministic_automata('moore', num_states,
+                                                                  input_alphabet_size=len(input_alphabet),
+                                                                  output_alphabet_size=len(output_alphabet),
+                                                                  ensure_minimality=ensure_minimality,
+                                                                  compute_prefixes=compute_prefixes,
+                                                                  custom_input_alphabet=input_alphabet,
+                                                                  custom_output_alphabet=output_alphabet)
 
-    for i in range(num_states):
-        states.append(MooreState(i, random.choice(output_alphabet)))
-
-    state_buffer = list(states)
-    for state in states:
-        for a in input_alphabet:
-            if state_buffer:
-                new_state = random.choice(state_buffer)
-                state_buffer.remove(new_state)
-            else:
-                new_state = random.choice(states)
-            state.transitions[a] = new_state
-
-    mm = MooreMachine(states[0], states)
-    if compute_prefixes:
-        for state in states:
-            state.prefix = mm.get_shortest_path(mm.initial_state, state)
-
-    return mm
+    return random_moore_machine
 
 
-def generate_random_dfa(num_states, alphabet, num_accepting_states=1, compute_prefixes=False) -> Dfa:
+def generate_random_dfa(num_states, alphabet, num_accepting_states=1,
+                        compute_prefixes=False, ensure_minimality=True) -> Dfa:
     """
     Generates a random DFA.
 
@@ -93,37 +201,25 @@ def generate_random_dfa(num_states, alphabet, num_accepting_states=1, compute_pr
         alphabet: input alphabet
         num_accepting_states: number of accepting states (Default value = 1)
         compute_prefixes: if true, shortest path to reach each state will be computed (Default value = False)
+        ensure_minimality: returned automaton will be minimal
 
     Returns:
 
-        DFA
+        Randomly generated DFA
 
     """
-    assert num_states >= num_accepting_states
-    states = list()
+    if num_states <= num_accepting_states:
+        num_accepting_states = num_states - 1
 
-    for i in range(num_states):
-        states.append(DfaState(i))
+    random_dfa = generate_random_deterministic_automata('dfa', num_states,
+                                                        input_alphabet_size=len(alphabet),
+                                                        output_alphabet_size=2,
+                                                        ensure_minimality=ensure_minimality,
+                                                        compute_prefixes=compute_prefixes,
+                                                        custom_input_alphabet=alphabet,
+                                                        num_accepting_states=num_accepting_states)
 
-    state_buffer = list(states)
-    for state in states:
-        for a in alphabet:
-            if state_buffer:
-                new_state = random.choice(state_buffer)
-                state_buffer.remove(new_state)
-            else:
-                new_state = random.choice(states)
-            state.transitions[a] = new_state
-
-    for _ in range(num_accepting_states):
-        random.choice(states).is_accepting = True
-
-    dfa = Dfa(states[0], states)
-    if compute_prefixes:
-        for state in states:
-            state.prefix = dfa.get_shortest_path(dfa.initial_state, state)
-
-    return dfa
+    return random_dfa
 
 
 def generate_random_mdp(num_states, input_size, output_size, possible_probabilities=None):
@@ -143,8 +239,8 @@ def generate_random_mdp(num_states, input_size, output_size, possible_probabilit
 
     """
 
-    inputs = [f'i{i+1}' for i in range(input_size)]
-    outputs = [f'o{i+1}' for i in range(output_size)]
+    inputs = [f'i{i + 1}' for i in range(input_size)]
+    outputs = [f'o{i + 1}' for i in range(output_size)]
 
     if not possible_probabilities:
         possible_probabilities = [(1.,), (1.,), (1.,), (0.9, 0.1),
@@ -258,8 +354,8 @@ def generate_random_ONFSM(num_states, num_inputs, num_outputs, multiple_out_prob
         randomly generated ONFSM
 
     """
-    inputs = [f'i{i+1}' for i in range(num_inputs)]
-    outputs = [f'o{i+1}' for i in range(num_outputs)]
+    inputs = [f'i{i + 1}' for i in range(num_inputs)]
+    outputs = [f'o{i + 1}' for i in range(num_outputs)]
 
     states = []
     for i in range(num_states):
@@ -440,3 +536,5 @@ def mealy_from_state_setup(state_setup) -> MealyMachine:
         state.prefix = mm.get_shortest_path(mm.initial_state, state)
 
     return mm
+
+
