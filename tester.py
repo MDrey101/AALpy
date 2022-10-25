@@ -10,6 +10,8 @@ from aalpy.utils import load_automaton_from_file
 model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
 alphabet = model.get_input_alphabet()
 
+# TODO: method which takes the pruned tree - queries the tree?
+
 
 class FailSUL(SUL):
     def __init__(self, mdp: Onfsm):
