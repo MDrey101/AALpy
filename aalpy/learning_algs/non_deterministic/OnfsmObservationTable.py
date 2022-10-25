@@ -109,12 +109,14 @@ class NonDetObservationTable:
         # update_S, update_E = self.S + self.S_dot_A, self.E
 
 
-        def inner_update_obs_table(update_S, update_E, idc_dict):
-            for s in update_S:
-                for e in update_E:
+        # TODO: Problem - output is not observed and IDC is caused - the behavior should be checked again!
+        def inner_update_obs_table(inner_update_S, inner_update_E, idc_dict):
+            for s in inner_update_S:
+                for e in inner_update_E:
                     num_s_e_sampled = 0
+                    sample_IDC_counter = 0
                     while num_s_e_sampled < self.n_samples:
-                        print(Fore.RED + "expected_output:" + str(s[1]))
+                        print(Fore.RED + "expected_output:" + str(s[1]) + Fore.WHITE)
                         expected_output = s[1] if type(s[1]) == tuple else tuple(s[1],)
 
                         # constant.NONDET_QUERY_NUMBER = 5 * 5 if len(s[0] + e) < 4 else (4 ** len(s[0] + e)) * 4
@@ -128,7 +130,7 @@ class NonDetObservationTable:
 
                         if idc_found:
                             check_S = []
-                            for entry in update_S:
+                            for entry in inner_update_S:
                                 if entry == ((), ()):
                                     break
                                 check_S.append(entry)
@@ -143,7 +145,15 @@ class NonDetObservationTable:
                             else:
                                 idc_dict[trace_to_resample] = 1
 
-                            return [] if trace_to_resample == ((), ()) or trace_to_resample in check_S else [trace_to_resample]
+                            sample_IDC_counter += 1
+                            if sample_IDC_counter >= self.n_samples:
+                                # index = None
+                                trace_to_return = [] if trace_to_resample == ((), ()) or trace_to_resample in check_S else [trace_to_resample]
+                                # if trace_to_resample in check_S:
+                                #     index = check_S.index(trace_to_resample)
+                                return trace_to_return#, index
+                            else:
+                                continue
 
                         # elif repeat_flag:
                             # trace_to_resample = (expected_prefix[0][:len(observed_output[0])], observed_output[0])
@@ -156,7 +166,7 @@ class NonDetObservationTable:
                             #     return trace_to_resample
                         elif len(repeat_list) != 0:
                             check_S = []
-                            for entry in update_S:
+                            for entry in inner_update_S:
                                 if entry == ((), ()):
                                     break
                                 check_S.append(entry)
@@ -164,6 +174,7 @@ class NonDetObservationTable:
                             traces_to_resample = []
                             for out_rep in [rep for rep in repeat_list if rep != ((), ())]:
                                 trace_to_resample = (expected_prefix[0][:len(out_rep)], out_rep)
+                                index = None
                                 if trace_to_resample not in check_S:
                                     traces_to_resample.append(trace_to_resample)
                             return traces_to_resample
