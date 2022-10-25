@@ -1,0 +1,23 @@
+digraph learnedModel {
+q0 [label=q0];
+q1 [label=q1];
+g2 [label=g2];
+q3 [label=q3];
+q4 [label=q4];
+q0 -> q1  [label="a/0"];
+q0 -> q0  [label="b/2"];
+q0 -> g2  [label="b/0"];
+q1 -> q0  [label="a/2"];
+q1 -> q1  [label="b/3"];
+g2 -> q3  [label="a/2"];
+g2 -> g2  [label="b/0"];
+g2 -> g2  [label="b/3"];
+q3 -> q1  [label="a/2"];
+q3 -> q3  [label="b/3"];
+q3 -> q4  [label="b/DANGER"];
+q4 -> q3  [label="a/1"];
+q4 -> q0  [label="a/2"];
+q4 -> g2  [label="b/1"];
+__start0 [label="", shape=none];
+__start0 -> q0  [label=""];
+}
