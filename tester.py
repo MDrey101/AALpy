@@ -5,6 +5,7 @@ from aalpy.base import SUL
 from aalpy.learning_algs import run_non_det_Lstar
 from aalpy.oracles import RandomWordEqOracle
 from aalpy.SULs import OnfsmSUL
+from aalpy.oracles.FailSafeOracle import FailSafeOracle
 from aalpy.utils import load_automaton_from_file
 
 model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
@@ -39,8 +40,8 @@ class FailSUL(SUL):
 
 sul = FailSUL(model)
 
-eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=8)
+eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=8)
 
-learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10,)
+learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, custom_oracle=True)
 
 learned_model.visualize()

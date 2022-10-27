@@ -39,6 +39,8 @@ class NonDetObservationTable:
         # tuple are inputs and second element of the tuple are outputs associated with inputs.
         self.S.append((empty_word, empty_word))
 
+        self.pruned_nodes = set()
+
     def get_row_to_close(self):
         """
         Get row for that need to be closed.
@@ -49,6 +51,9 @@ class NonDetObservationTable:
         """
 
         # TODO where to put pruning, this is a candidate
+
+        pruned = self.sul.pta.prune()
+        self.pruned_nodes.update(pruned)
 
         s_rows = set()
         update_S_dot_A = self.get_extended_S()
@@ -61,11 +66,12 @@ class NonDetObservationTable:
             if row_t not in s_rows:
                 self.closing_counter += 1
                 self.S.append(t)
-                print_observation_table(self, 'non-det')
-
+                print('Closing:', t)
+                # print_observation_table(self, 'non-det')
                 return t
 
         self.closing_counter = 0
+        print('Closing: None')
         return None
 
     def get_extended_S(self, row_prefix = None):
@@ -79,7 +85,7 @@ class NonDetObservationTable:
             extended S set.
         """
 
-        rows = self.S if row_prefix == None else [row_prefix]
+        rows = self.S if row_prefix is None else [row_prefix]
 
         S_dot_A = []
         for row in rows:
@@ -121,7 +127,6 @@ class NonDetObservationTable:
                         num_s_e_sampled += 1
                         self.sampling_counter[s[0] + e] += 1
 
-    # TODO: Check for every prefix & extended prefix & for every element of every cell if it's in the cache - if not remove it
     def clean_obs_table(self):
         """
         Moves duplicates from S to S_dot_A. The entries in S_dot_A which are based on the moved row get deleted.
@@ -130,7 +135,16 @@ class NonDetObservationTable:
         """
         # just for testing without cleaning
         # return False
-        self.sul.pta.prune()
+
+        # e_to_remove = []
+        # for s in self.S:
+        #     for e in self.E:
+        #         inputs, outputs = s[0] + e[0], s[1] + e[1]
+        #         if self.sul.pta.get_to_node(inputs, outputs) is None and e not in e_to_remove:
+        #             e_to_remove.append(e)
+        #
+        # for e in e_to_remove:
+        #     self.E.remove(e)
 
         tmp_S = self.S.copy()
         tmp_both_S = self.S + self.get_extended_S()

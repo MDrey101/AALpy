@@ -3,6 +3,7 @@ import time
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
+from aalpy.oracles.FailSafeOracle import FailSafeOracle
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg, all_suffixes
 
@@ -67,6 +68,9 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
     # With this data we can check if the extension of the E set lead to state increase
     last_cex = None
 
+    # keep track of found cex
+    found_cex = []
+
     while True:
         learning_rounds += 1
         if max_learning_rounds and learning_rounds - 1 == max_learning_rounds:
@@ -82,11 +86,14 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
             observation_table.clean_obs_table()
             row_to_close = observation_table.get_row_to_close()
 
+        if isinstance(eq_oracle, FailSafeOracle):
+            eq_oracle.unsafe_counterexamples.update(observation_table.pruned_nodes)
+
         # Generate hypothesis
         hypothesis = observation_table.gen_hypothesis()
 
         # Cex has been successfully processed
-        if counterexample_not_valid(hypothesis, last_cex):
+        if counterexample_not_valid(hypothesis, last_cex) or eq_oracle.is_cex_dangerous(last_cex[0], last_cex[1]):
 
             # Find counterexample
             if print_level > 1:
@@ -97,10 +104,17 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
             eq_query_start = time.time()
             cex = eq_oracle.find_cex(hypothesis)
+            print('Cex found:', cex)
             last_cex = cex
             eq_query_time += time.time() - eq_query_start
+            found_cex.append(last_cex)
         else:
             cex = last_cex
+            print('Reusing cex:', cex)
+
+        # update unsafe cex set after eq oracle is performed
+        pruned_nodes = sul.pta.prune()
+        eq_oracle.unsafe_counterexamples.update(pruned_nodes)
 
         # If no counterexample is found, return the hypothesis
         if cex is None:

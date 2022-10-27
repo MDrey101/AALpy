@@ -85,7 +85,7 @@ class TraceTree:
             self.curr_node.children[inp].append(node)
             node.parent = self.curr_node
 
-        self.curr_node.frequency_counter[(inp,out)] += 1
+        self.curr_node.frequency_counter[(inp, out)] += 1
         self.curr_node = self.curr_node.get_child(inp, out)
 
     def get_to_node(self, inputs, outputs):
@@ -140,27 +140,35 @@ class TraceTree:
         return cell
 
     def prune(self, threshold=3):
+        counter = 0
+        pruned_nodes = set()
 
-        queue = [self.root_node]
+        queue = [(self.root_node, tuple())]
         while queue:
-            curr_node = queue.pop(0)
+            curr_node, path = queue.pop(0)
             to_delete = []
             for inp in curr_node.children.keys():
                 children = curr_node.children[inp]
                 for child in children:
-                    child_out = child.output
-                    #if curr_node.frequency_counter[(inp, child_out)] >= threshold:
-                    if "DANGER" != child_out:
-                        queue.append(child)
+                    # if curr_node.frequency_counter[(inp, child_out)] >= threshold:
+                    if "DANGER" != child.output:
+                        queue.append((child, path + (inp, child.output)))
                     else:
-                        to_delete.append((inp, child_out))
+                        to_delete.append((inp, child.output, path + (inp, child.output)))
 
-            for i,o in to_delete:
-                print("Pruning")
+            for i, o, path_to_delete_node in to_delete:
                 delete_candidate = curr_node.get_child(i, o)
-                curr_node.children[i].remove(delete_candidate)
-                curr_node.frequency_counter[(i, o)] = 0
+                if delete_candidate is not None:
+                    # detach from the tree/cache
+                    curr_node.children[i].remove(delete_candidate)
+                    # get inputs and outputs from path to node
+                    inputs, outputs = path_to_delete_node[0::2], path_to_delete_node[1::2]
+                    # add to set of nodes that were pruned in this iteration
+                    pruned_nodes.add((inputs, outputs))
+                    counter += 1
 
+        print(f"Pruned nodes: {counter}")
+        return pruned_nodes
 
     def get_table(self, s, e):
         """
