@@ -2,9 +2,9 @@ import time
 from random import choice, randint
 
 from aalpy.SULs import OnfsmSUL
-from aalpy.learning_algs.non_deterministic_passive.OnfsmAlternative import run_non_det_Lstar_alternative
-from aalpy.learning_algs.non_deterministic_passive.OnfsmObservationTable import NonDetObservationTable
-from aalpy.learning_algs.non_deterministic_passive.TraceTree import TraceTree, SULWrapper
+from aalpy.learning_algs.non_deterministic_alternative.OnfsmAlternative import run_non_det_Lstar_alternative
+from aalpy.learning_algs.non_deterministic_alternative.OnfsmObservationTable import NonDetObservationTable
+from aalpy.learning_algs.non_deterministic_alternative.TraceTree import TraceTree, SULWrapper
 from aalpy.oracles import RandomWalkEqOracle, RandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 

@@ -1,8 +1,8 @@
 import time
 
 from aalpy.base import SUL, Oracle
-from aalpy.learning_algs.non_deterministic_passive.OnfsmObservationTable import NonDetObservationTable
-from aalpy.learning_algs.non_deterministic_passive.TraceTree import SULWrapper
+from aalpy.learning_algs.non_deterministic_alternative.OnfsmObservationTable import NonDetObservationTable
+from aalpy.learning_algs.non_deterministic_alternative.TraceTree import SULWrapper
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg, all_suffixes
 
@@ -91,22 +91,22 @@ def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n
         hypothesis = ot.gen_hypothesis()
 
         if counterexample_not_valid(hypothesis, last_cex):
-            learning_rounds += 1
-
-            # Find counterexample
-            if print_level > 1:
-                print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
-
-            if print_level == 3:
-                print_observation_table(ot, 'non-det')
-
             cex = sul.pta.find_cex_in_cache(hypothesis)
             if cex is None:
+                learning_rounds += 1
+                # Find counterexample
+                if print_level > 1:
+                    print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
+
+                if print_level == 3:
+                    print_observation_table(ot, 'non-det')
+
                 eq_query_start = time.time()
                 cex = eq_oracle.find_cex(hypothesis)
-                last_cex = cex
                 eq_query_time += time.time() - eq_query_start
                 found_cex.append(last_cex)
+
+            last_cex = cex
         else:
             cex = last_cex
 

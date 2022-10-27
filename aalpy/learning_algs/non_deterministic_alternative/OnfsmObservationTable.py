@@ -127,9 +127,6 @@ class NonDetObservationTable:
                 trace = self.sul.pta.get_all_traces(curr_node, a)
                 for t in trace:
                     reached_row = (prefix[0] + a, prefix[1] + (t[-1],))
-                    if self.row_to_hashable(reached_row) not in state_distinguish.keys():
-                        print('HOLE IN THE OBSERVATION TABLE')
-                        assert False
                     state_in_S = state_distinguish[self.row_to_hashable(reached_row)]
                     assert state_in_S  # shouldn't be necessary because of the if condition
                     states_dict[prefix].transitions[a[0]].append((t[-1], state_in_S))
@@ -176,10 +173,6 @@ class NonDetObservationTable:
 
         return row_repr
 
-    def is_in_cache(self, s):
-        curr_node = self.sul.pta.get_to_node(s[0], s[1])
-        return curr_node is not None
-
     def clean_obs_table(self):
         """
         Moves duplicates from S to S_dot_A. The entries in S_dot_A which are based on the moved row get deleted.
@@ -206,39 +199,3 @@ class NonDetObservationTable:
                             self.S.remove(row_prefix)
             else:
                 hashed_rows_from_s.add(hashed_s_row)
-
-    def reconstruct_obs_table(self):
-
-        self.E = [tuple([a]) for a in self.alphabet]
-
-        hypothesis = None
-
-        while True:
-            self.S = list()
-            self.S.append((tuple(), tuple()))
-            self.query_holes()
-
-            row_to_close = self.get_row_to_close()
-            i = 0
-            while row_to_close is not None:
-                i += 1
-                self.query_holes()
-                row_to_close = self.get_row_to_close()
-                self.clean_obs_table()
-
-            hypothesis = self.gen_hypothesis()
-
-            cex = self.sul.pta.find_cex_in_cache(hypothesis)
-            if cex is None:
-                cex = None # EQ ORACLE
-
-            if cex is None:
-                break
-            else:
-                cex_suffixes = all_suffixes(cex[0])
-                for suffix in cex_suffixes:
-                    if suffix not in self.E:
-                        self.E.append(suffix)
-                        break
-
-        return hypothesis
