@@ -133,18 +133,6 @@ class NonDetObservationTable:
         The table will be smaller and more efficient.
 
         """
-        # just for testing without cleaning
-        # return False
-
-        # e_to_remove = []
-        # for s in self.S:
-        #     for e in self.E:
-        #         inputs, outputs = s[0] + e[0], s[1] + e[1]
-        #         if self.sul.pta.get_to_node(inputs, outputs) is None and e not in e_to_remove:
-        #             e_to_remove.append(e)
-        #
-        # for e in e_to_remove:
-        #     self.E.remove(e)
 
         tmp_S = self.S.copy()
         tmp_both_S = self.S + self.get_extended_S()
@@ -165,6 +153,17 @@ class NonDetObservationTable:
                             self.S.remove(row_prefix)
             else:
                 hashed_rows_from_s.add(hashed_s_row)
+
+        # remove dead states
+        # unreachable_states = []
+        # extended_S = {self.row_to_hashable(p) for p in self.get_extended_S()}
+        # for s in self.S:
+        #     if self.row_to_hashable(s) not in extended_S:
+        #         unreachable_states.append(s)
+        #
+        # for s_to_delete in unreachable_states:
+        #     print(s_to_delete)
+        #     self.S.remove(s_to_delete)
 
     def gen_hypothesis(self) -> Automaton:
         """

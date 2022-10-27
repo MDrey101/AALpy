@@ -98,3 +98,6 @@ class RandomWordEqOracle(Oracle):
     def reset_counter(self):
         if self.reset_after_cex:
             self.num_walks_done = 0
+
+    def is_cex_dangerous(self, x,y):
+        return False

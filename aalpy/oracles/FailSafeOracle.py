@@ -91,9 +91,6 @@ class FailSafeOracle(Oracle):
                 return True
         return False
 
-
-
-
     def reset_counter(self):
         if self.reset_after_cex:
             self.num_walks_done = 0

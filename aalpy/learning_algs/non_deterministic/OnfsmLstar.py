@@ -114,7 +114,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
 
         # update unsafe cex set after eq oracle is performed
         pruned_nodes = sul.pta.prune()
-        eq_oracle.unsafe_counterexamples.update(pruned_nodes)
+        if isinstance(eq_oracle, FailSafeOracle):
+            eq_oracle.unsafe_counterexamples.update(pruned_nodes)
 
         # If no counterexample is found, return the hypothesis
         if cex is None:

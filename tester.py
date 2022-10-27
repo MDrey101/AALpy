@@ -45,3 +45,10 @@ eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_wa
 learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, custom_oracle=True)
 
 learned_model.visualize()
+
+# if learned_model.size > 4:
+#     sul2 = OnfsmSUL(learned_model)
+#     eq_oracle = RandomWordEqOracle(alphabet, sul2, num_walks=1000, min_walk_len=4, max_walk_len=10)
+#     minimized_automaton = run_non_det_Lstar(alphabet, sul2, eq_oracle, n_sampling=10,)
+#
+#     minimized_automaton.visualize()
