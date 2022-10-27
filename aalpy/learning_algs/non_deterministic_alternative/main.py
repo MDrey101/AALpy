@@ -7,16 +7,18 @@ from aalpy.learning_algs.non_deterministic_alternative.OnfsmObservationTable imp
 from aalpy.learning_algs.non_deterministic_alternative.TraceTree import TraceTree, SULWrapper
 from aalpy.oracles import RandomWalkEqOracle, RandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
+from tester import FailSUL
 
-#original_model = load_automaton_from_file('../../../fail_safe_model.dot', 'onfsm')
-original_model = load_automaton_from_file('original.dot', 'onfsm')
+original_model = load_automaton_from_file('../../../fail_safe_model.dot', 'onfsm')
+# original_model = load_automaton_from_file('original.dot', 'onfsm')
 alphabet = original_model.get_input_alphabet()
 
-sul = OnfsmSUL(original_model)
+#sul = OnfsmSUL(original_model)
+sul = FailSUL(original_model)
 
 from random import seed
 # seed(1)
-n_samples = 0
+n_samples = 100
 
 samples = []
 for _ in range(n_samples):
@@ -25,5 +27,5 @@ for _ in range(n_samples):
 
 eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
 
-model = run_non_det_Lstar_alternative(alphabet, sul, eq_oracle, samples=samples, n_sampling=10)
+model = run_non_det_Lstar_alternative(alphabet, sul, eq_oracle, samples=samples, n_sampling=10, pruning=True)
 model.visualize()

@@ -11,7 +11,7 @@ print_options = [0, 1, 2, 3]
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 
-def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=10, samples=None,
+def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=10, samples=None, pruning=False,
                                   max_learning_rounds=None, custom_oracle=False, return_data=False, print_level=2, ):
     """
     Based on ''Learning Finite State Models of Observable Nondeterministic Systems in a Testing Context '' from Fakih
@@ -78,6 +78,8 @@ def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n
 
         ot.S = list()
         ot.S.append((tuple(), tuple()))
+        if pruning:
+            sul.pta.prune()
         ot.query_holes()
 
         row_to_close = ot.get_row_to_close()
@@ -86,6 +88,8 @@ def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n
             i += 1
             ot.query_holes()
             row_to_close = ot.get_row_to_close()
+            if pruning:
+               sul.pta.prune()
             ot.clean_obs_table()
 
         hypothesis = ot.gen_hypothesis()
@@ -110,6 +114,7 @@ def run_non_det_Lstar_alternative(alphabet: list, sul: SUL, eq_oracle: Oracle, n
         else:
             cex = last_cex
 
+        # TODO CEX
         if cex is None:
             break
         else:
