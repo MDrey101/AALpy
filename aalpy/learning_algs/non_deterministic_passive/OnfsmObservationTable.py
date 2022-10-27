@@ -51,8 +51,8 @@ class NonDetObservationTable:
             row that will be moved to S set and closed
         """
 
-        pruned = self.sul.pta.prune()
-        self.pruned_nodes.update(pruned)
+        # pruned = self.sul.pta.prune()
+        # self.pruned_nodes.update(pruned)
 
         s_rows = set()
         update_S_dot_A = self.get_extended_S()
@@ -65,14 +65,12 @@ class NonDetObservationTable:
             if row_t not in s_rows:
                 self.closing_counter += 1
                 self.S.append(t)
-                # print_observation_table(self, 'non-det')
                 return t
 
         self.closing_counter = 0
-        print('Closing: None')
         return None
 
-    def get_extended_S(self, row_prefix = None):
+    def get_extended_S(self, row_prefix=None):
         """
         Helper generator function that returns extended S, or S.A set.
         For all values in the cell, create a new row where inputs is parent input plus element of alphabet, and
@@ -97,35 +95,7 @@ class NonDetObservationTable:
                         S_dot_A.append(new_row)
         return S_dot_A
 
-    def update_obs_table(self, s_set=None, e_set: list = None):
-        """
-        Perform the membership queries.
-        With  the  all-weather  assumption,  each  output  query  is  tried  a  number  of  times  on  the  system,
-        and  the  driver  reports  the  set  of  all  possible  outputs.
-
-        Args:
-
-            s_set: Prefixes of S set on which to preform membership queries (Default value = None)
-            e_set: Suffixes of E set on which to perform membership queries
-        """
-
-        update_S = s_set if s_set else self.S + self.get_extended_S()
-        update_E = e_set if e_set else self.E
-
-        # update_S, update_E = self.S + self.S_dot_A, self.E
-
-        for s in update_S:
-            for e in update_E:
-                num_s_e_sampled = 0
-                # if self.sampling_counter[s[0] + e] >= len(s[0] + e) + 1 * 2:
-                #     continue
-                while num_s_e_sampled < self.n_samples:
-                    output = tuple(self.sul.query(s[0] + e))
-                    if output[:len(s[1])] == s[1]:
-                        num_s_e_sampled += 1
-                        self.sampling_counter[s[0] + e] += 1
-
-    def gen_hypothesis(self) -> Automaton:
+    def gen_hypothesis(self):
         """
         Generate automaton based on the values found in the observation table.
 
@@ -170,6 +140,15 @@ class NonDetObservationTable:
 
         return automaton
 
+    def query_holes(self, s=None, e=None):
+        s_set = [s] if s is not None else self.S + self.get_extended_S()
+        e_set = [e] if e is not None else self.E
+
+        for s in s_set:
+            for e in e_set:
+                while self.sul.pta.get_s_e_sampling_frequency(s, e) < self.n_samples:
+                    self.sul.query(s[0] + e)
+
     def row_to_hashable(self, row_prefix):
         """
         Creates the hashable representation of the row. Frozenset is used as the order of element in each cell does not
@@ -189,8 +168,8 @@ class NonDetObservationTable:
 
         for e in self.E:
             cell = self.sul.pta.get_all_traces(curr_node, e)
-            while not cell:
-                self.update_obs_table(s_set=[row_prefix], e_set=[e])
+            while cell is None:
+                self.query_holes(row_prefix, e)
                 cell = self.sul.pta.get_all_traces(curr_node, e)
 
             row_repr += (frozenset(cell),)
@@ -201,25 +180,58 @@ class NonDetObservationTable:
         curr_node = self.sul.pta.get_to_node(s[0], s[1])
         return curr_node is not None
 
+    def clean_obs_table(self):
+        """
+        Moves duplicates from S to S_dot_A. The entries in S_dot_A which are based on the moved row get deleted.
+        The table will be smaller and more efficient.
+
+        """
+
+        tmp_S = self.S.copy()
+        tmp_both_S = self.S + self.get_extended_S()
+        hashed_rows_from_s = set()
+
+        tmp_S.sort(key=lambda t: len(t[0]))
+
+        for s in tmp_S:
+            hashed_s_row = self.row_to_hashable(s)
+            if hashed_s_row in hashed_rows_from_s:
+                if s in self.S:
+                    self.S.remove(s)
+                size = len(s[0])
+                for row_prefix in tmp_both_S:
+                    s_both_row = (row_prefix[0][:size], row_prefix[1][:size])
+                    if s != row_prefix and s == s_both_row:
+                        if row_prefix in self.S:
+                            self.S.remove(row_prefix)
+            else:
+                hashed_rows_from_s.add(hashed_s_row)
+
     def reconstruct_obs_table(self):
-        self.S = list()
-        self.S.append((tuple(), tuple()))
 
         self.E = [tuple([a]) for a in self.alphabet]
-
-        self.sul.pta.prune()
 
         hypothesis = None
 
         while True:
+            self.S = list()
+            self.S.append((tuple(), tuple()))
+            self.query_holes()
+
             row_to_close = self.get_row_to_close()
+            i = 0
             while row_to_close is not None:
-                print('Reconstruction: Closing')
+                i += 1
+                self.query_holes()
                 row_to_close = self.get_row_to_close()
+                self.clean_obs_table()
 
             hypothesis = self.gen_hypothesis()
 
             cex = self.sul.pta.find_cex_in_cache(hypothesis)
+            if cex is None:
+                cex = None # EQ ORACLE
+
             if cex is None:
                 break
             else:
@@ -230,5 +242,3 @@ class NonDetObservationTable:
                         break
 
         return hypothesis
-
-

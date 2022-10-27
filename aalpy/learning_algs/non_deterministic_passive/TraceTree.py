@@ -35,7 +35,7 @@ class Node:
         self.parent = None
 
         # frq counter
-        self.frequency_counter = Counter()
+        self.frequency_counter = 0
 
     def get_child(self, inp, out):
         """
@@ -85,8 +85,8 @@ class TraceTree:
             self.curr_node.children[inp].append(node)
             node.parent = self.curr_node
 
-        self.curr_node.frequency_counter[(inp, out)] += 1
         self.curr_node = self.curr_node.get_child(inp, out)
+        self.curr_node.frequency_counter += 1
 
     def add_trace(self, inputs, outputs):
         self.reset()
@@ -147,6 +147,27 @@ class TraceTree:
         cell = [node.get_prefix()[-len(e):] for node in reached_nodes]
         return cell
 
+    def get_table(self, s, e):
+        """
+        Generates a table from the tree
+
+        Args:
+          s: rows from S, S_dot_A, or both which should be presented in the table.
+          e: E
+
+        Returns:
+          a table in a format that can be used for printing.
+        """
+        result = {}
+        for pair in s:
+            curr_node = self.get_to_node(pair[0], pair[1])
+            result[pair] = {}
+
+            for inp in e:
+                result[pair][inp] = self.get_all_traces(curr_node, inp)
+
+        return result
+
     def prune(self, threshold=3):
         counter = 0
         pruned_nodes = set()
@@ -200,3 +221,22 @@ class TraceTree:
                     queue.append((child, path + (inp, child.output)))
 
         return None
+
+    def get_s_e_sampling_frequency(self, prefix, suffix):
+        sampling_frequency = 0
+        curr_node = self.root_node
+        for i, o in zip(prefix[0], prefix[1]):
+            curr_node = curr_node.get_child(i, o)
+
+        queue = [(curr_node, 0)]
+        while queue:
+            node, depth = queue.pop(0)
+            children_with_same_input = node.children[suffix[depth]]
+            if depth == len(suffix) - 1:
+                for c in children_with_same_input:
+                    sampling_frequency += c.frequency_counter
+            else:
+                for c in children_with_same_input:
+                    queue.append((c, depth + 1))
+
+        return sampling_frequency

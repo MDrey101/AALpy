@@ -3,17 +3,11 @@ from random import choice, choices
 from aalpy.automata import Onfsm
 from aalpy.base import SUL
 from aalpy.learning_algs import run_non_det_Lstar
-from aalpy.oracles import RandomWordEqOracle
-from aalpy.SULs import OnfsmSUL
 from aalpy.oracles.FailSafeOracle import FailSafeOracle
 from aalpy.utils import load_automaton_from_file
 
 model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
 alphabet = model.get_input_alphabet()
-
-
-# TODO: method which takes the pruned tree - queries the tree?
-
 
 class FailSUL(SUL):
     def __init__(self, mdp: Onfsm):
@@ -38,8 +32,6 @@ class FailSUL(SUL):
         self.onfsm.current_state = transition[1]
         return output
 
-
-from random import seed
 
 # 2, 3, 4
 # seed(3)

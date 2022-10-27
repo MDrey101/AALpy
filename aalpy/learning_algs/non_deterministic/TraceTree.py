@@ -35,7 +35,7 @@ class Node:
         self.parent = None
 
         # frq counter
-        self.frequency_counter = Counter()
+        self.frequency_counter = 0
 
     def get_child(self, inp, out):
         """
@@ -85,8 +85,8 @@ class TraceTree:
             self.curr_node.children[inp].append(node)
             node.parent = self.curr_node
 
-        self.curr_node.frequency_counter[(inp, out)] += 1
         self.curr_node = self.curr_node.get_child(inp, out)
+        self.curr_node.frequency_counter += 1
 
     def add_trace(self, inputs, outputs):
         self.reset()
@@ -144,40 +144,6 @@ class TraceTree:
         cell = [node.get_prefix()[-len(e):] for node in reached_nodes]
         return cell
 
-    def prune(self, threshold_percentage=0.1):
-        counter = 0
-        pruned_nodes = set()
-
-        queue = [(self.root_node, tuple())]
-        while queue:
-            curr_node, path = queue.pop(0)
-            to_delete = []
-            for inp in curr_node.children.keys():
-                children = curr_node.children[inp]
-                total_samples = sum(curr_node.frequency_counter[(inp, child.output)] for child in children)
-                for child in children:
-                    # if "DANGER" == child.output:
-                    if curr_node.frequency_counter[(inp, child.output)] / total_samples <= threshold_percentage:
-                        to_delete.append((inp, child.output, path + (inp, child.output)))
-                        # print(child.output)
-                    else:
-                        queue.append((child, path + (inp, child.output)))
-
-            for i, o, path_to_delete_node in to_delete:
-                delete_candidate = curr_node.get_child(i, o)
-                if delete_candidate is not None:
-                    curr_node.frequency_counter[(i, o)] = 0
-                    # detach from the tree/cache
-                    curr_node.children[i].remove(delete_candidate)
-                    # get inputs and outputs from path to node
-                    inputs, outputs = path_to_delete_node[0::2], path_to_delete_node[1::2]
-                    # add to set of nodes that were pruned in this iteration
-                    pruned_nodes.add((inputs, outputs))
-                    counter += 1
-
-        print(f"Pruned nodes: {counter}")
-        return pruned_nodes
-
     def get_table(self, s, e):
         """
         Generates a table from the tree
@@ -198,6 +164,38 @@ class TraceTree:
                 result[pair][inp] = self.get_all_traces(curr_node, inp)
 
         return result
+
+    def prune(self, threshold=0.1):
+        counter = 0
+        pruned_nodes = set()
+
+        queue = [(self.root_node, tuple())]
+        while queue:
+            curr_node, path = queue.pop(0)
+            to_delete = []
+            for inp in curr_node.children.keys():
+                children = curr_node.children[inp]
+                total_samples = sum(child.frequency_counter for child in children)
+                for child in children:
+                    if child.frequency_counter / total_samples <= threshold:
+                        #if "DANGER" != child.output:
+                        to_delete.append((inp, child.output, path + (inp, child.output)))
+                    else:
+                        queue.append((child, path + (inp, child.output)))
+
+            for i, o, path_to_delete_node in to_delete:
+                delete_candidate = curr_node.get_child(i, o)
+                if delete_candidate is not None:
+                    # detach from the tree/cache
+                    curr_node.children[i].remove(delete_candidate)
+                    # get inputs and outputs from path to node
+                    inputs, outputs = path_to_delete_node[0::2], path_to_delete_node[1::2]
+                    # add to set of nodes that were pruned in this iteration
+                    pruned_nodes.add((inputs, outputs))
+                    counter += 1
+
+        print(f"Pruned nodes: {counter}")
+        return pruned_nodes
 
     def find_cex_in_cache(self, hypothesis):
 
@@ -221,3 +219,22 @@ class TraceTree:
                     queue.append((child, path + (inp, child.output)))
 
         return None
+
+    def get_s_e_sampling_frequency(self, prefix, suffix):
+        sampling_frequency = 0
+        curr_node = self.root_node
+        for i, o in zip(prefix[0], prefix[1]):
+            curr_node = curr_node.get_child(i, o)
+
+        queue = [(curr_node, 0)]
+        while queue:
+            node, depth = queue.pop(0)
+            children_with_same_input = node.children[suffix[depth]]
+            if depth == len(suffix) - 1:
+                for c in children_with_same_input:
+                    sampling_frequency += c.frequency_counter
+            else:
+                for c in children_with_same_input:
+                    queue.append((c, depth + 1))
+
+        return sampling_frequency

@@ -3,7 +3,7 @@ from collections import Counter
 from aalpy.automata import Onfsm, OnfsmState
 from aalpy.base import Automaton
 from aalpy.learning_algs.non_deterministic.TraceTree import SULWrapper
-from aalpy.utils.HelperFunctions import print_observation_table, all_suffixes
+from aalpy.utils.HelperFunctions import all_suffixes
 
 
 class NonDetObservationTable:
@@ -116,14 +116,8 @@ class NonDetObservationTable:
 
         for s in update_S:
             for e in update_E:
-                num_s_e_sampled = 0
-                # if self.sampling_counter[s[0] + e] >= len(s[0] + e) + 1 * 2:
-                #     continue
-                while num_s_e_sampled < self.n_samples:
-                    output = tuple(self.sul.query(s[0] + e))
-                    if output[:len(s[1])] == s[1]:
-                        num_s_e_sampled += 1
-                        self.sampling_counter[s[0] + e] += 1
+                while self.sul.pta.get_s_e_sampling_frequency(s, e) < self.n_samples:
+                    self.sul.query(s[0] + e)
 
     def clean_obs_table(self):
         """
@@ -151,17 +145,6 @@ class NonDetObservationTable:
                             self.S.remove(row_prefix)
             else:
                 hashed_rows_from_s.add(hashed_s_row)
-
-        # remove dead states
-        # unreachable_states = []
-        # extended_S = {self.row_to_hashable(p) for p in self.get_extended_S()}
-        # for s in self.S:
-        #     if self.row_to_hashable(s) not in extended_S:
-        #         unreachable_states.append(s)
-        #
-        # for s_to_delete in unreachable_states:
-        #     print(s_to_delete)
-        #     self.S.remove(s_to_delete)
 
     def gen_hypothesis(self) -> Automaton:
         """
@@ -251,7 +234,6 @@ class NonDetObservationTable:
         while True:
             row_to_close = self.get_row_to_close()
             while row_to_close is not None:
-                print('Reconstruction: Closing')
                 row_to_close = self.get_row_to_close()
 
             hypothesis = self.gen_hypothesis()
