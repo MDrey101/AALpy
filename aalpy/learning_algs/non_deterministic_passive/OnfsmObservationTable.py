@@ -125,44 +125,6 @@ class NonDetObservationTable:
                         num_s_e_sampled += 1
                         self.sampling_counter[s[0] + e] += 1
 
-    def clean_obs_table(self):
-        """
-        Moves duplicates from S to S_dot_A. The entries in S_dot_A which are based on the moved row get deleted.
-        The table will be smaller and more efficient.
-
-        """
-
-        tmp_S = self.S.copy()
-        tmp_both_S = self.S + self.get_extended_S()
-        hashed_rows_from_s = set()
-
-        tmp_S.sort(key=lambda t: len(t[0]))
-
-        for s in tmp_S:
-            hashed_s_row = self.row_to_hashable(s)
-            if hashed_s_row in hashed_rows_from_s:
-                if s in self.S:
-                    self.S.remove(s)
-                size = len(s[0])
-                for row_prefix in tmp_both_S:
-                    s_both_row = (row_prefix[0][:size], row_prefix[1][:size])
-                    if s != row_prefix and s == s_both_row:
-                        if row_prefix in self.S:
-                            self.S.remove(row_prefix)
-            else:
-                hashed_rows_from_s.add(hashed_s_row)
-
-        # remove dead states
-        # unreachable_states = []
-        # extended_S = {self.row_to_hashable(p) for p in self.get_extended_S()}
-        # for s in self.S:
-        #     if self.row_to_hashable(s) not in extended_S:
-        #         unreachable_states.append(s)
-        #
-        # for s_to_delete in unreachable_states:
-        #     print(s_to_delete)
-        #     self.S.remove(s_to_delete)
-
     def gen_hypothesis(self) -> Automaton:
         """
         Generate automaton based on the values found in the observation table.
@@ -196,7 +158,8 @@ class NonDetObservationTable:
                 for t in trace:
                     reached_row = (prefix[0] + a, prefix[1] + (t[-1],))
                     if self.row_to_hashable(reached_row) not in state_distinguish.keys():
-                        print('reeee')
+                        print('HOLE IN THE OBSERVATION TABLE')
+                        assert False
                     state_in_S = state_distinguish[self.row_to_hashable(reached_row)]
                     assert state_in_S  # shouldn't be necessary because of the if condition
                     states_dict[prefix].transitions[a[0]].append((t[-1], state_in_S))

@@ -135,6 +135,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=1,
         # Add all suffixes to the E set and ask membership/input queries.
         observation_table.update_obs_table()
 
+    hypothesis = observation_table.reconstruct_obs_table()
+
     total_time = round(time.time() - start_time, 2)
     eq_query_time = round(eq_query_time, 2)
     learning_time = round(total_time - eq_query_time, 2)

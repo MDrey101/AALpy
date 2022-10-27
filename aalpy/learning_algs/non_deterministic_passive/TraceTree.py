@@ -114,6 +114,9 @@ class TraceTree:
 
         return curr_node
 
+    def sample(self, sampling_num):
+        pass
+
     def get_all_traces(self, curr_node=None, e=None):
         """
 
@@ -144,7 +147,7 @@ class TraceTree:
         cell = [node.get_prefix()[-len(e):] for node in reached_nodes]
         return cell
 
-    def prune(self, threshold_percentage=0.1):
+    def prune(self, threshold=3):
         counter = 0
         pruned_nodes = set()
 
@@ -154,19 +157,16 @@ class TraceTree:
             to_delete = []
             for inp in curr_node.children.keys():
                 children = curr_node.children[inp]
-                total_samples = sum(curr_node.frequency_counter[(inp, child.output)] for child in children)
                 for child in children:
-                    # if "DANGER" == child.output:
-                    if curr_node.frequency_counter[(inp, child.output)] / total_samples <= threshold_percentage:
-                        to_delete.append((inp, child.output, path + (inp, child.output)))
-                        # print(child.output)
-                    else:
+                    # if curr_node.frequency_counter[(inp, child_out)] >= threshold:
+                    if "DANGER" != child.output:
                         queue.append((child, path + (inp, child.output)))
+                    else:
+                        to_delete.append((inp, child.output, path + (inp, child.output)))
 
             for i, o, path_to_delete_node in to_delete:
                 delete_candidate = curr_node.get_child(i, o)
                 if delete_candidate is not None:
-                    curr_node.frequency_counter[(i, o)] = 0
                     # detach from the tree/cache
                     curr_node.children[i].remove(delete_candidate)
                     # get inputs and outputs from path to node
@@ -177,27 +177,6 @@ class TraceTree:
 
         print(f"Pruned nodes: {counter}")
         return pruned_nodes
-
-    def get_table(self, s, e):
-        """
-        Generates a table from the tree
-
-        Args:
-          s: rows from S, S_dot_A, or both which should be presented in the table.
-          e: E
-
-        Returns:
-          a table in a format that can be used for printing.
-        """
-        result = {}
-        for pair in s:
-            curr_node = self.get_to_node(pair[0], pair[1])
-            result[pair] = {}
-
-            for inp in e:
-                result[pair][inp] = self.get_all_traces(curr_node, inp)
-
-        return result
 
     def find_cex_in_cache(self, hypothesis):
 

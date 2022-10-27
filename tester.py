@@ -11,6 +11,7 @@ from aalpy.utils import load_automaton_from_file
 model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
 alphabet = model.get_input_alphabet()
 
+
 # TODO: method which takes the pruned tree - queries the tree?
 
 
@@ -37,6 +38,11 @@ class FailSUL(SUL):
         self.onfsm.current_state = transition[1]
         return output
 
+
+from random import seed
+
+# 2, 3, 4
+# seed(3)
 
 sul = FailSUL(model)
 
