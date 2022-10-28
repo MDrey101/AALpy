@@ -1,29 +1,4 @@
-from collections import defaultdict, Counter
-
-from aalpy.base import SUL
-
-
-class SULWrapper(SUL):
-    """
-    Wrapper for non-deterministic SUL. After every step, input/output pair is added to the tree containing all traces.
-    """
-
-    def __init__(self, sul: SUL):
-        super().__init__()
-        self.sul = sul
-        self.pta = TraceTree()
-
-    def pre(self):
-        self.pta.reset()
-        self.sul.pre()
-
-    def post(self):
-        self.sul.post()
-
-    def step(self, letter):
-        out = self.sul.step(letter)
-        self.pta.add_to_tree(letter, out)
-        return out
+from collections import defaultdict
 
 
 class Node:
@@ -114,12 +89,12 @@ class TraceTree:
 
         return curr_node
 
-    def get_all_traces(self, curr_node=None, e=None):
+    def get_all_traces(self, prefix, e=None):
         """
 
         Args:
 
-          curr_node: current node
+          prefix: prefix
           e: List of inputs
 
         Returns:
@@ -127,8 +102,14 @@ class TraceTree:
           Traces of outputs corresponding to the input-sequence given by e
         """
 
-        if not curr_node or not e:
+        if not prefix or not e:
             return []
+
+        curr_node = self.root_node
+        for i, o in zip(prefix[0], prefix[1]):
+            curr_node = curr_node.get_child(i, o)
+            if curr_node is None:
+                return []
 
         queue = [(curr_node, 0)]
         reached_nodes = []
@@ -156,46 +137,13 @@ class TraceTree:
           a table in a format that can be used for printing.
         """
         result = {}
-        for pair in s:
-            curr_node = self.get_to_node(pair[0], pair[1])
-            result[pair] = {}
+        for prefix in s:
+            result[prefix] = {}
 
             for inp in e:
-                result[pair][inp] = self.get_all_traces(curr_node, inp)
+                result[prefix][inp] = self.get_all_traces(prefix, inp)
 
         return result
-
-    def prune(self, threshold=0.1):
-        counter = 0
-        pruned_nodes = set()
-
-        queue = [(self.root_node, tuple())]
-        while queue:
-            curr_node, path = queue.pop(0)
-            to_delete = []
-            for inp in curr_node.children.keys():
-                children = curr_node.children[inp]
-                total_samples = sum(child.frequency_counter for child in children)
-                for child in children:
-                    if child.frequency_counter / total_samples <= threshold:
-                        #if "DANGER" != child.output:
-                        to_delete.append((inp, child.output, path + (inp, child.output)))
-                    else:
-                        queue.append((child, path + (inp, child.output)))
-
-            for i, o, path_to_delete_node in to_delete:
-                delete_candidate = curr_node.get_child(i, o)
-                if delete_candidate is not None:
-                    # detach from the tree/cache
-                    curr_node.children[i].remove(delete_candidate)
-                    # get inputs and outputs from path to node
-                    inputs, outputs = path_to_delete_node[0::2], path_to_delete_node[1::2]
-                    # add to set of nodes that were pruned in this iteration
-                    pruned_nodes.add((inputs, outputs))
-                    counter += 1
-
-        print(f"Pruned nodes: {counter}")
-        return pruned_nodes
 
     def find_cex_in_cache(self, hypothesis):
 
@@ -225,6 +173,8 @@ class TraceTree:
         curr_node = self.root_node
         for i, o in zip(prefix[0], prefix[1]):
             curr_node = curr_node.get_child(i, o)
+            if curr_node is None:
+                return 0
 
         queue = [(curr_node, 0)]
         while queue:
@@ -238,3 +188,54 @@ class TraceTree:
                     queue.append((c, depth + 1))
 
         return sampling_frequency
+
+    def get_sampling_distributions(self, prefix, input_from_alphabet):
+        sampling_distribution = {}
+        curr_node = self.root_node
+        for i, o in zip(prefix[0], prefix[1]):
+            curr_node = curr_node.get_child(i, o)
+
+        children = curr_node.children[input_from_alphabet]
+        sampling_sum = sum(c.frequency_counter for c in children)
+        for c in children:
+            sampling_distribution[c.output] = c.frequency_counter / sampling_sum
+
+        return sampling_distribution
+
+    def prune(self, threshold=0.2):
+        counter = 0
+        pruned_nodes = set()
+
+        queue = [(self.root_node, tuple())]
+        while queue:
+            curr_node, path = queue.pop(0)
+            to_delete = []
+            for inp in curr_node.children.keys():
+                children = curr_node.children[inp]
+                total_samples = sum(child.frequency_counter for child in children)
+                children_outputs = [c.output for c in children]
+                # if 'DANGER' in children_outputs:
+                #     print(children_outputs)
+                #     print(list(c.frequency_counter / total_samples for c in children))
+                for child in children:
+                    #if child.frequency_counter / total_samples <= threshold:
+                    if child.output == 'DANGER':
+                        #     print('REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
+                        to_delete.append((inp, child.output, path + (inp, child.output)))
+                    else:
+                        queue.append((child, path + (inp, child.output)))
+
+            for i, o, path_to_delete_node in to_delete:
+                delete_candidate = curr_node.get_child(i, o)
+                if delete_candidate is not None:
+                    # detach from the tree/cache
+                    curr_node.children[i].remove(delete_candidate)
+                    del delete_candidate
+                    # get inputs and outputs from path to node
+                    inputs, outputs = path_to_delete_node[0::2], path_to_delete_node[1::2]
+                    # add to set of nodes that were pruned in this iteration
+                    pruned_nodes.add((inputs, outputs))
+                    counter += 1
+
+        # print(f"Pruned nodes: {counter}")
+        return pruned_nodes
