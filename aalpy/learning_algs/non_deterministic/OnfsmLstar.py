@@ -86,7 +86,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
         hypothesis = ot.gen_hypothesis()
 
-        if counterexample_not_valid(hypothesis, last_cex) or eq_oracle.is_cex_dangerous(last_cex):
+        if counterexample_not_valid(hypothesis, last_cex) or eq_oracle.is_cex_dangerous(last_cex[0], last_cex[1]):
             cex = sul.cache.find_cex_in_cache(hypothesis)
 
             if cex is None:

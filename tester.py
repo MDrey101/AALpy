@@ -54,20 +54,21 @@ def test_alergia():
 
 
 if __name__ == '__main__':
-    test_alergia()
-    exit()
+    # test_alergia()
+    # exit()
     model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
     alphabet = model.get_input_alphabet()
 
     # 2, 3, 4
-    # seed(3)
+    from random import seed
+    seed(3)
 
     sul = FailSUL(model)
 
     eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=8)
-    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
+    # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
 
-    learned_model = run_stochastic_Lstar(alphabet, sul, eq_oracle, automaton_type='smm', custom_oracle=True)
+    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, stochastic=False,)
 
     learned_model.visualize()
 
