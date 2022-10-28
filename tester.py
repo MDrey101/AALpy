@@ -1,8 +1,9 @@
-from random import choice, choices
+from random import choice, choices, randint
 
 from aalpy.automata import Onfsm
 from aalpy.base import SUL
-from aalpy.learning_algs import run_non_det_Lstar
+from aalpy.learning_algs import run_non_det_Lstar, run_stochastic_Lstar, run_Alergia
+from aalpy.oracles import RandomWordEqOracle
 from aalpy.oracles.FailSafeOracle import FailSafeOracle
 from aalpy.utils import load_automaton_from_file
 
@@ -32,7 +33,29 @@ class FailSUL(SUL):
         return output
 
 
+def test_alergia():
+    model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
+    alphabet = model.get_input_alphabet()
+    sul = FailSUL(model)
+
+    data_set = []
+    for _ in range(10000):
+        sul.pre()
+        test_seq = ['Init']
+        for _ in range(randint(4, 10)):
+            i = choice(alphabet)
+            o = sul.step(i)
+            test_seq.append((i, o))
+
+        data_set.append(test_seq)
+
+    learned_model = run_Alergia(data_set, 'smm')
+    learned_model.visualize()
+
+
 if __name__ == '__main__':
+    test_alergia()
+    exit()
     model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
     alphabet = model.get_input_alphabet()
 
@@ -42,8 +65,9 @@ if __name__ == '__main__':
     sul = FailSUL(model)
 
     eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=8)
+    eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
 
-    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10,)
+    learned_model = run_stochastic_Lstar(alphabet, sul, eq_oracle, automaton_type='smm', custom_oracle=True)
 
     learned_model.visualize()
 
