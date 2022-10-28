@@ -83,7 +83,8 @@ class FailSafeOracle(Oracle):
 
         return None
 
-    def is_cex_dangerous(self, inputs, outputs):
+    def is_cex_dangerous(self, cex):
+        inputs, outputs = cex[0], cex[1]
         for index in range(1, len(inputs) + 1):
             i = tuple(inputs[:index])
             o = tuple(outputs[:index])
