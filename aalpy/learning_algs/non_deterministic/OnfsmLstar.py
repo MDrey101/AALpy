@@ -1,9 +1,10 @@
 import time
+from collections import defaultdict
 
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.non_deterministic.NonDeterministicSULWrapper import NonDeterministicSULWrapper
 from aalpy.learning_algs.non_deterministic.OnfsmObservationTable import NonDetObservationTable
-from aalpy.oracles.FailSafeOracle import FailSafeOracle
+from FailSafeOracle import FailSafeOracle
 from aalpy.utils.HelperFunctions import print_learning_info, print_observation_table, \
     get_available_oracles_and_err_msg, all_suffixes
 
@@ -72,6 +73,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
     hypothesis = None
 
+    cex_to_E_map = defaultdict(list)
+
     while True:
         if max_learning_rounds and learning_rounds - 1 == max_learning_rounds:
             break
@@ -93,10 +96,20 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
         is_cex_dangerous = eq_oracle.is_cex_dangerous(last_cex[0], last_cex[1]) if last_cex is not None else False
         if is_cex_dangerous:
+            for s in cex_to_E_map[tuple(last_cex[0])]:
+                if s in ot.E:
+                    ot.E.remove(s)
+
             last_cex = None
-        if counterexample_not_valid(hypothesis, last_cex) or is_cex_dangerous:
+
+        if counterexample_not_valid(hypothesis, last_cex):
             cex = sul.cache.find_cex_in_cache(hypothesis)
             cache_cex_found = eq_oracle.is_cex_dangerous(cex[0], cex[1]) if cex is not None else True
+
+            if cex and eq_oracle.is_cex_dangerous(cex[0], cex[1]):
+                for s in cex_to_E_map[tuple(cex[0])]:
+                    if s in ot.E:
+                        ot.E.remove(s)
 
             if cache_cex_found:
                 learning_rounds += 1
@@ -122,10 +135,13 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
             for suffix in cex_suffixes:
                 if suffix not in ot.E:
                     ot.E.append(suffix)
+                    cex_to_E_map[tuple(cex[0])].append(suffix)
                     break
 
     if stochastic:
         hypothesis = ot.gen_hypothesis(stochastic=True)
+
+    print('SIZE OF E SET', len(ot.E))
 
     total_time = round(time.time() - start_time, 2)
     eq_query_time = round(eq_query_time, 2)

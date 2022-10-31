@@ -6,7 +6,7 @@ from aalpy.learning_algs.non_deterministic.TraceTree import TraceTree, SULWrappe
 from aalpy.oracles import RandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
 
-original_model = load_automaton_from_file('fail_safe_model.dot', 'onfsm')
+original_model = load_automaton_from_file('models_with_undesired_transitions/fail_safe_model.dot', 'onfsm')
 alphabet = original_model.get_input_alphabet()
 
 sul = OnfsmSUL(original_model)

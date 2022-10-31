@@ -2,9 +2,8 @@ from random import choice, choices, randint
 
 from aalpy.automata import Onfsm
 from aalpy.base import SUL
-from aalpy.learning_algs import run_non_det_Lstar, run_stochastic_Lstar, run_Alergia
-from aalpy.oracles import RandomWordEqOracle
-from aalpy.oracles.FailSafeOracle import FailSafeOracle
+from aalpy.learning_algs import run_non_det_Lstar, run_Alergia
+from FailSafeOracle import FailSafeOracle
 from aalpy.utils import load_automaton_from_file
 
 
@@ -34,7 +33,7 @@ class FailSUL(SUL):
 
 
 def test_alergia():
-    model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
+    model = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
     alphabet = model.get_input_alphabet()
     sul = FailSUL(model)
 
@@ -54,18 +53,26 @@ def test_alergia():
 
 
 if __name__ == '__main__':
+    model = load_automaton_from_file("models_with_undesired_transitions/model_0.dot", "onfsm")
+    model1 = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
+    model2 = load_automaton_from_file("models_with_undesired_transitions/model_2.dot", "onfsm")
+    model3 = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
+    model4 = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
+    model5 = load_automaton_from_file("models_with_undesired_transitions/model_5.dot", "onfsm")
+
     # test_alergia()
     # exit()
-    model = load_automaton_from_file("fail_safe_model.dot", "onfsm")
+    model = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
     alphabet = model.get_input_alphabet()
 
     # 2, 3, 4
     from random import seed
-    seed(3)
+    # seed(3)
+    # 13
 
     sul = FailSUL(model)
 
-    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=8)
+    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
     # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
 
     learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, stochastic=False,)

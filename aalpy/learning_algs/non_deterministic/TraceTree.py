@@ -219,8 +219,8 @@ class TraceTree:
                 #     print(children_outputs)
                 #     print(list(c.frequency_counter / total_samples for c in children))
                 for child in children:
-                    if child.frequency_counter / total_samples <= self.threshold:
-                    # if child.output == 'DANGER':
+                    # if child.frequency_counter / total_samples <= self.threshold:
+                    if child.output == 'DANGER':
                         #     print('REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
                         to_delete.append((inp, child.output, path + (inp, child.output)))
                     else:

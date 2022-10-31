@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, defaultdict
 
 from aalpy.automata import Onfsm, OnfsmState, StochasticMealyState, StochasticMealyMachine
 from aalpy.learning_algs.non_deterministic.NonDeterministicSULWrapper import NonDeterministicSULWrapper
@@ -50,6 +50,7 @@ class NonDetObservationTable:
         """
         pruned = self.sul.cache.prune()
         self.pruned_nodes.update(pruned)
+        # self.remove_reduntant_suffixes()
 
         s_rows = set()
         update_S_dot_A = self.get_extended_S()
@@ -153,6 +154,8 @@ class NonDetObservationTable:
             else:
                 hashed_rows_from_s.add(hashed_s_row)
 
+        # self.remove_reduntant_suffixes()
+
     def gen_hypothesis(self, stochastic=False):
         """
         Generate automaton based on the values found in the observation table.
@@ -204,3 +207,29 @@ class NonDetObservationTable:
         automaton.characterization_set = self.E
 
         return automaton
+
+    def remove_reduntant_suffixes(self):
+        sorted_e = sorted(self.E, key=len)
+        values = dict()
+
+        to_remove = []
+        for e in sorted_e:
+            column = ()
+            for row in list(self.S + self.get_extended_S()):
+                cell = self.sul.cache.get_all_traces(row, e)
+                column += (frozenset(cell),)
+            values[e] = column
+
+        observed = set()
+        for e in sorted_e:
+            if values[e] not in observed:
+                observed.add(values[e])
+            else:
+                to_remove.append(e)
+
+        for remove_candidate in to_remove:
+            sorted_e.remove(remove_candidate)
+
+        print(f'Removing {len(to_remove)} elements, size of E: {len(self.E)}')
+        self.E = sorted_e
+

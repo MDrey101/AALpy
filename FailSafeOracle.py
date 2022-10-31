@@ -43,6 +43,7 @@ class FailSafeOracle(Oracle):
     def find_cex(self, hypothesis):
 
         while self.num_walks_done < self.num_walks:
+            print(self.num_walks_done)
             inputs = []
             outputs = []
             self.reset_hyp_and_sul(hypothesis)
