@@ -37,15 +37,10 @@ class FailSafeOracle(Oracle):
         self.num_walks_done = 0
         self.automata_type = None
 
-        # ONFSM heuristics - try to find cex that is as short as possible
-        self.increase_interval = 20
-
         # set of counterexamples that are deemed as unsafe
         self.unsafe_counterexamples = set()
 
     def find_cex(self, hypothesis):
-        if not self.automata_type:
-            self.automata_type = automaton_dict.get(type(hypothesis), 'det')
 
         while self.num_walks_done < self.num_walks:
             inputs = []
@@ -53,24 +48,15 @@ class FailSafeOracle(Oracle):
             self.reset_hyp_and_sul(hypothesis)
             self.num_walks_done += 1
 
-            if self.automata_type != 'det':
-                prefix_lens = [len(p.prefix) for p in hypothesis.states]
-                max_prefix_len = max(prefix_lens)
-                diff = self.max_walk_len - max_prefix_len
-                testing_progress = self.num_walks_done / self.num_walks
-                num_steps = max_prefix_len + int(testing_progress * diff)
-            else:
-                num_steps = randint(self.min_walk_len, self.max_walk_len)
+            num_steps = randint(self.min_walk_len, self.max_walk_len)
 
             for _ in range(num_steps):
                 inputs.append(choice(self.alphabet))
 
                 out_sul = self.sul.step(inputs[-1])
-                if self.automata_type == 'det':
-                    out_hyp = hypothesis.step(inputs[-1])
-                else:
-                    out_hyp = hypothesis.step_to(inputs[-1], out_sul)
-                    outputs.append(out_sul)
+
+                out_hyp = hypothesis.step_to(inputs[-1], out_sul)
+                outputs.append(out_sul)
 
                 self.num_steps += 1
 
@@ -91,7 +77,6 @@ class FailSafeOracle(Oracle):
             i = tuple(inputs[:index])
             o = tuple(outputs[:index])
             if (i, o) in self.unsafe_counterexamples:
-                print("DANGEROUS CEX", inputs, outputs)
                 return True
         return False
 

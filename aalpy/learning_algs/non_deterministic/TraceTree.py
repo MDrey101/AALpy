@@ -37,9 +37,10 @@ class TraceTree:
     Tree used for keeping track of seen observations.
     """
 
-    def __init__(self):
+    def __init__(self, threshold=0.2):
         self.root_node = Node(None)
         self.curr_node = None
+        self.threshold = threshold
 
     def reset(self):
         self.curr_node = self.root_node
@@ -202,7 +203,7 @@ class TraceTree:
 
         return sampling_distribution
 
-    def prune(self, threshold=0.2):
+    def prune(self):
         counter = 0
         pruned_nodes = set()
 
@@ -218,7 +219,7 @@ class TraceTree:
                 #     print(children_outputs)
                 #     print(list(c.frequency_counter / total_samples for c in children))
                 for child in children:
-                    if child.frequency_counter / total_samples <= threshold:
+                    if child.frequency_counter / total_samples <= self.threshold:
                     # if child.output == 'DANGER':
                         #     print('REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
                         to_delete.append((inp, child.output, path + (inp, child.output)))

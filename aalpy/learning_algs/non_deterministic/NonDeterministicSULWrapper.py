@@ -7,10 +7,10 @@ class NonDeterministicSULWrapper(SUL):
     Wrapper for non-deterministic SUL. After every step, input/output pair is added to the tree containing all traces.
     """
 
-    def __init__(self, sul: SUL):
+    def __init__(self, sul: SUL, pruning_threshold=0.2):
         super().__init__()
         self.sul = sul
-        self.cache = TraceTree()
+        self.cache = TraceTree(threshold=pruning_threshold)
 
     def pre(self):
         self.cache.reset()

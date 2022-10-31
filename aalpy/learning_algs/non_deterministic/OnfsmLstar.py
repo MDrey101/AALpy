@@ -12,7 +12,7 @@ print_options = [0, 1, 2, 3]
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 
-def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5, samples=None, stochastic=False,
+def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5, pruning_threshold=0.2, samples=None, stochastic=False,
                       max_learning_rounds=None, return_data=False, print_level=2):
     """
     A ONFSM learning algorithm that does not rely on all weather assumption (once an input is queried, all possible
@@ -29,9 +29,11 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
         n_sampling: number of times that each cell has to be updated. If this number is to low, all-weather condition
             will not hold and learning will not converge to the correct model. (Default value = 50)
 
-        samples: input output sequances provided to learning algorithm. List of ((input sequence), (output sequence)).
+        pruning_threshold: tmp
 
-        stochastic: if True, non deterministic learning will be performed but probabilities will be added to the
+        samples: input output sequences provided to learning algorithm. List of ((input sequence), (output sequence)).
+
+        stochastic: if True, non-deterministic learning will be performed but probabilities will be added to the
         returned model, making it a stochastic Mealy machine
 
         max_learning_rounds: if max_learning_rounds is reached, learning will stop (Default value = None)
@@ -51,7 +53,10 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
     eq_query_time = 0
     learning_rounds = 0
 
-    sul = NonDeterministicSULWrapper(sul)
+    # TODO CHANGE ONCE DONE
+    pruning_threshold = 0.2
+
+    sul = NonDeterministicSULWrapper(sul, pruning_threshold)
 
     if samples:
         for inputs, outputs in samples:
@@ -86,14 +91,18 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
         hypothesis = ot.gen_hypothesis()
 
-        if counterexample_not_valid(hypothesis, last_cex) or eq_oracle.is_cex_dangerous(last_cex[0], last_cex[1]):
+        is_cex_dangerous = eq_oracle.is_cex_dangerous(last_cex[0], last_cex[1]) if last_cex is not None else False
+        if is_cex_dangerous:
+            last_cex = None
+        if counterexample_not_valid(hypothesis, last_cex) or is_cex_dangerous:
             cex = sul.cache.find_cex_in_cache(hypothesis)
+            cache_cex_found = eq_oracle.is_cex_dangerous(cex[0], cex[1]) if cex is not None else True
 
-            if cex is None:
+            if cache_cex_found:
                 learning_rounds += 1
                 # Find counterexample
                 if print_level > 1:
-                    print(f'Hypothesis {learning_rounds}: {len(hypothesis.states)} states.')
+                    print(f'Learning round {learning_rounds}: {len(hypothesis.states)} states.')
 
                 if print_level == 3:
                     print_observation_table(ot, 'non-det')
