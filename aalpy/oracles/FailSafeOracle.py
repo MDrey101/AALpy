@@ -74,7 +74,10 @@ class FailSafeOracle(Oracle):
 
                 self.num_steps += 1
 
-                if out_hyp is None and not self.is_cex_dangerous(inputs, outputs):
+                if out_hyp is None:
+                    if self.is_cex_dangerous(inputs, outputs):
+                        break
+
                     if self.reset_after_cex:
                         self.num_walks_done = 0
                         self.sul.post()
@@ -88,6 +91,7 @@ class FailSafeOracle(Oracle):
             i = tuple(inputs[:index])
             o = tuple(outputs[:index])
             if (i, o) in self.unsafe_counterexamples:
+                print("DANGEROUS CEX", inputs, outputs)
                 return True
         return False
 
