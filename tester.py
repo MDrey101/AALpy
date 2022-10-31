@@ -62,7 +62,7 @@ if __name__ == '__main__':
 
     # test_alergia()
     # exit()
-    model = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
+    model = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
     alphabet = model.get_input_alphabet()
 
     # 2, 3, 4
@@ -72,10 +72,10 @@ if __name__ == '__main__':
 
     sul = FailSUL(model)
 
-    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
+    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=100, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
     # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
 
-    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, stochastic=False,)
+    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10,)
 
     learned_model.visualize()
 

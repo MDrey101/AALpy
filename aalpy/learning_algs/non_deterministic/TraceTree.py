@@ -214,14 +214,9 @@ class TraceTree:
             for inp in curr_node.children.keys():
                 children = curr_node.children[inp]
                 total_samples = sum(child.frequency_counter for child in children)
-                children_outputs = [c.output for c in children]
-                # if 'DANGER' in children_outputs:
-                #     print(children_outputs)
-                #     print(list(c.frequency_counter / total_samples for c in children))
                 for child in children:
-                    # if child.frequency_counter / total_samples <= self.threshold:
-                    if child.output == 'DANGER':
-                        #     print('REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE')
+                    if child.frequency_counter / total_samples <= self.threshold:
+                    # if child.output == 'DANGER':
                         to_delete.append((inp, child.output, path + (inp, child.output)))
                     else:
                         queue.append((child, path + (inp, child.output)))
