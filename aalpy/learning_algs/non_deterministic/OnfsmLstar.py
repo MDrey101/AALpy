@@ -15,7 +15,7 @@ available_oracles, available_oracles_error_msg = get_available_oracles_and_err_m
 
 def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5, pruning_threshold=0.2, samples=None,
                       stochastic=False,
-                      max_learning_rounds=None, return_data=False, print_level=2):
+                      max_learning_rounds=None, return_data=False, print_level=2, debug=False):
     """
     A ONFSM learning algorithm that does not rely on all weather assumption (once an input is queried, all possible
     outputs are observed).
@@ -55,10 +55,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
     eq_query_time = 0
     learning_rounds = 0
 
-    # TODO CHANGE ONCE DONE
-    pruning_threshold = 0.2
-
-    # sul = NonDeterministicSULWrapper(sul, pruning_threshold)
+    if not isinstance(sul, NonDeterministicSULWrapper):
+        sul = NonDeterministicSULWrapper(sul, pruning_threshold)
 
     if samples:
         for inputs, outputs in samples:
@@ -66,7 +64,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
     eq_oracle.sul = sul
 
-    ot = NonDetObservationTable(alphabet, sul, n_sampling)
+    ot = NonDetObservationTable(alphabet, sul, n_sampling, debug)
 
     # Keep track of last counterexample and last hypothesis size
     # With this data we can check if the extension of the E set lead to state increase
@@ -93,6 +91,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
             ot.query_missing_observations()
             row_to_close = ot.get_row_to_close()
             ot.clean_obs_table()
+            if debug:
+                print(f'Closing. Current S size: {len(ot.S)}')
 
         if isinstance(eq_oracle, FailSafeOracle):
             eq_oracle.unsafe_counterexamples.update(ot.pruned_nodes)
@@ -108,7 +108,11 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
 
             if cex is None:
                 eq_query_start = time.time()
+                if debug:
+                    print('ENTERING EQ. ORACLE')
                 cex = eq_oracle.find_cex(hypothesis)
+                if debug:
+                    print('CEX FOUND', cex)
                 eq_query_time += time.time() - eq_query_start
 
             last_cex = cex
@@ -119,6 +123,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
                 # Find counterexample
                 if print_level > 1:
                     print(f'Learning round {learning_rounds}: {len(hypothesis.states)} states.')
+                    hypothesis.save(f'learned_models/{learning_rounds}')
 
                 if print_level == 3:
                     print_observation_table(ot, 'non-det')
@@ -130,6 +135,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
             ot.sample_cex(cex)
 
         if is_cex_dangerous(sul.cache, cex):
+            if debug:
+                print('CEX is DANGEROUS', cex)
             eq_oracle.unsafe_counterexamples.add((tuple(last_cex[0]), tuple(last_cex[1])))
             for s in cex_to_e_map[tuple(last_cex[0])]:
                 if s in ot.E:

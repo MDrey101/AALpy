@@ -65,7 +65,7 @@ if __name__ == '__main__':
     #     print('SEED', i)
     #     for model, exp_name in [(model0, 0), (model1, 1), (model2, 2), (model3, 3), (model5, 5)]:
 
-    model = load_automaton_from_file("models_with_undesired_transitions/model_2.dot", "onfsm")
+    model = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
 
     alphabet = model.get_input_alphabet()
 
@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
 
-    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10,)
+    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, debug=True)
 
         # learned_model.visualize()
 

@@ -6,7 +6,7 @@ from aalpy.learning_algs.non_deterministic.NonDeterministicSULWrapper import Non
 
 class NonDetObservationTable:
 
-    def __init__(self, alphabet: list, sul: NonDeterministicSULWrapper, n_sampling):
+    def __init__(self, alphabet: list, sul: NonDeterministicSULWrapper, n_sampling, debug=False):
         """
         Construction of the non-deterministic observation table.
 
@@ -29,6 +29,7 @@ class NonDetObservationTable:
 
         self.sul = sul
 
+        self.debug = debug
         self.sampling_counter = Counter()
 
         empty_word = tuple()
@@ -96,9 +97,10 @@ class NonDetObservationTable:
         s_set = s if s is not None else self.S + self.get_extended_S()
         e_set = e if e is not None else self.E
 
-        sampling_failsafe = 25
         for s in s_set:
             for e in e_set:
+                if self.debug:
+                    print(f'Sampling: Prefix, Suffix:  {s}, {e}')
                 while self.sul.cache.get_s_e_sampling_frequency(s, e) < self.n_samples:
                     self.sampling_counter[s] += 1
                     # if self.sampling_counter[s] >= sampling_failsafe:
@@ -234,7 +236,6 @@ class NonDetObservationTable:
         for remove_candidate in to_remove:
             sorted_e.remove(remove_candidate)
 
-        print(f'Removing {len(to_remove)} elements, size of E: {len(self.E)}')
         self.E = sorted_e
 
     def sample_cex(self, cex):
@@ -248,7 +249,8 @@ class NonDetObservationTable:
             output = self.sul.query(cex[0])
             if output[:-1] == prefix[1]:
                 sampling_achieved += 1
-        # print('Sampling', cex)
-        # print('Sampling attempts', sampling_attempts)
-        # print(self.sul.cache.get_sampling_distributions(prefix, suffix[0]))
+        if self.debug:
+            print('Sampling', cex)
+            print('Sampling attempts', sampling_attempts)
+            print(self.sul.cache.get_sampling_distributions(prefix, suffix[0]))
 
