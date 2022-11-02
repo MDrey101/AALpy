@@ -48,8 +48,8 @@ class NonDetObservationTable:
 
             row that will be moved to S set and closed
         """
-        pruned = self.sul.cache.prune()
-        self.pruned_nodes.update(pruned)
+        # pruned = self.sul.cache.prune()
+        # self.pruned_nodes.update(pruned)
         # self.remove_reduntant_suffixes()
 
         s_rows = set()
@@ -101,8 +101,8 @@ class NonDetObservationTable:
             for e in e_set:
                 while self.sul.cache.get_s_e_sampling_frequency(s, e) < self.n_samples:
                     self.sampling_counter[s] += 1
-                    if self.sampling_counter[s] >= sampling_failsafe:
-                        break
+                    # if self.sampling_counter[s] >= sampling_failsafe:
+                    #     break
                     self.sul.query(s[0] + e)
 
     def row_to_hashable(self, row_prefix):
@@ -236,4 +236,19 @@ class NonDetObservationTable:
 
         print(f'Removing {len(to_remove)} elements, size of E: {len(self.E)}')
         self.E = sorted_e
+
+    def sample_cex(self, cex):
+        prefix = cex[0][:-1], cex[1][:-1]
+        suffix = (cex[0][-1],)
+
+        sampling_achieved = 0
+        sampling_attempts = 0
+        while self.sul.cache.get_s_e_sampling_frequency(prefix, suffix) < self.n_samples or sampling_achieved < 10:
+            sampling_attempts += 1
+            output = self.sul.query(cex[0])
+            if output[:-1] == prefix[1]:
+                sampling_achieved += 1
+        # print('Sampling', cex)
+        # print('Sampling attempts', sampling_attempts)
+        # print(self.sul.cache.get_sampling_distributions(prefix, suffix[0]))
 

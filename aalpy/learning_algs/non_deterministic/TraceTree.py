@@ -31,6 +31,17 @@ class Node:
             curr_node = curr_node.parent
         return prefix
 
+    def get_child_safe(self, inp, out, threshold):
+        child = next((child for child in self.children[inp] if child.output == out), None)
+        if child is None:
+            return None
+
+        total_samples = sum(child.frequency_counter for child in self.children[inp])
+
+        if child.frequency_counter / total_samples <= threshold:
+            return None
+        return child
+
 
 class TraceTree:
     """
@@ -108,7 +119,7 @@ class TraceTree:
 
         curr_node = self.root_node
         for i, o in zip(prefix[0], prefix[1]):
-            curr_node = curr_node.get_child(i, o)
+            curr_node = curr_node.get_child_safe(i, o, self.threshold)
             if curr_node is None:
                 return []
 
@@ -120,7 +131,10 @@ class TraceTree:
                 reached_nodes.append(node)
             else:
                 children_with_same_input = node.children[e[depth]]
+                total_samples = sum(child.frequency_counter for child in children_with_same_input)
                 for c in children_with_same_input:
+                    if c.frequency_counter / total_samples <= self.threshold:
+                        continue
                     queue.append((c, depth + 1))
 
         cell = [node.get_prefix()[-len(e):] for node in reached_nodes]
@@ -216,7 +230,7 @@ class TraceTree:
                 total_samples = sum(child.frequency_counter for child in children)
                 for child in children:
                     if child.frequency_counter / total_samples <= self.threshold:
-                    # if child.output == 'DANGER':
+                        # if child.output == 'DANGER':
                         to_delete.append((inp, child.output, path + (inp, child.output)))
                     else:
                         queue.append((child, path + (inp, child.output)))

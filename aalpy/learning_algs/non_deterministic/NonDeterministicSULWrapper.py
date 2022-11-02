@@ -11,15 +11,19 @@ class NonDeterministicSULWrapper(SUL):
         super().__init__()
         self.sul = sul
         self.cache = TraceTree(threshold=pruning_threshold)
+        self.test = []
 
     def pre(self):
+        self.test = []
         self.cache.reset()
         self.sul.pre()
 
     def post(self):
+        # print(self.test)
         self.sul.post()
 
     def step(self, letter):
+        self.test.append(letter)
         out = self.sul.step(letter)
         self.cache.add_to_tree(letter, out)
         return out

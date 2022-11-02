@@ -22,7 +22,7 @@ class FailSUL(SUL):
         if "DANGER" in self.onfsm.outputs_on_input(letter):
             possible_states = self.onfsm.current_state.transitions[letter]
             danger_position = ["DANGER" == state[0] for state in possible_states]
-            probability_distributions = [0.05 if d else 0.9 for d in danger_position]
+            probability_distributions = [0.05 if d else 1.9 for d in danger_position]
 
             transition = choices(possible_states, probability_distributions, k=1)[0]
         else:
@@ -53,35 +53,27 @@ def test_alergia():
 
 
 if __name__ == '__main__':
-    model = load_automaton_from_file("models_with_undesired_transitions/model_0.dot", "onfsm")
+    model0 = load_automaton_from_file("models_with_undesired_transitions/model_0.dot", "onfsm")
     model1 = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
     model2 = load_automaton_from_file("models_with_undesired_transitions/model_2.dot", "onfsm")
     model3 = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
-    model4 = load_automaton_from_file("models_with_undesired_transitions/model_3.dot", "onfsm")
     model5 = load_automaton_from_file("models_with_undesired_transitions/model_5.dot", "onfsm")
 
-    # test_alergia()
-    # exit()
-    model = load_automaton_from_file("models_with_undesired_transitions/model_1.dot", "onfsm")
-    alphabet = model.get_input_alphabet()
+    # from random import seed
+    # for i in range(1000):
+    #     seed(i)
+    #     print('SEED', i)
+    #     for model, exp_name in [(model0, 0), (model1, 1), (model2, 2), (model3, 3), (model5, 5)]:
 
-    # 2, 3, 4
-    from random import seed
-    # seed(3)
-    # 13
+    model = load_automaton_from_file("models_with_undesired_transitions/model_2.dot", "onfsm")
+
+    alphabet = model.get_input_alphabet()
 
     sul = FailSUL(model)
 
-    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=100, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
-    # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10)
+    eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
 
     learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10,)
 
-    learned_model.visualize()
+        # learned_model.visualize()
 
-    # if learned_model.size > 4:
-    #     sul2 = OnfsmSUL(learned_model)
-    #     eq_oracle = RandomWordEqOracle(alphabet, sul2, num_walks=1000, min_walk_len=4, max_walk_len=10)
-    #     minimized_automaton = run_non_det_Lstar(alphabet, sul2, eq_oracle, n_sampling=10,)
-    #
-    #     minimized_automaton.visualize()
