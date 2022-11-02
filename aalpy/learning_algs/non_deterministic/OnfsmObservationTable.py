@@ -96,9 +96,13 @@ class NonDetObservationTable:
         s_set = s if s is not None else self.S + self.get_extended_S()
         e_set = e if e is not None else self.E
 
+        sampling_failsafe = 25
         for s in s_set:
             for e in e_set:
                 while self.sul.cache.get_s_e_sampling_frequency(s, e) < self.n_samples:
+                    self.sampling_counter[s] += 1
+                    if self.sampling_counter[s] >= sampling_failsafe:
+                        break
                     self.sul.query(s[0] + e)
 
     def row_to_hashable(self, row_prefix):
