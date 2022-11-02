@@ -37,6 +37,9 @@ class FailSafeOracle(Oracle):
         self.num_walks_done = 0
         self.automata_type = None
 
+        self.test_lengths = [randint(self.min_walk_len, self. max_walk_len) for _ in range(self.num_walks)]
+        self.test_lengths.sort()
+
         # set of counterexamples that are deemed as unsafe
         self.unsafe_counterexamples = set()
 
@@ -49,7 +52,7 @@ class FailSafeOracle(Oracle):
             self.reset_hyp_and_sul(hypothesis)
             self.num_walks_done += 1
 
-            num_steps = randint(self.min_walk_len, self.max_walk_len)
+            num_steps = self.test_lengths.pop(0)
 
             for _ in range(num_steps):
                 inputs.append(choice(self.alphabet))
@@ -65,10 +68,7 @@ class FailSafeOracle(Oracle):
                     if self.is_cex_dangerous(inputs, outputs):
                         break
 
-                    if self.reset_after_cex:
-                        self.num_walks_done = 0
-                        self.sul.post()
-
+                    self.sul.post()
                     return inputs, outputs
 
         return None
