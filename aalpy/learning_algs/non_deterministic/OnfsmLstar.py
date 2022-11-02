@@ -57,7 +57,7 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
     # TODO CHANGE ONCE DONE
     pruning_threshold = 0.2
 
-    sul = NonDeterministicSULWrapper(sul, pruning_threshold)
+    # sul = NonDeterministicSULWrapper(sul, pruning_threshold)
 
     if samples:
         for inputs, outputs in samples:
@@ -82,6 +82,8 @@ def run_non_det_Lstar(alphabet: list, sul: SUL, eq_oracle: Oracle, n_sampling=5,
         ot.S = list()
         ot.S.append((tuple(), tuple()))
         ot.query_missing_observations()
+        # we could add pruning here
+        # or pruning in sampling already -> this could be much smarter as it could avoid much unnecesarry sampling
 
         row_to_close = ot.get_row_to_close()
         while row_to_close is not None:
