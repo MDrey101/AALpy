@@ -1,5 +1,6 @@
 from collections import Counter, defaultdict
 
+import constant
 from aalpy.automata import Onfsm, OnfsmState, StochasticMealyState, StochasticMealyMachine
 from aalpy.learning_algs.non_deterministic.NonDeterministicSULWrapper import NonDeterministicSULWrapper
 
@@ -38,6 +39,7 @@ class NonDetObservationTable:
         # Systems in a Testing Context'. Each element of S is a (inputs, outputs) tuple, where first element of the
         # tuple are inputs and second element of the tuple are outputs associated with inputs.
         self.S.append((empty_word, empty_word))
+        self.query_counter = 0
 
         self.pruned_nodes = set()
 
@@ -101,11 +103,18 @@ class NonDetObservationTable:
             for e in e_set:
                 if self.debug:
                     print(f'Sampling: Prefix, Suffix:  {s}, {e}')
+
                 while self.sul.cache.get_s_e_sampling_frequency(s, e) < self.n_samples:
+                    # break
+                    self.query_counter += 1
+                    if self.query_counter >= constant.QERY_THRESHOLD_UNTIL_RESET:
+                        self.query_counter = 0
+                        input("Query Threshold reached - please reset the device!")
                     self.sampling_counter[s] += 1
                     # if self.sampling_counter[s] >= sampling_failsafe:
                     #     break
                     self.sul.query(s[0] + e)
+
 
     def row_to_hashable(self, row_prefix):
         """

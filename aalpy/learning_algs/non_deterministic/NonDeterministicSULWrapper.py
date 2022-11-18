@@ -24,6 +24,7 @@ class NonDeterministicSULWrapper(SUL):
 
     def step(self, letter):
         self.test.append(letter)
+        # return 'XXX'
         out = self.sul.step(letter)
         self.cache.add_to_tree(letter, out)
         return out

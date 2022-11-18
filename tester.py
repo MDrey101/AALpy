@@ -1,10 +1,13 @@
 from random import choice, choices, randint
 
+from FailSafeOracle import FailSafeOracle
 from aalpy.automata import Onfsm
 from aalpy.base import SUL
 from aalpy.learning_algs import run_non_det_Lstar, run_Alergia
-from FailSafeOracle import FailSafeOracle
+# from FailSafeOracle import FailSafeOracle
+from aalpy.oracles import RandomWordEqOracle
 from aalpy.utils import load_automaton_from_file
+from aalpy.learning_algs import run_stochastic_Lstar
 
 
 class FailSUL(SUL):
@@ -72,8 +75,15 @@ if __name__ == '__main__':
     sul = FailSUL(model)
 
     eq_oracle = FailSafeOracle(alphabet, sul, num_walks=1000, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
+    # eq_oracle = RandomWordEqOracle(alphabet, sul)
+    #
+    # learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, debug=True, stochastic="smm")
 
-    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, debug=True)
+    # eq_oracle = RandomWordEqOracle(alphabet, sul, num_walks=100, min_walk_len=4, max_walk_len=10, reset_after_cex=False)
+
+    learned_model = run_non_det_Lstar(alphabet, sul, eq_oracle, n_sampling=10, print_level=2, pruning_threshold=0.2, debug=True, stochastic="smm")
+    # learned_model = run_stochastic_Lstar(alphabet, sul, eq_oracle, min_rounds=10, automaton_type="smm")
+
 
         # learned_model.visualize()
 

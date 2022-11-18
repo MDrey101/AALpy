@@ -143,6 +143,8 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, target_una
         if print_level > 1:
             print(f'Hypothesis: {learning_rounds}: {len(hypothesis.states)} states.')
 
+        hypothesis.save(f'learned_models/lr_{learning_rounds}')
+
         if print_level == 3:
             print_observation_table(observation_table, 'stochastic')
 

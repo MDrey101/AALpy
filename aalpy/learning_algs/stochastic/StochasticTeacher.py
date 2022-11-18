@@ -22,7 +22,8 @@ class StochasticSUL(SUL):
     def step(self, letter):
         self.num_steps += 1
         out = self.sul.step(letter)
-        self.teacher.add(letter, out)
+        if "ERROR" not in out:
+            self.teacher.add(letter, out)
         return out
 
 
@@ -228,6 +229,7 @@ class StochasticTeacher:
         inputs = []
         outputs = []
 
+        current_queries = self.sul.num_queries
         while True:
 
             if curr_node.children:
@@ -248,6 +250,14 @@ class StochasticTeacher:
 
                 inputs.append(inp)
                 out = self.sul.step(inp)
+                if "ERROR" in out:
+                    self.sul.pre()
+                    self.sul.num_queries = current_queries
+                    curr_node = pta_root
+                    inputs = []
+                    outputs = []
+                    continue
+
                 new_node = curr_node.get_child(inp, out)
 
                 if new_node:
