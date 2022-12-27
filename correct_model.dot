@@ -107,14 +107,14 @@ s6 -> s6  [label="length_rsp/BTLE|BTLE_DATA"];
 s6 -> s6  [label="feature_rsp/BTLE|BTLE_DATA"];
 s6 -> s6  [label="feature_req/BTLE|BTLE_CTRL|BTLE_DATA|LL_FEATURE_RSP"];
 s6 -> s6  [label="feature_req/BTLE|BTLE_DATA"];
-s6 -> s9  [label="version_req/BTLE|BTLE_DATA:1.0"];
+s6 -> s9  [label="version_req/BTLE|BTLE_CTRL|BTLE_DATA|LL_VERSION_IND"];
 s6 -> s6  [label="mtu_req/ATT_Exchange_MTU_Response|ATT_Hdr|BTLE|BTLE_DATA|L2CAP_Hdr"];
 s6 -> s6  [label="mtu_req/BTLE|BTLE_DATA"];
 s6 -> s2  [label="pairing_req/BTLE|BTLE_DATA|L2CAP_Hdr|SM_Failed|SM_Hdr"];
 s6 -> s6  [label="pairing_req/BTLE|BTLE_DATA"];
 
 // version request is performed twice
-s7 -> s0  [label="scan_req/Adv:1.0"];
+s7 -> s0  [label="scan_req/Adv"];
 s7 -> s1  [label="connection_req/BTLE|BTLE_CTRL|BTLE_DATA|LL_LENGTH_REQ"];
 s7 -> s7  [label="length_req/BTLE|BTLE_CTRL|BTLE_DATA|LL_LENGTH_RSP"];
 s7 -> s7  [label="length_req/BTLE|BTLE_DATA"];

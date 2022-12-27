@@ -50,6 +50,131 @@ class SamplingBasedObservationTable:
 
         self.unambiguity_values = []
 
+
+        self.reset_list = []
+
+    def update_frequency_history(self, root_node):
+        def inner_update_frequency_history(node, prefix):
+            freq = self.teacher.test_frequency_dict
+            if len(node.children) == 0:
+                return False
+
+            if len(prefix) != 0 and prefix[0] != "connection_req":
+                return False
+            for req, entry in node.children.items():
+                inner_prefix = prefix + (req,)
+                for out, n in entry.items():
+                    e = inner_update_frequency_history(n, prefix + (req, out))
+                    if not e:
+                        if inner_prefix in freq:
+                            if out in freq[inner_prefix]:
+                                freq[inner_prefix][out].append(n.frequency)
+                            else:
+                                len_to_prepend = len(list(freq[inner_prefix].values())[0])
+                                # TODO: only works for two entries at the moment!
+                                if list(entry.keys()).index(out) == len(freq[inner_prefix]):
+                                    len_to_prepend -= 1
+                                freq[inner_prefix][out] = [0] * len_to_prepend
+                                freq[inner_prefix][out].append(n.frequency)
+                        else:
+                            freq[inner_prefix] = {out: [n.frequency]}
+                    # else:
+                    #     freq = e
+
+            return None
+
+        inner_update_frequency_history(root_node, ())
+        return
+
+    def check_for_device_reset(self):
+        device_reset = False
+        for pre, val in self.teacher.test_frequency_dict.items():
+            if len(val) == 1:
+                continue
+
+            frequency_difference = {}
+            # TODO check all values if they consist of >= 2 entries
+            entry_check = True
+            for entry in val.values():
+                if len(entry) < 2 or 0 in entry[-2::]:
+                    entry_check = False
+                    break
+            if not entry_check:
+                continue
+
+            """
+                 Problem:
+                 {1: [1, 28, 65], 2: [1, 72, 75]}
+                 {1: [(1, True), (28, True)], 2: [(2, True), (60, True)]
+
+                 {1: [(28, True), 50], 2: [(60, True), 63]}
+            """
+
+            entry_sum_whole = []
+            freq_filtered = []
+            for entry in val.values():
+                for index in range(len(entry)):
+                    entry = entry[0] if type(entry) == tuple else entry
+                    if index == len(entry_sum_whole):
+                        entry_sum_whole.append(entry[index])
+                    else:
+                        entry_sum_whole[index] += entry[index]
+
+                # entry_sum[0] += entry[-2][0] if type(entry[-2]) == tuple else entry[-2]
+                # entry_sum[1] += entry[-1][0] if type(entry[-1]) == tuple else entry[-1]
+                freq_filtered.append([entry[-2][0] if type(entry[-2]) == tuple else entry[-2],
+                                      entry[-1][0] if type(entry[-1]) == tuple else entry[-1]])
+
+            entry_sum = [entry_sum_whole[-2], entry_sum_whole[-1]]
+
+            # entry_sum = [sum((entry[-2]) if entry for entry in val.values()), sum(entry[-1] for entry in val.values())]
+            # for out, freq in val.items():
+            for out, freq in zip(val.keys(), freq_filtered):
+                freq1 = freq[-1] / entry_sum[-1]
+                freq2 = freq[-2] / entry_sum[-2]
+                difference = freq1 - freq2
+                frequency_difference[out] = difference
+                if abs(difference) >= 0.2:
+                    if not int(entry_sum[-1] * 0.4) <= freq[-1] <= int(entry_sum[-1] * 0.6) or \
+                            not int(entry_sum[-2] * 0.4) <= freq[-2] <= int(entry_sum[-2] * 0.6):
+                        print(
+                            f"frequency bound: {[int(e_sum * 0.4) for e_sum in entry_sum]} <= {freq} <= {[int(e_sum * 0.6) for e_sum in entry_sum]}")
+
+                        entry_to_modify = -1 if freq1 > freq2 else -2
+                        # for index, freq_to_check in enumerate(self.teacher.test_frequency_dict[pre][out][:entry_to_modify]):
+                        # if type(freq_to_check) == tuple:
+                        #     self.teacher.test_frequency_dict[pre][out][index] = freq_to_check[0]
+
+                        if type(freq[entry_to_modify]) != tuple:
+                            # self.teacher.test_frequency_dict[pre][out][entry_to_modify] = (freq[entry_to_modify], True)
+                            device_reset = True
+
+                else:
+                    if pre in self.reset_list:
+                        continue
+                    difference = 0
+                    freq_list = self.teacher.test_frequency_dict[pre][out]
+                    index = 0
+                    while index + 1 < len(freq_list):
+                        if freq_list[index] == entry_sum_whole[index] or freq_list[index+1] == entry_sum_whole[index+1] or \
+                                freq_list[index] == 0 or freq_list[index+1] == 0:
+                            index += 1
+                            continue
+                        difference += (freq_list[index+1]/entry_sum_whole[index+1]) - (freq_list[index]/entry_sum_whole[index])
+                        index += 1
+                    difference = abs(difference)
+                    if difference > 0.55:
+                        self.reset_list.append(pre)
+                        print(f"found overall difference: {str(difference)} > 0.55")
+                        device_reset = True
+
+            print(f"\nfrequency_diff: {frequency_difference}")
+            if device_reset:
+                break
+        if device_reset:
+            input("Too great of a difference detected - please reset the device!")
+        return device_reset
+
     def refine_not_completed_cells(self, n_resample, uniform=False):
         """
         Firstly a prefix-tree acceptor is constructed for all non-completed cells and then that tree is used
@@ -64,51 +189,57 @@ class SamplingBasedObservationTable:
 
             False if no cells are to be refined, True if refining happened
         """
-        if self.automaton_type == 'mdp':
-            pta_root = Node(self.initial_output[0])
-        else:
-            pta_root = Node(None)
+        looping = True
+        while looping:
+            if self.automaton_type == 'mdp':
+                pta_root = Node(self.initial_output[0])
+            else:
+                pta_root = Node(None)
 
-        dynamic = 0
-        if self.strategy == 'classic':
-            to_refine = []
-            for s in self.S + list(self.get_extended_s()):
-                for e in self.E:
-                    if not self.teacher.complete_query(s, e):
-                        to_refine.append(s + e)
-
-            if not to_refine:
-                return False
-
-            to_refine.sort(key=len, reverse=True)
-
-            for trace in to_refine:
-                self.add_to_PTA(pta_root, trace)
-
-        else:
-            for s in self.S + list(self.get_extended_s()):
-                if uniform:
+            dynamic = 0
+            if self.strategy == 'classic':
+                to_refine = []
+                for s in self.S + list(self.get_extended_s()):
                     for e in self.E:
-                        self.add_to_PTA(pta_root, s + e, 1)
-                else:
-                    for e in self.E:
-                        longest_row_trace_prefix = (s + e)[:-1]
-                        while longest_row_trace_prefix not in self.T.keys():
-                            longest_row_trace_prefix = longest_row_trace_prefix[:-1]
-                        row_repr = 0
-                        for r in self.compatibility_classes_representatives:
-                            if self.are_rows_compatible(longest_row_trace_prefix, r):
-                                row_repr += 1
-                        # row_repr can be zero for non-closed
-                        # (int(row_repr - 1 * 2))
-                        uncertainty_value = max((row_repr - 1) * 2, 1)
-                        dynamic += uncertainty_value
-                        self.add_to_PTA(pta_root, s + e, uncertainty_value)
+                        if not self.teacher.complete_query(s, e):
+                            to_refine.append(s + e)
 
-        resample_value = n_resample if self.strategy == 'classic' else max(dynamic // 2, 500)
+                if not to_refine:
+                    return False
 
-        for i in range(resample_value):
-            self.teacher.tree_query(pta_root)
+                to_refine.sort(key=len, reverse=True)
+
+                for trace in to_refine:
+                    self.add_to_PTA(pta_root, trace)
+
+            else:
+                for s in self.S + list(self.get_extended_s()):
+                    if uniform:
+                        for e in self.E:
+                            self.add_to_PTA(pta_root, s + e, 1)
+                    else:
+                        for e in self.E:
+                            longest_row_trace_prefix = (s + e)[:-1]
+                            while longest_row_trace_prefix not in self.T.keys():
+                                longest_row_trace_prefix = longest_row_trace_prefix[:-1]
+                            row_repr = 0
+                            for r in self.compatibility_classes_representatives:
+                                if self.are_rows_compatible(longest_row_trace_prefix, r):
+                                    row_repr += 1
+                            # row_repr can be zero for non-closed
+                            # (int(row_repr - 1 * 2))
+                            uncertainty_value = max((row_repr - 1) * 2, 1)
+                            dynamic += uncertainty_value
+                            self.add_to_PTA(pta_root, s + e, uncertainty_value)
+
+            resample_value = n_resample if self.strategy == 'classic' else max(dynamic // 2, 500)
+
+            for i in range(resample_value):
+                self.teacher.tree_query(pta_root)
+            self.update_frequency_history(self.teacher.root_node)
+            looping = self.check_for_device_reset()
+            with open("frequency_state.txt", "a") as outfile:
+                outfile.write(f"frequency dict: {self.teacher.test_frequency_dict}\n")
         return True
 
     def update_obs_table_with_freq_obs(self, element_of_s=None):
@@ -309,7 +440,7 @@ class SamplingBasedObservationTable:
         Removes unnecessary rows from the observation table.
 
         Args:
-          hypothesis: 
+          hypothesis:
 
         """
 
@@ -454,7 +585,7 @@ class SamplingBasedObservationTable:
                 return self.compatibility_checker.check_difference(self.T[s1][e], self.T[s2][e])
         else:
             if e in self.T[s1] and e in self.T[s2]:
-                return self.compatibility_checker.check_difference(self.T[s1][e], self.T[s2][e], s1=s1,s2=s2,e=e)
+                return self.compatibility_checker.check_difference(self.T[s1][e], self.T[s2][e], s1=s1, s2=s2, e=e)
         return False
 
     def are_rows_compatible(self, s1, s2, e_ignore=None):
@@ -610,7 +741,9 @@ class SamplingBasedObservationTable:
         for s in self.compatibility_classes_representatives:
             for i in self.input_alphabet:
                 freq_dict = self.T[s][i]
+                total_sum = sum(freq_dict.values())
 
+                freq_dict = {key: val for key, val in freq_dict.items() if val / total_sum > 0.02}
                 total_sum = sum(freq_dict.values())
 
                 origin_state = s
@@ -640,3 +773,4 @@ class SamplingBasedObservationTable:
             return Mdp(r_state_map[self.get_representative(self.initial_output)], list(r_state_map.values()))
         else:
             return StochasticMealyMachine(r_state_map[tuple()], list(r_state_map.values()))
+

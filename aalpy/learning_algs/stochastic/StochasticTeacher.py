@@ -109,6 +109,8 @@ class StochasticTeacher:
         self.last_cex = None
         self.last_tree_cex = None
 
+        self.test_frequency_dict = {}
+
     def back_to_root(self):
         self.curr_node = self.root_node
 
@@ -228,6 +230,7 @@ class StochasticTeacher:
 
         inputs = []
         outputs = []
+        outputs_to_print = []
 
         current_queries = self.sul.num_queries
         while True:
@@ -258,6 +261,7 @@ class StochasticTeacher:
                     outputs = []
                     continue
 
+                outputs_to_print.append(out)
                 new_node = curr_node.get_child(inp, out)
 
                 if new_node:
@@ -265,14 +269,20 @@ class StochasticTeacher:
                     curr_node = new_node
                 else:
                     self.sul.post()
-                    return
+                    # return
+                    break
             else:
                 curr_node = pta_root
                 for i, o in zip(inputs, outputs):
                     self.curr_node.input_frequencies[i] -= 1
                     curr_node = curr_node.get_child(i, o)
                 self.sul.post()
-                return
+                # return
+                break
+
+        with open("query_logs/query_log.txt", "a") as outfile:
+            outfile.write(f"input: {str(inputs)}\n"
+                          f"output: {outputs_to_print}\n\n")
 
     def single_dfs_for_cex(self, stop_prob, hypothesis):
         curr_node = self.root_node

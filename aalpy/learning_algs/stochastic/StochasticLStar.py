@@ -2,7 +2,7 @@ import time
 
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, \
-    ChiSquareChecker, DifferenceChecker
+    ChiSquareChecker, DifferenceChecker, DeviceChecker
 from aalpy.learning_algs.stochastic.SamplingBasedObservationTable import SamplingBasedObservationTable
 from aalpy.learning_algs.stochastic.StochasticCexProcessing import stochastic_longest_prefix, stochastic_rs
 from aalpy.learning_algs.stochastic.StochasticTeacher import StochasticTeacher
@@ -17,7 +17,8 @@ cex_processing_options = [None, 'longest_prefix', 'rs']
 print_options = [0, 1, 2, 3]
 diff_checker_options = {'classic': HoeffdingChecker(),
                         'chi2': ChiSquareChecker(),
-                        'normal': AdvancedHoeffdingChecker()}
+                        'normal': AdvancedHoeffdingChecker(),
+                        "device": DeviceChecker()}
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 
@@ -102,7 +103,9 @@ def run_stochastic_Lstar(input_alphabet, sul: SUL, eq_oracle: Oracle, target_una
     elif stopping_range_dict == 'relaxed':
         stopping_range_dict = {7: 0.001, 12: 0.003, 17: 0.005, 22: 0.01, 28: 0.02}
 
-    stochastic_teacher = StochasticTeacher(sul, n_c, eq_oracle, automaton_type, compatibility_checker,
+    # stochastic_teacher = StochasticTeacher(sul, n_c, eq_oracle, automaton_type, compatibility_checker,
+    #                                        samples_cex_strategy=samples_cex_strategy)
+    stochastic_teacher = StochasticTeacher(sul, n_c, eq_oracle, automaton_type, diff_checker_options["normal"],
                                            samples_cex_strategy=samples_cex_strategy)
 
     # This way all steps from eq. oracle will be added to the tree

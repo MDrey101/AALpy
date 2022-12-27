@@ -105,29 +105,48 @@ class StatePrefixOracleFailSafe(StatePrefixEqOracle):
                         continue
                     print(f'performed prefix: {prefix}')
                     suffix = ()
+                    inps = []
+                    outs = []
+                    out_hypl = []
                     for _ in range(self.steps_per_walk):
                         suffix += (random.choice(self.alphabet),)
+                        inps.append(suffix[-1])
                         self.num_steps += 1
                         out_sul = self.sul.step(suffix[-1])
+                        outs.append(out_sul)
                         print("sul: " + out_sul)
                         if out_sul == constant.ERROR:
                             error_counter += 1
                             break
                         out_hyp = hypothesis.step_to(suffix[-1], out_sul)
+                        out_hypl.append(out_hyp)
                         if out_hyp is None:
                             print(suffix[-1], out_sul)
                             check, out_hyp = self.repeat_query(hypothesis, prefix + suffix)
-                            if out_hyp is None:
+                            if not check and out_hyp is None:
+                                with open("query_logs/oracle_log.txt", "a") as outfile:
+                                    outfile.write(f"input: {str(inps)}\n"
+                                                  f"output: {outs}\n")
+                                    outfile.write(f"counterexample found!\n\n")
+                                print("inputs: ", inps)
+                                print("outputs: ", outs)
+                                print("outputs hyp: ", out_hypl)
                                 print("we found a cex")
                                 return prefix + suffix
                         print("hyp: " + out_hyp)
+                        # with open("query_logs/oracle_log.txt", "a") as outfile:
+                        #     outfile.write(f"input: {str(inps)}\n"
+                        #                   f"output: {outs}\n")
 
-                        if out_sul != out_hyp:
-                            reproducable_cex = self.repeat_query(hypothesis, prefix + suffix)
-                            if reproducable_cex:
-                                print("we found a cex")
-                                return prefix + suffix
+                        # if out_sul != out_hyp:
+                        #     reproducable_cex = self.repeat_query(hypothesis, prefix + suffix)
+                        #     if reproducable_cex:
+                        #         print("we found a cex")
+                        #         return prefix + suffix
                     print(f'performed query: {prefix + suffix}')
+                    with open("query_logs/oracle_log.txt", "a") as outfile:
+                        outfile.write(f"input: {str(inps)}\n"
+                                      f"output: {outs}\n\n")
                 
                     if error_counter >= constant.CONNECTION_ERROR_ATTEMPTS and out_sul == constant.ERROR:
                         start_time = time.time()

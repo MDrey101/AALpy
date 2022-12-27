@@ -37,6 +37,37 @@ class DifferenceChecker(ABC):
         return False
 
 
+class DeviceChecker(DifferenceChecker):
+
+    def __init__(self, threshold=0.2, alpha=0.05):
+        self.use_diff = False
+        self.alpha = alpha
+        self.threshold = threshold
+
+    def check_difference(self, c1: dict, c2: dict, **kwargs) -> bool:
+        n1 = sum(c1.values())
+        n2 = sum(c2.values())
+
+        if n1 > 0 and n2 > 0:
+            c1_filtered = [c1_elem for c1_elem, c1_val in c1.items() if c1_val / n1 >= 0.5]
+            c2_filtered = [c2_elem for c2_elem, c2_val in c2.items() if c2_val / n2 >= 0.5]
+
+            for o in set(c1_filtered).union(c2_filtered):
+                c1o = c1[o] if o in c1.keys() else 0
+                c2o = c2[o] if o in c2.keys() else 0
+                alpha1 = self.alpha
+                alpha2 = self.alpha
+                epsilon1 = compute_epsilon(alpha1, n1)
+                epsilon2 = compute_epsilon(alpha2, n2)
+
+                if abs(c1o / n1 - c2o / n2) > epsilon1 + epsilon2:
+                    return True
+        return False
+
+    def use_diff_value(self):
+        return self.use_diff
+
+
 class HoeffdingChecker(DifferenceChecker):
 
     def __init__(self, alpha=0.05):
