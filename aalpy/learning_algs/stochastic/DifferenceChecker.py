@@ -49,8 +49,8 @@ class DeviceChecker(DifferenceChecker):
         n2 = sum(c2.values())
 
         if n1 > 0 and n2 > 0:
-            c1_filtered = [c1_elem for c1_elem, c1_val in c1.items() if c1_val / n1 >= 0.5]
-            c2_filtered = [c2_elem for c2_elem, c2_val in c2.items() if c2_val / n2 >= 0.5]
+            c1_filtered = [c1_elem for c1_elem, c1_val in c1.items() if c1_val / n1 >= self.threshold]
+            c2_filtered = [c2_elem for c2_elem, c2_val in c2.items() if c2_val / n2 >= self.threshold]
 
             for o in set(c1_filtered).union(c2_filtered):
                 c1o = c1[o] if o in c1.keys() else 0

@@ -4,6 +4,7 @@ from aalpy.automata import Mdp, MdpState, StochasticMealyState, StochasticMealyM
 from .DifferenceChecker import DifferenceChecker
 from .StochasticTeacher import StochasticTeacher, Node
 from ...utils.HelperFunctions import is_suffix_of
+import constant
 
 
 class SamplingBasedObservationTable:
@@ -50,7 +51,6 @@ class SamplingBasedObservationTable:
 
         self.unambiguity_values = []
 
-
         self.reset_list = []
 
     def update_frequency_history(self, root_node):
@@ -78,8 +78,6 @@ class SamplingBasedObservationTable:
                                 freq[inner_prefix][out].append(n.frequency)
                         else:
                             freq[inner_prefix] = {out: [n.frequency]}
-                    # else:
-                    #     freq = e
 
             return None
 
@@ -112,48 +110,39 @@ class SamplingBasedObservationTable:
 
             entry_sum_whole = []
             freq_filtered = []
-            for entry in val.values():
+            for entry in [[(e[0] if type(e) == tuple else e) for e in v] for v in val.values()]:
                 for index in range(len(entry)):
-                    entry = entry[0] if type(entry) == tuple else entry
                     if index == len(entry_sum_whole):
                         entry_sum_whole.append(entry[index])
                     else:
                         entry_sum_whole[index] += entry[index]
 
-                # entry_sum[0] += entry[-2][0] if type(entry[-2]) == tuple else entry[-2]
-                # entry_sum[1] += entry[-1][0] if type(entry[-1]) == tuple else entry[-1]
-                freq_filtered.append([entry[-2][0] if type(entry[-2]) == tuple else entry[-2],
-                                      entry[-1][0] if type(entry[-1]) == tuple else entry[-1]])
+                freq_filtered.append([entry[-2], entry[-1]])
 
             entry_sum = [entry_sum_whole[-2], entry_sum_whole[-1]]
 
-            # entry_sum = [sum((entry[-2]) if entry for entry in val.values()), sum(entry[-1] for entry in val.values())]
-            # for out, freq in val.items():
             for out, freq in zip(val.keys(), freq_filtered):
                 freq1 = freq[-1] / entry_sum[-1]
                 freq2 = freq[-2] / entry_sum[-2]
-                difference = freq1 - freq2
-                frequency_difference[out] = difference
-                if abs(difference) >= 0.2:
-                    if not int(entry_sum[-1] * 0.4) <= freq[-1] <= int(entry_sum[-1] * 0.6) or \
-                            not int(entry_sum[-2] * 0.4) <= freq[-2] <= int(entry_sum[-2] * 0.6):
+                frequency_difference[out] = freq1 - freq2
+                if abs(frequency_difference[out]) >= constant.DIFFERENCE_THRESHOLD:
+                    if not int(entry_sum[-1] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-1] <= int(entry_sum[-1] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) or \
+                            not int(entry_sum[-2] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-2] <= int(entry_sum[-2] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)):
                         print(
-                            f"frequency bound: {[int(e_sum * 0.4) for e_sum in entry_sum]} <= {freq} <= {[int(e_sum * 0.6) for e_sum in entry_sum]}")
+                            f"frequency bound: {[int(e_sum * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]} <= {freq} <= {[int(e_sum * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]}")
 
-                        entry_to_modify = -1 if freq1 > freq2 else -2
-                        # for index, freq_to_check in enumerate(self.teacher.test_frequency_dict[pre][out][:entry_to_modify]):
-                        # if type(freq_to_check) == tuple:
-                        #     self.teacher.test_frequency_dict[pre][out][index] = freq_to_check[0]
-
-                        if type(freq[entry_to_modify]) != tuple:
-                            # self.teacher.test_frequency_dict[pre][out][entry_to_modify] = (freq[entry_to_modify], True)
+                        entry_to_check = list(val.values())[list(val.keys()).index(out)]
+                        index_to_check = -1 if freq1 > freq2 else -2
+                        if type(entry_to_check[index_to_check]) != tuple:
+                            self.teacher.test_frequency_dict[pre][out][index_to_check] = (entry_to_check[index_to_check], True)
                             device_reset = True
 
                 else:
                     if pre in self.reset_list:
                         continue
+
                     difference = 0
-                    freq_list = self.teacher.test_frequency_dict[pre][out]
+                    freq_list = [(e[0] if type(e) == tuple else e) for e in self.teacher.test_frequency_dict[pre][out]]
                     index = 0
                     while index + 1 < len(freq_list):
                         if freq_list[index] == entry_sum_whole[index] or freq_list[index+1] == entry_sum_whole[index+1] or \
@@ -163,9 +152,9 @@ class SamplingBasedObservationTable:
                         difference += (freq_list[index+1]/entry_sum_whole[index+1]) - (freq_list[index]/entry_sum_whole[index])
                         index += 1
                     difference = abs(difference)
-                    if difference > 0.55:
+                    if difference > constant.OVERALL_DIFFERENCE:
                         self.reset_list.append(pre)
-                        print(f"found overall difference: {str(difference)} > 0.55")
+                        print(f"found overall difference: {str(difference)} > {constant.OVERALL_DIFFERENCE}")
                         device_reset = True
 
             print(f"\nfrequency_diff: {frequency_difference}")
