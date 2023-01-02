@@ -1,4 +1,5 @@
 import time
+import constant
 
 from aalpy.base import SUL, Oracle
 from aalpy.learning_algs.stochastic.DifferenceChecker import AdvancedHoeffdingChecker, HoeffdingChecker, \
@@ -18,7 +19,7 @@ print_options = [0, 1, 2, 3]
 diff_checker_options = {'classic': HoeffdingChecker(),
                         'chi2': ChiSquareChecker(),
                         'normal': AdvancedHoeffdingChecker(),
-                        "device": DeviceChecker()}
+                        "device": DeviceChecker(constant.DIFFERENCE_THRESHOLD)}
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 
