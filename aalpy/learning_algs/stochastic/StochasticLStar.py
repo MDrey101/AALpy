@@ -19,7 +19,7 @@ print_options = [0, 1, 2, 3]
 diff_checker_options = {'classic': HoeffdingChecker(),
                         'chi2': ChiSquareChecker(),
                         'normal': AdvancedHoeffdingChecker(),
-                        "device": DeviceChecker(constant.DIFFERENCE_THRESHOLD)}
+                        "device": DeviceChecker(constant.DIFFERENCE_CHECKER_DEVICE_THRESHOLD)}
 available_oracles, available_oracles_error_msg = get_available_oracles_and_err_msg()
 
 

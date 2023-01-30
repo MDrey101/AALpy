@@ -70,7 +70,7 @@ class SamplingBasedObservationTable:
                             if out in freq[inner_prefix]:
                                 freq[inner_prefix][out].append(n.frequency)
                             else:
-                                len_to_prepend = len(list(freq[inner_prefix].values())[0])
+                                len_to_prepend = len([entry for entry in list(freq[inner_prefix].values())[0] if type(entry) != bool])
                                 # TODO: only works for two entries at the moment!
                                 if list(entry.keys()).index(out) == len(freq[inner_prefix]):
                                     len_to_prepend -= 1
@@ -84,85 +84,152 @@ class SamplingBasedObservationTable:
         inner_update_frequency_history(root_node, ())
         return
 
+    # def check_for_device_reset(self):
+    #     device_reset = False
+    #     for pre, val in self.teacher.test_frequency_dict.items():
+    #         if len(val) == 1:
+    #             continue
+    #
+    #         frequency_difference = {}
+    #         # TODO check all values if they consist of >= 2 entries
+    #         entry_check = True
+    #         for entry in val.values():
+    #             if len(entry) < 2 or 0 in entry[-2::]:
+    #                 entry_check = False
+    #                 break
+    #         if not entry_check:
+    #             continue
+    #
+    #         """
+    #              Problem:
+    #              {1: [1, 28, 65], 2: [1, 72, 75]}
+    #              {1: [(1, True), (28, True)], 2: [(2, True), (60, True)]
+    #
+    #              {1: [(28, True), 50], 2: [(60, True), 63]}
+    #         """
+    #
+    #         entry_sum_whole = []
+    #         freq_filtered = []
+    #         for entry in [[(e[0] if type(e) == tuple else e) for e in v] for v in val.values()]:
+    #             for index in range(len(entry)):
+    #                 if index == len(entry_sum_whole):
+    #                     entry_sum_whole.append(entry[index])
+    #                 else:
+    #                     entry_sum_whole[index] += entry[index]
+    #
+    #             freq_filtered.append([entry[-2], entry[-1]])
+    #
+    #         entry_sum = [entry_sum_whole[-2], entry_sum_whole[-1]]
+    #
+    #         for out, freq in zip(val.keys(), freq_filtered):
+    #             freq1 = freq[-1] / entry_sum[-1]
+    #             freq2 = freq[-2] / entry_sum[-2]
+    #             frequency_difference[out] = freq1 - freq2
+    #             if abs(frequency_difference[out]) >= constant.DIFFERENCE_THRESHOLD:
+    #                 if not int(entry_sum[-1] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-1] <= int(entry_sum[-1] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) or \
+    #                         not int(entry_sum[-2] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-2] <= int(entry_sum[-2] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)):
+    #                     print(
+    #                         f"frequency bound: {[int(e_sum * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]} <= {freq} <= {[int(e_sum * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]}")
+    #
+    #                     entry_to_check = list(val.values())[list(val.keys()).index(out)]
+    #                     index_to_check = -1 if freq1 > freq2 else -2
+    #                     if type(entry_to_check[index_to_check]) != tuple:
+    #                         self.teacher.test_frequency_dict[pre][out][index_to_check] = (entry_to_check[index_to_check], True)
+    #                         device_reset = True
+    #
+    #             else:
+    #                 if pre in self.reset_list:
+    #                     continue
+    #
+    #                 difference = 0
+    #                 freq_list = [(e[0] if type(e) == tuple else e) for e in self.teacher.test_frequency_dict[pre][out]]
+    #                 index = 0
+    #                 while index + 1 < len(freq_list):
+    #                     if freq_list[index] == entry_sum_whole[index] or freq_list[index+1] == entry_sum_whole[index+1] or \
+    #                             freq_list[index] == 0 or freq_list[index+1] == 0:
+    #                         index += 1
+    #                         continue
+    #                     difference += (freq_list[index+1]/entry_sum_whole[index+1]) - (freq_list[index]/entry_sum_whole[index])
+    #                     index += 1
+    #                 difference = abs(difference)
+    #                 if difference > constant.OVERALL_DIFFERENCE:
+    #                     self.reset_list.append(pre)
+    #                     print(f"found overall difference: {str(difference)} > {constant.OVERALL_DIFFERENCE}")
+    #                     device_reset = True
+    #
+    #         print(f"\nfrequency_diff: {frequency_difference}")
+    #         if device_reset:
+    #             break
+    #     if device_reset:
+    #         input("Too great of a difference detected - please reset the device!")
+    #     return device_reset
+
+
+
     def check_for_device_reset(self):
         device_reset = False
+        # val_without_freq = {}
         for pre, val in self.teacher.test_frequency_dict.items():
             if len(val) == 1:
                 continue
 
-            frequency_difference = {}
-            # TODO check all values if they consist of >= 2 entries
+            # TODO check all values if they consist of > 2 entries
             entry_check = True
             for entry in val.values():
-                if len(entry) < 2 or 0 in entry[-2::]:
+                if len([e for e in entry if type(e) != bool]) < constant.NUM_PRIMARY_ENTRY_THRESHOLD:
                     entry_check = False
                     break
             if not entry_check:
                 continue
 
-            """
-                 Problem:
-                 {1: [1, 28, 65], 2: [1, 72, 75]}
-                 {1: [(1, True), (28, True)], 2: [(2, True), (60, True)]
+            val_without_freq = {key: [v if type(v) == int else v[0] for v in value if type(v) != bool] for key, value in val.items()}
+            last_frequencies = [e[-1] for e in val_without_freq.values()]
+            # sum_all_frequencies = [[freq for freq in freq_entry if type(freq) != bool] for freq_entry in val_without_freq.values()]
+            # sum_all_frequencies = [sum(entry) for entry in zip(*sum_all_frequencies)]
+            sum_all_frequencies = [sum(entry) for entry in zip(*list(val.values()))]
+            primary_output = [out for out, freq in val_without_freq.items() if any(type(f) == bool for f in freq)]
+            primary_output = primary_output[0] if len(primary_output) == 1 else None
+            if primary_output is None:
+                primary_output = {out: sum(freq) for out, freq in val_without_freq.items()}
+                primary_output = max(primary_output, key=primary_output.get)
+                self.teacher.test_frequency_dict[pre][primary_output].insert(0, True)
 
-                 {1: [(28, True), 50], 2: [(60, True), 63]}
-            """
+            freq = last_frequencies[list(val_without_freq.keys()).index(primary_output)] / sum_all_frequencies[-1]
+            if 1 - freq > constant.DIFFERENCE_THRESHOLD:
+                print(f"Secondary frequency above threshold: {1 - freq} > {constant.DIFFERENCE_THRESHOLD}")
+                for key, value in val.items():
+                    if type(value[-1]) == int:
+                        device_reset = True
+                        self.teacher.test_frequency_dict[pre][key][-1] = (value[-1], True)
+            else:
+                if pre in self.reset_list:
+                    continue
 
-            entry_sum_whole = []
-            freq_filtered = []
-            for entry in [[(e[0] if type(e) == tuple else e) for e in v] for v in val.values()]:
-                for index in range(len(entry)):
-                    if index == len(entry_sum_whole):
-                        entry_sum_whole.append(entry[index])
-                    else:
-                        entry_sum_whole[index] += entry[index]
-
-                freq_filtered.append([entry[-2], entry[-1]])
-
-            entry_sum = [entry_sum_whole[-2], entry_sum_whole[-1]]
-
-            for out, freq in zip(val.keys(), freq_filtered):
-                freq1 = freq[-1] / entry_sum[-1]
-                freq2 = freq[-2] / entry_sum[-2]
-                frequency_difference[out] = freq1 - freq2
-                if abs(frequency_difference[out]) >= constant.DIFFERENCE_THRESHOLD:
-                    if not int(entry_sum[-1] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-1] <= int(entry_sum[-1] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) or \
-                            not int(entry_sum[-2] * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) <= freq[-2] <= int(entry_sum[-2] * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)):
-                        print(
-                            f"frequency bound: {[int(e_sum * (0.5 - constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]} <= {freq} <= {[int(e_sum * (0.5 + constant.DIFFERENCE_BOUND_WIDTH/2)) for e_sum in entry_sum]}")
-
-                        entry_to_check = list(val.values())[list(val.keys()).index(out)]
-                        index_to_check = -1 if freq1 > freq2 else -2
-                        if type(entry_to_check[index_to_check]) != tuple:
-                            self.teacher.test_frequency_dict[pre][out][index_to_check] = (entry_to_check[index_to_check], True)
-                            device_reset = True
-
-                else:
-                    if pre in self.reset_list:
-                        continue
-
+                for freq_entry in val_without_freq.values():
                     difference = 0
-                    freq_list = [(e[0] if type(e) == tuple else e) for e in self.teacher.test_frequency_dict[pre][out]]
                     index = 0
+                    freq_list = [e for e in freq_entry if type(e) != bool]
                     while index + 1 < len(freq_list):
-                        if freq_list[index] == entry_sum_whole[index] or freq_list[index+1] == entry_sum_whole[index+1] or \
-                                freq_list[index] == 0 or freq_list[index+1] == 0:
+                        if freq_list[index] == sum_all_frequencies[index] or freq_list[index + 1] == sum_all_frequencies[index + 1] or freq_list[index] == 0 or freq_list[index+1] == 0:
                             index += 1
                             continue
-                        difference += (freq_list[index+1]/entry_sum_whole[index+1]) - (freq_list[index]/entry_sum_whole[index])
+                        difference += (freq_list[index + 1] / sum_all_frequencies[index + 1]) - (freq_list[index] / sum_all_frequencies[index])
                         index += 1
                     difference = abs(difference)
                     if difference > constant.OVERALL_DIFFERENCE:
                         self.reset_list.append(pre)
                         print(f"found overall difference: {str(difference)} > {constant.OVERALL_DIFFERENCE}")
                         device_reset = True
+                        break
 
-            print(f"\nfrequency_diff: {frequency_difference}")
             if device_reset:
                 break
         if device_reset:
             input("Too great of a difference detected - please reset the device!")
         return device_reset
+
+
+
 
     def refine_not_completed_cells(self, n_resample, uniform=False):
         """

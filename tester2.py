@@ -37,7 +37,7 @@ file = open(query_log_file, "w")
 file.close()
 
 
-# model = load_automaton_from_file("correct_model.dot", "smm")
+# model = load_automaton_from_file("correct_model.dot", "onfsm")
 model = load_automaton_from_file("failed_transition_model.dot", "smm")
 alphabet = model.get_input_alphabet()
 # alphabet = ['scan_req', 'connection_req', 'length_req', 'length_rsp', 'feature_rsp', 'feature_req', 'version_req',
